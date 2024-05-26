@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+option go_package = "personalfinance/generated/proto";
+
+message GetBanksRequest {
+  string countryCode = 1;
+}
+
+message GetBanksResponse {
+  repeated BankResponse banks = 1;
+}
+message BankResponse {
+  string id = 1;
+  string name = 2;
+  string iconURL = 3;
+}
+
+message CreateRequisitionRequest {
+  string institutionId = 1;
+}
+message CreateRequisitionResponse {
+  string url = 1;
+}

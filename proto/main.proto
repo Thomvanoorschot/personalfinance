@@ -1,0 +1,11 @@
+syntax = "proto3";
+import "banking.proto";
+
+option go_package = "personalfinance/generated/proto";
+
+message Empty { }
+
+service BankingService {
+  rpc GetBanks(GetBanksRequest) returns (GetBanksResponse);
+  rpc CreateRequisition(CreateRequisitionRequest) returns (CreateRequisitionResponse);
+}
