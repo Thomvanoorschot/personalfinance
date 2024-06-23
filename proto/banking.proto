@@ -21,3 +21,9 @@ message CreateRequisitionRequest {
 message CreateRequisitionResponse {
   string url = 1;
 }
+
+message GetTransactionsRequest {
+}
+message GetTransactionsResponse {
+
+}

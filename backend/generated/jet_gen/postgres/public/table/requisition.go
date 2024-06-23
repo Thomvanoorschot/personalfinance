@@ -20,6 +20,7 @@ type requisitionTable struct {
 	ID        postgres.ColumnString
 	UserID    postgres.ColumnString
 	CreatedAt postgres.ColumnTimestamp
+	UpdatedAt postgres.ColumnTimestamp
 
 	AllColumns     postgres.ColumnList
 	MutableColumns postgres.ColumnList
@@ -63,8 +64,9 @@ func newRequisitionTableImpl(schemaName, tableName, alias string) requisitionTab
 		IDColumn        = postgres.StringColumn("id")
 		UserIDColumn    = postgres.StringColumn("user_id")
 		CreatedAtColumn = postgres.TimestampColumn("created_at")
-		allColumns      = postgres.ColumnList{IDColumn, UserIDColumn, CreatedAtColumn}
-		mutableColumns  = postgres.ColumnList{UserIDColumn, CreatedAtColumn}
+		UpdatedAtColumn = postgres.TimestampColumn("updated_at")
+		allColumns      = postgres.ColumnList{IDColumn, UserIDColumn, CreatedAtColumn, UpdatedAtColumn}
+		mutableColumns  = postgres.ColumnList{UserIDColumn, CreatedAtColumn, UpdatedAtColumn}
 	)
 
 	return requisitionTable{
@@ -74,6 +76,7 @@ func newRequisitionTableImpl(schemaName, tableName, alias string) requisitionTab
 		ID:        IDColumn,
 		UserID:    UserIDColumn,
 		CreatedAt: CreatedAtColumn,
+		UpdatedAt: UpdatedAtColumn,
 
 		AllColumns:     allColumns,
 		MutableColumns: mutableColumns,

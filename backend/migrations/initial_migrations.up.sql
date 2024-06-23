@@ -4,16 +4,17 @@ CREATE TABLE "user"
 (
     id         UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     email      VARCHAR(100) UNIQUE NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMP        DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP        DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE account
 (
     id         UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    user_id    UUID NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    user_id    UUID        NOT NULL,
+    iban       VARCHAR(34) NOT NULL,
+    created_at TIMESTAMP        DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP        DEFAULT CURRENT_TIMESTAMP,
 
     FOREIGN KEY (user_id) REFERENCES "user" (id) ON DELETE CASCADE
 );
@@ -38,8 +39,8 @@ CREATE TABLE transaction
     internal_transaction_id           VARCHAR(255),
     debtor_name                       VARCHAR(255),
     debtor_iban                       VARCHAR(34),
-    created_at                        TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at                        TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_at                        TIMESTAMP        DEFAULT CURRENT_TIMESTAMP,
+    updated_at                        TIMESTAMP        DEFAULT CURRENT_TIMESTAMP,
 
     FOREIGN KEY (user_id) REFERENCES "user" (id) ON DELETE CASCADE,
     FOREIGN KEY (account_id) REFERENCES account (id) ON DELETE CASCADE
@@ -49,8 +50,8 @@ CREATE TABLE requisition
 (
     id         UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     user_id    UUID NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_at TIMESTAMP        DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP        DEFAULT CURRENT_TIMESTAMP,
 
     FOREIGN KEY (user_id) REFERENCES "user" (id) ON DELETE CASCADE
 );
@@ -58,7 +59,8 @@ CREATE TABLE requisition
 -- Functions to update the created_at and updated_at columns
 
 CREATE OR REPLACE FUNCTION set_timestamps()
-    RETURNS TRIGGER AS $$
+    RETURNS TRIGGER AS
+$$
 BEGIN
     IF TG_OP = 'INSERT' THEN
         NEW.created_at = CURRENT_TIMESTAMP;
@@ -71,21 +73,25 @@ $$ LANGUAGE plpgsql;
 -- Triggers for each table
 
 CREATE TRIGGER set_timestamp_user
-    BEFORE INSERT OR UPDATE ON "user"
+    BEFORE INSERT OR UPDATE
+    ON "user"
     FOR EACH ROW
 EXECUTE FUNCTION set_timestamps();
 
 CREATE TRIGGER set_timestamp_account
-    BEFORE INSERT OR UPDATE ON account
+    BEFORE INSERT OR UPDATE
+    ON account
     FOR EACH ROW
 EXECUTE FUNCTION set_timestamps();
 
 CREATE TRIGGER set_timestamp_transaction
-    BEFORE INSERT OR UPDATE ON transaction
+    BEFORE INSERT OR UPDATE
+    ON transaction
     FOR EACH ROW
 EXECUTE FUNCTION set_timestamps();
 
 CREATE TRIGGER set_timestamp_requisition
-    BEFORE INSERT OR UPDATE ON requisition
+    BEFORE INSERT OR UPDATE
+    ON requisition
     FOR EACH ROW
 EXECUTE FUNCTION set_timestamps();

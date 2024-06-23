@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+import "buf/validate/validate.proto";
+
+option go_package = "personalfinance/generated/proto";
+
+message RegisterRequest {
+  string email = 1[(buf.validate.field).string.email = true];
+}
+
+message RegisterResponse {
+}

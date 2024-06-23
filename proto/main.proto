@@ -1,5 +1,6 @@
 syntax = "proto3";
 import "banking.proto";
+import "user.proto";
 
 option go_package = "personalfinance/generated/proto";
 
@@ -8,4 +9,9 @@ message Empty { }
 service BankingService {
   rpc GetBanks(GetBanksRequest) returns (GetBanksResponse);
   rpc CreateRequisition(CreateRequisitionRequest) returns (CreateRequisitionResponse);
+  rpc GetTransactions(GetTransactionsRequest) returns (GetTransactionsResponse);
+}
+
+service UserService {
+  rpc Register(RegisterRequest) returns (RegisterResponse);
 }

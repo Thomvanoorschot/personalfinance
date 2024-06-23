@@ -31,4 +31,6 @@ type Transaction struct {
 	InternalTransactionID          *string
 	DebtorName                     *string
 	DebtorIban                     *string
+	CreatedAt                      *time.Time
+	UpdatedAt                      *time.Time
 }

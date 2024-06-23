@@ -8,16 +8,16 @@ import (
 	"connectrpc.com/connect"
 )
 
-type Service interface {
+type BankingService interface {
 	GetBanks(context.Context, *proto.GetBanksRequest) (*proto.GetBanksResponse, error)
 	CreateRequisition(ctx context.Context, req *proto.CreateRequisitionRequest) (*proto.CreateRequisitionResponse, error)
 }
 
 type BankingHandler struct {
-	service Service
+	service BankingService
 }
 
-func NewBankingHandler(service Service) *BankingHandler {
+func NewBankingHandler(service BankingService) *BankingHandler {
 	return &BankingHandler{service: service}
 }
 

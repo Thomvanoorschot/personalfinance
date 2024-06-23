@@ -16,4 +16,5 @@ type User struct {
 	ID        uuid.UUID `sql:"primary_key"`
 	Email     string
 	CreatedAt *time.Time
+	UpdatedAt *time.Time
 }

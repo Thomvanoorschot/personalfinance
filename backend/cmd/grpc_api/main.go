@@ -10,6 +10,7 @@ import (
 	"personalfinance/gocardless"
 	"personalfinance/repositories"
 	"personalfinance/services/banking"
+	"personalfinance/services/user"
 
 	"connectrpc.com/connect"
 	connectcors "connectrpc.com/cors"
@@ -34,10 +35,16 @@ func main() {
 	cfg := config.Load()
 	repo := repositories.NewRepository(cfg)
 	gcls := gocardless.NewClient(cfg.GocardlessSeretID, cfg.GocardlessSeretKey)
+
 	// Banking
 	bankingService := banking.NewService(repo, gcls)
 	bankingPath, bankingHandler := protoconnect.NewBankingServiceHandler(api.NewBankingHandler(bankingService), interceptors)
 	mux.Handle(bankingPath, bankingHandler)
+
+	// user
+	userService := user.NewService(repo)
+	userPath, userHandler := protoconnect.NewUserServiceHandler(api.NewUserHandler(userService), interceptors)
+	mux.Handle(userPath, userHandler)
 
 	reflector := grpcreflect.NewReflector(
 		ServiceNames{protoconnect.BankingServiceName},

@@ -12,7 +12,10 @@ import (
 )
 
 type Repository interface {
+	BankingTx(ctx context.Context, fn func(Repository) error) (err error)
+
 	UpsertRequisition(ctx context.Context, m model.Requisition) error
+	GetAccounts(ctx context.Context, userID string) (resp []BankAccount, err error)
 }
 
 type Service struct {
@@ -58,6 +61,23 @@ func (s *Service) GetBanks(ctx context.Context, req *proto.GetBanksRequest) (*pr
 
 func (s *Service) CreateRequisition(ctx context.Context, req *proto.CreateRequisitionRequest) (*proto.CreateRequisitionResponse, error) {
 	requisition, err := s.gcls.CreateRequisitionsLink(req.InstitutionId)
+	if err != nil {
+		return nil, err
+	}
+	err = s.repo.UpsertRequisition(ctx, model.Requisition{
+		ID:     uuid.MustParse(requisition.Id),
+		UserID: uuid.MustParse("8e1f26e2-777c-4e34-825e-510e6a00ddc9"),
+	})
+	if err != nil {
+		return nil, err
+	}
+	resp := &proto.CreateRequisitionResponse{
+		Url: requisition.Link,
+	}
+	return resp, nil
+}
+func (s *Service) GetTransactions(ctx context.Context, req *proto.GetTransactionsRequest) (*proto.GetTransactionsResponse, error) {
+	requisition, err := s.gcls.GetAccounts(req.InstitutionId)
 	if err != nil {
 		return nil, err
 	}

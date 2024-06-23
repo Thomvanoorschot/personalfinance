@@ -15,5 +15,7 @@ import (
 type Account struct {
 	ID        uuid.UUID `sql:"primary_key"`
 	UserID    uuid.UUID
+	Iban      string
 	CreatedAt *time.Time
+	UpdatedAt *time.Time
 }

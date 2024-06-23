@@ -23,6 +23,8 @@ const _ = connect.IsAtLeastVersion1_13_0
 const (
 	// BankingServiceName is the fully-qualified name of the BankingService service.
 	BankingServiceName = "BankingService"
+	// UserServiceName is the fully-qualified name of the UserService service.
+	UserServiceName = "UserService"
 )
 
 // These constants are the fully-qualified names of the RPCs defined in this package. They're
@@ -38,6 +40,11 @@ const (
 	// BankingServiceCreateRequisitionProcedure is the fully-qualified name of the BankingService's
 	// CreateRequisition RPC.
 	BankingServiceCreateRequisitionProcedure = "/BankingService/CreateRequisition"
+	// BankingServiceGetTransactionsProcedure is the fully-qualified name of the BankingService's
+	// GetTransactions RPC.
+	BankingServiceGetTransactionsProcedure = "/BankingService/GetTransactions"
+	// UserServiceRegisterProcedure is the fully-qualified name of the UserService's Register RPC.
+	UserServiceRegisterProcedure = "/UserService/Register"
 )
 
 // These variables are the protoreflect.Descriptor objects for the RPCs defined in this package.
@@ -45,12 +52,16 @@ var (
 	bankingServiceServiceDescriptor                 = proto.File_main_proto.Services().ByName("BankingService")
 	bankingServiceGetBanksMethodDescriptor          = bankingServiceServiceDescriptor.Methods().ByName("GetBanks")
 	bankingServiceCreateRequisitionMethodDescriptor = bankingServiceServiceDescriptor.Methods().ByName("CreateRequisition")
+	bankingServiceGetTransactionsMethodDescriptor   = bankingServiceServiceDescriptor.Methods().ByName("GetTransactions")
+	userServiceServiceDescriptor                    = proto.File_main_proto.Services().ByName("UserService")
+	userServiceRegisterMethodDescriptor             = userServiceServiceDescriptor.Methods().ByName("Register")
 )
 
 // BankingServiceClient is a client for the BankingService service.
 type BankingServiceClient interface {
 	GetBanks(context.Context, *connect.Request[proto.GetBanksRequest]) (*connect.Response[proto.GetBanksResponse], error)
 	CreateRequisition(context.Context, *connect.Request[proto.CreateRequisitionRequest]) (*connect.Response[proto.CreateRequisitionResponse], error)
+	GetTransactions(context.Context, *connect.Request[proto.GetTransactionsRequest]) (*connect.Response[proto.GetTransactionsResponse], error)
 }
 
 // NewBankingServiceClient constructs a client for the BankingService service. By default, it uses
@@ -75,6 +86,12 @@ func NewBankingServiceClient(httpClient connect.HTTPClient, baseURL string, opts
 			connect.WithSchema(bankingServiceCreateRequisitionMethodDescriptor),
 			connect.WithClientOptions(opts...),
 		),
+		getTransactions: connect.NewClient[proto.GetTransactionsRequest, proto.GetTransactionsResponse](
+			httpClient,
+			baseURL+BankingServiceGetTransactionsProcedure,
+			connect.WithSchema(bankingServiceGetTransactionsMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
 	}
 }
 
@@ -82,6 +99,7 @@ func NewBankingServiceClient(httpClient connect.HTTPClient, baseURL string, opts
 type bankingServiceClient struct {
 	getBanks          *connect.Client[proto.GetBanksRequest, proto.GetBanksResponse]
 	createRequisition *connect.Client[proto.CreateRequisitionRequest, proto.CreateRequisitionResponse]
+	getTransactions   *connect.Client[proto.GetTransactionsRequest, proto.GetTransactionsResponse]
 }
 
 // GetBanks calls BankingService.GetBanks.
@@ -94,10 +112,16 @@ func (c *bankingServiceClient) CreateRequisition(ctx context.Context, req *conne
 	return c.createRequisition.CallUnary(ctx, req)
 }
 
+// GetTransactions calls BankingService.GetTransactions.
+func (c *bankingServiceClient) GetTransactions(ctx context.Context, req *connect.Request[proto.GetTransactionsRequest]) (*connect.Response[proto.GetTransactionsResponse], error) {
+	return c.getTransactions.CallUnary(ctx, req)
+}
+
 // BankingServiceHandler is an implementation of the BankingService service.
 type BankingServiceHandler interface {
 	GetBanks(context.Context, *connect.Request[proto.GetBanksRequest]) (*connect.Response[proto.GetBanksResponse], error)
 	CreateRequisition(context.Context, *connect.Request[proto.CreateRequisitionRequest]) (*connect.Response[proto.CreateRequisitionResponse], error)
+	GetTransactions(context.Context, *connect.Request[proto.GetTransactionsRequest]) (*connect.Response[proto.GetTransactionsResponse], error)
 }
 
 // NewBankingServiceHandler builds an HTTP handler from the service implementation. It returns the
@@ -118,12 +142,20 @@ func NewBankingServiceHandler(svc BankingServiceHandler, opts ...connect.Handler
 		connect.WithSchema(bankingServiceCreateRequisitionMethodDescriptor),
 		connect.WithHandlerOptions(opts...),
 	)
+	bankingServiceGetTransactionsHandler := connect.NewUnaryHandler(
+		BankingServiceGetTransactionsProcedure,
+		svc.GetTransactions,
+		connect.WithSchema(bankingServiceGetTransactionsMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
 	return "/BankingService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case BankingServiceGetBanksProcedure:
 			bankingServiceGetBanksHandler.ServeHTTP(w, r)
 		case BankingServiceCreateRequisitionProcedure:
 			bankingServiceCreateRequisitionHandler.ServeHTTP(w, r)
+		case BankingServiceGetTransactionsProcedure:
+			bankingServiceGetTransactionsHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -139,4 +171,76 @@ func (UnimplementedBankingServiceHandler) GetBanks(context.Context, *connect.Req
 
 func (UnimplementedBankingServiceHandler) CreateRequisition(context.Context, *connect.Request[proto.CreateRequisitionRequest]) (*connect.Response[proto.CreateRequisitionResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("BankingService.CreateRequisition is not implemented"))
+}
+
+func (UnimplementedBankingServiceHandler) GetTransactions(context.Context, *connect.Request[proto.GetTransactionsRequest]) (*connect.Response[proto.GetTransactionsResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("BankingService.GetTransactions is not implemented"))
+}
+
+// UserServiceClient is a client for the UserService service.
+type UserServiceClient interface {
+	Register(context.Context, *connect.Request[proto.RegisterRequest]) (*connect.Response[proto.RegisterResponse], error)
+}
+
+// NewUserServiceClient constructs a client for the UserService service. By default, it uses the
+// Connect protocol with the binary Protobuf Codec, asks for gzipped responses, and sends
+// uncompressed requests. To use the gRPC or gRPC-Web protocols, supply the connect.WithGRPC() or
+// connect.WithGRPCWeb() options.
+//
+// The URL supplied here should be the base URL for the Connect or gRPC server (for example,
+// http://api.acme.com or https://acme.com/grpc).
+func NewUserServiceClient(httpClient connect.HTTPClient, baseURL string, opts ...connect.ClientOption) UserServiceClient {
+	baseURL = strings.TrimRight(baseURL, "/")
+	return &userServiceClient{
+		register: connect.NewClient[proto.RegisterRequest, proto.RegisterResponse](
+			httpClient,
+			baseURL+UserServiceRegisterProcedure,
+			connect.WithSchema(userServiceRegisterMethodDescriptor),
+			connect.WithClientOptions(opts...),
+		),
+	}
+}
+
+// userServiceClient implements UserServiceClient.
+type userServiceClient struct {
+	register *connect.Client[proto.RegisterRequest, proto.RegisterResponse]
+}
+
+// Register calls UserService.Register.
+func (c *userServiceClient) Register(ctx context.Context, req *connect.Request[proto.RegisterRequest]) (*connect.Response[proto.RegisterResponse], error) {
+	return c.register.CallUnary(ctx, req)
+}
+
+// UserServiceHandler is an implementation of the UserService service.
+type UserServiceHandler interface {
+	Register(context.Context, *connect.Request[proto.RegisterRequest]) (*connect.Response[proto.RegisterResponse], error)
+}
+
+// NewUserServiceHandler builds an HTTP handler from the service implementation. It returns the path
+// on which to mount the handler and the handler itself.
+//
+// By default, handlers support the Connect, gRPC, and gRPC-Web protocols with the binary Protobuf
+// and JSON codecs. They also support gzip compression.
+func NewUserServiceHandler(svc UserServiceHandler, opts ...connect.HandlerOption) (string, http.Handler) {
+	userServiceRegisterHandler := connect.NewUnaryHandler(
+		UserServiceRegisterProcedure,
+		svc.Register,
+		connect.WithSchema(userServiceRegisterMethodDescriptor),
+		connect.WithHandlerOptions(opts...),
+	)
+	return "/UserService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		switch r.URL.Path {
+		case UserServiceRegisterProcedure:
+			userServiceRegisterHandler.ServeHTTP(w, r)
+		default:
+			http.NotFound(w, r)
+		}
+	})
+}
+
+// UnimplementedUserServiceHandler returns CodeUnimplemented from all methods.
+type UnimplementedUserServiceHandler struct{}
+
+func (UnimplementedUserServiceHandler) Register(context.Context, *connect.Request[proto.RegisterRequest]) (*connect.Response[proto.RegisterResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("UserService.Register is not implemented"))
 }
