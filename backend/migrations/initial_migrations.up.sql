@@ -3,18 +3,18 @@
 CREATE TABLE "user"
 (
     id         UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    email      VARCHAR(100) UNIQUE NOT NULL,
+    email      TEXT UNIQUE NOT NULL,
     created_at TIMESTAMP        DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP        DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE account
 (
-    id         UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    user_id    UUID        NOT NULL,
-    iban       VARCHAR(34) NOT NULL,
-    created_at TIMESTAMP        DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP        DEFAULT CURRENT_TIMESTAMP,
+    id         UUID PRIMARY KEY,
+    user_id    UUID NOT NULL,
+    iban       TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
     FOREIGN KEY (user_id) REFERENCES "user" (id) ON DELETE CASCADE
 );
@@ -23,22 +23,22 @@ CREATE TABLE transaction
 (
     id                                UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     account_id                        UUID           NOT NULL,
-    external_id                       VARCHAR(255)   NOT NULL,
+    external_id                       TEXT UNIQUE    NOT NULL,
     user_id                           UUID           NOT NULL,
     booking_date                      DATE,
     value_date                        DATE           NOT NULL,
     value_date_time                   TIMESTAMP,
     transaction_amount                NUMERIC(20, 2) NOT NULL,
-    currency                          VARCHAR(10)    NOT NULL,
-    creditor_name                     VARCHAR(255),
-    creditor_iban                     VARCHAR(34),
-    remittance_information            TEXT[],
-    proprietary_bank_transaction_code VARCHAR(255),
-    balance_currency                  VARCHAR(10),
-    balance_type                      VARCHAR(50),
-    internal_transaction_id           VARCHAR(255),
-    debtor_name                       VARCHAR(255),
-    debtor_iban                       VARCHAR(34),
+    currency                          TEXT           NOT NULL,
+    creditor_name                     TEXT,
+    creditor_iban                     TEXT,
+    remittance_information            TEXT,
+    proprietary_bank_transaction_code TEXT,
+    balance_currency                  TEXT,
+    balance_type                      TEXT,
+    internal_transaction_id           TEXT,
+    debtor_name                       TEXT,
+    debtor_iban                       TEXT,
     created_at                        TIMESTAMP        DEFAULT CURRENT_TIMESTAMP,
     updated_at                        TIMESTAMP        DEFAULT CURRENT_TIMESTAMP,
 
@@ -48,13 +48,16 @@ CREATE TABLE transaction
 
 CREATE TABLE requisition
 (
-    id         UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    id         UUID PRIMARY KEY,
     user_id    UUID NOT NULL,
-    created_at TIMESTAMP        DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP        DEFAULT CURRENT_TIMESTAMP,
+    reference  UUID NOT NULL,
+    status     TEXT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
     FOREIGN KEY (user_id) REFERENCES "user" (id) ON DELETE CASCADE
 );
+CREATE INDEX idx_requisition_reference ON requisition (reference);
 
 -- Functions to update the created_at and updated_at columns
 

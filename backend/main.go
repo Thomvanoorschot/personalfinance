@@ -23,20 +23,27 @@ func main() {
 	//if err != nil {
 	//	return
 	//}
-	accounts, err := client.GetAccounts(requisitionID)
+	reqs, err := client.GetAllRequisition()
 	if err != nil {
 		return
 	}
-	fmt.Println(accounts)
-	transactions, err := client.GetTransactions(accountID)
-	if err != nil {
-		return
+	for _, req := range reqs.Results {
+		del, err := client.DeleteRequisition(req.Id)
+		if err != nil {
+			return
+		}
+		fmt.Println(del.Summary)
 	}
-	fmt.Println(transactions)
+	//fmt.Println(accounts)
+	//transactions, err := client.GetTransactions(accountID)
+	//if err != nil {
+	//	return
+	//}
+	//fmt.Println(transactions)
 	//cfg := config.Load()
 	//repo := repositories.NewRepository(cfg)
 	//svc := user.NewService(repo)
-	//err := svc.Register(context.Background())
+	//err := svc.Register(context.Background(), &proto.RegisterRequest{Email: "test@test.com"})
 	//if err != nil {
 	//	log.Fatal(err)
 	//}

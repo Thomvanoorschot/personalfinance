@@ -1,9 +1,12 @@
 version: v1
 
 plugins:
-  - plugin: buf.build/protocolbuffers/go
+  - plugin: go
     out: ../backend/generated/proto
     opt: paths=source_relative
-  - plugin: buf.build/connectrpc/go
+  - plugin: go-grpc
+    out: ../backend/generated/proto
+    opt: paths=source_relative
+  - plugin: grpc-gateway
     out: ../backend/generated/proto
     opt: paths=source_relative

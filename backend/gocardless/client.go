@@ -7,24 +7,31 @@ import (
 	"sync"
 	"time"
 
+	"github.com/google/uuid"
 	"github.com/valyala/fasthttp"
 )
 
 const (
 	applicationJSON           = "application/json"
-	requisitionsRedirectURL   = "https://google.com"
+	requisitionsRedirectURL   = "https://panther-choice-greatly.ngrok-free.app/handleRequisition/%s"
 	createRequisitionsLinkURL = "https://bankaccountdata.gocardless.com/api/v2/requisitions/"
 	tokenURL                  = "https://bankaccountdata.gocardless.com/api/v2/token/new/"
 	institutionsURL           = "https://bankaccountdata.gocardless.com/api/v2/institutions/?country="
 	transactionsURL           = "https://bankaccountdata.gocardless.com/api/v2/accounts/%s/transactions/"
-	accountsURL               = "https://bankaccountdata.gocardless.com/api/v2/requisitions/%s/"
+	accountsURL               = "https://bankaccountdata.gocardless.com/api/v2/accounts/%s/"
+	allRequisitionsURL        = "https://bankaccountdata.gocardless.com/api/v2/requisitions/"
+	requisitionURL            = "https://bankaccountdata.gocardless.com/api/v2/requisitions/%s/"
+	deleteRequisitionURL      = "https://bankaccountdata.gocardless.com/api/v2/requisitions/%s/"
 )
 
 type Client interface {
 	GetInstitutions(countryCode string) (respBody InstitutionsResponse, err error)
 	CreateRequisitionsLink(institutionID string) (respBody CreateRequisitionsLinkResponse, err error)
-	GetTransactions(accountID string) (respBody TransactionsResponse, err error)
-	GetAccounts(requisitionID string) (respBody AccountsResponse, err error)
+	GetTransactions(accountID uuid.UUID) (respBody TransactionsResponse, err error)
+	GetAccount(accountID uuid.UUID) (respBody AccountResponse, err error)
+	GetRequisition(requisitionID uuid.UUID) (respBody RequisitionResponse, err error)
+	DeleteRequisition(requisitionID uuid.UUID) (respBody DeleteRequisitionResponse, err error)
+	GetAllRequisition() (respBody AllRequisitionsResponse, err error)
 }
 
 type client struct {
@@ -74,9 +81,11 @@ func (c *client) CreateRequisitionsLink(institutionID string) (respBody CreateRe
 	req.Header.Set("Content-Type", applicationJSON)
 	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", accessToken))
 
+	ref := uuid.New().String()
 	reqBytes, err := json.Marshal(CreateRequisitionsLinkRequest{
-		Redirect:      requisitionsRedirectURL,
+		Redirect:      fmt.Sprintf(requisitionsRedirectURL, ref),
 		InstitutionID: institutionID,
+		Reference:     ref,
 	})
 	if err != nil {
 		return respBody, err
@@ -96,7 +105,7 @@ func (c *client) CreateRequisitionsLink(institutionID string) (respBody CreateRe
 	return respBody, err
 }
 
-func (c *client) GetTransactions(accountID string) (respBody TransactionsResponse, err error) {
+func (c *client) GetTransactions(accountID uuid.UUID) (respBody TransactionsResponse, err error) {
 	req := fasthttp.AcquireRequest()
 	defer fasthttp.ReleaseRequest(req)
 
@@ -119,13 +128,82 @@ func (c *client) GetTransactions(accountID string) (respBody TransactionsRespons
 	}
 	return respBody, err
 }
-func (c *client) GetAccounts(requisitionID string) (respBody AccountsResponse, err error) {
+func (c *client) GetAccount(accountID uuid.UUID) (respBody AccountResponse, err error) {
 	req := fasthttp.AcquireRequest()
 	defer fasthttp.ReleaseRequest(req)
 
 	accessToken, err := c.getToken()
 	req.Header.SetMethod(http.MethodGet)
-	req.SetRequestURI(fmt.Sprintf(accountsURL, requisitionID))
+	req.SetRequestURI(fmt.Sprintf(accountsURL, accountID))
+	req.Header.Set("accept", applicationJSON)
+	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", accessToken))
+
+	resp := fasthttp.AcquireResponse()
+	defer fasthttp.ReleaseResponse(resp)
+
+	err = fasthttp.Do(req, resp)
+	if err != nil {
+		return respBody, err
+	}
+	err = json.Unmarshal(resp.Body(), &respBody)
+	if err != nil {
+		return respBody, err
+	}
+	return respBody, err
+}
+func (c *client) GetRequisition(requisitionID uuid.UUID) (respBody RequisitionResponse, err error) {
+	req := fasthttp.AcquireRequest()
+	defer fasthttp.ReleaseRequest(req)
+
+	accessToken, err := c.getToken()
+	req.Header.SetMethod(http.MethodGet)
+	req.SetRequestURI(fmt.Sprintf(requisitionURL, requisitionID))
+	req.Header.Set("accept", applicationJSON)
+	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", accessToken))
+
+	resp := fasthttp.AcquireResponse()
+	defer fasthttp.ReleaseResponse(resp)
+
+	err = fasthttp.Do(req, resp)
+	if err != nil {
+		return respBody, err
+	}
+	err = json.Unmarshal(resp.Body(), &respBody)
+	if err != nil {
+		return respBody, err
+	}
+	return respBody, err
+}
+func (c *client) GetAllRequisition() (respBody AllRequisitionsResponse, err error) {
+	req := fasthttp.AcquireRequest()
+	defer fasthttp.ReleaseRequest(req)
+
+	accessToken, err := c.getToken()
+	req.Header.SetMethod(http.MethodGet)
+	req.SetRequestURI(allRequisitionsURL)
+	req.Header.Set("accept", applicationJSON)
+	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", accessToken))
+
+	resp := fasthttp.AcquireResponse()
+	defer fasthttp.ReleaseResponse(resp)
+
+	err = fasthttp.Do(req, resp)
+	if err != nil {
+		return respBody, err
+	}
+	err = json.Unmarshal(resp.Body(), &respBody)
+	if err != nil {
+		return respBody, err
+	}
+	return respBody, err
+}
+func (c *client) DeleteRequisition(requisitionID uuid.UUID) (respBody DeleteRequisitionResponse, err error) {
+	req := fasthttp.AcquireRequest()
+	defer fasthttp.ReleaseRequest(req)
+
+	accessToken, err := c.getToken()
+	req.Header.SetMethod(http.MethodDelete)
+	req.SetRequestURI(fmt.Sprintf(deleteRequisitionURL, requisitionID))
 	req.Header.Set("accept", applicationJSON)
 	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", accessToken))
 

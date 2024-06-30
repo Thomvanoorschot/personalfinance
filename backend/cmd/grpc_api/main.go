@@ -1,24 +1,24 @@
 package main
 
 import (
+	"context"
 	"log"
+	"net"
 	"net/http"
 
 	"personalfinance/api"
 	"personalfinance/config"
-	"personalfinance/generated/proto/protoconnect"
+	"personalfinance/generated/proto"
 	"personalfinance/gocardless"
 	"personalfinance/repositories"
 	"personalfinance/services/banking"
 	"personalfinance/services/user"
 
-	"connectrpc.com/connect"
-	connectcors "connectrpc.com/cors"
-	"connectrpc.com/grpcreflect"
-	"github.com/rs/cors"
-	"golang.org/x/net/http2"
-	"golang.org/x/net/http2/h2c"
-	"google.golang.org/protobuf/reflect/protoregistry"
+	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
+	"google.golang.org/grpc/reflection"
+	proto2 "google.golang.org/protobuf/proto"
 )
 
 type ServiceNames []string
@@ -28,44 +28,62 @@ func (s ServiceNames) Names() []string {
 }
 
 func main() {
-	interceptors := connect.WithInterceptors(api.NewAuthInterceptor())
-
-	mux := http.NewServeMux()
-
 	cfg := config.Load()
 	repo := repositories.NewRepository(cfg)
 	gcls := gocardless.NewClient(cfg.GocardlessSeretID, cfg.GocardlessSeretKey)
 
+	listener, err := net.Listen("tcp", "localhost:8080")
+	if err != nil {
+		log.Fatalln("Failed to listen:", err)
+	}
+	s := grpc.NewServer()
+
 	// Banking
 	bankingService := banking.NewService(repo, gcls)
-	bankingPath, bankingHandler := protoconnect.NewBankingServiceHandler(api.NewBankingHandler(bankingService), interceptors)
-	mux.Handle(bankingPath, bankingHandler)
+	bankingHandler := api.NewBankingHandler(bankingService)
+	proto.RegisterBankingServiceServer(s, bankingHandler)
 
 	// user
 	userService := user.NewService(repo)
-	userPath, userHandler := protoconnect.NewUserServiceHandler(api.NewUserHandler(userService), interceptors)
-	mux.Handle(userPath, userHandler)
+	userHandler := api.NewUserHandler(userService)
+	proto.RegisterUserServiceServer(s, userHandler)
 
-	reflector := grpcreflect.NewReflector(
-		ServiceNames{protoconnect.BankingServiceName},
-		grpcreflect.WithExtensionResolver(protoregistry.GlobalTypes),
-		grpcreflect.WithDescriptorResolver(protoregistry.GlobalFiles),
-	)
-	mux.Handle(grpcreflect.NewHandlerV1(reflector))
-	mux.Handle(grpcreflect.NewHandlerV1Alpha(reflector))
-
-	c := cors.New(cors.Options{
-		AllowedOrigins: []string{"*"}, // replace with your domain
-		AllowedMethods: connectcors.AllowedMethods(),
-		AllowedHeaders: connectcors.AllowedHeaders(),
-		ExposedHeaders: connectcors.ExposedHeaders(),
-		MaxAge:         7200, // 2 hours in seconds
-	})
-	err := http.ListenAndServe(
+	reflection.Register(s)
+	go func() {
+		log.Fatalln(s.Serve(listener))
+	}()
+	conn, err := grpc.NewClient(
 		"localhost:8080",
-		h2c.NewHandler(c.Handler(mux), &http2.Server{}),
+		grpc.WithTransportCredentials(insecure.NewCredentials()),
 	)
 	if err != nil {
-		log.Fatal("failed to server")
+		log.Fatalln("Failed to dial server:", err)
 	}
+
+	gatewayMux := runtime.NewServeMux(
+		runtime.WithForwardResponseOption(redirectForwarder),
+	)
+	// Register Greeter
+	err = proto.RegisterBankingServiceHandler(context.Background(), gatewayMux, conn)
+	if err != nil {
+		log.Fatalln("Failed to register gateway:", err)
+	}
+
+	gwServer := &http.Server{
+		Addr:    "localhost:8090",
+		Handler: gatewayMux,
+	}
+
+	log.Println("Serving gRPC-Gateway on http://localhost:8090")
+	log.Fatalln(gwServer.ListenAndServe())
+}
+
+func redirectForwarder(ctx context.Context, w http.ResponseWriter, resp proto2.Message) error {
+	headers := w.Header()
+	if location, ok := headers["Grpc-Metadata-Location"]; ok {
+		w.Header().Set("Location", location[0])
+		w.WriteHeader(http.StatusFound)
+	}
+
+	return nil
 }

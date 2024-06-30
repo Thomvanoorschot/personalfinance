@@ -4,8 +4,6 @@ import (
 	"context"
 
 	"personalfinance/generated/proto"
-
-	"connectrpc.com/connect"
 )
 
 type UserService interface {
@@ -14,6 +12,7 @@ type UserService interface {
 
 type UserHandler struct {
 	service UserService
+	proto.UnimplementedUserServiceServer
 }
 
 func NewUserHandler(service UserService) *UserHandler {
@@ -22,12 +21,11 @@ func NewUserHandler(service UserService) *UserHandler {
 
 func (h *UserHandler) Register(
 	ctx context.Context,
-	req *connect.Request[proto.RegisterRequest],
-) (*connect.Response[proto.RegisterResponse], error) {
-	err := h.service.Register(ctx, req.Msg)
+	req *proto.RegisterRequest,
+) (*proto.RegisterResponse, error) {
+	err := h.service.Register(ctx, req)
 	if err != nil {
 		return nil, err
 	}
-	resp := connect.NewResponse(&proto.RegisterResponse{})
-	return resp, nil
+	return nil, nil
 }

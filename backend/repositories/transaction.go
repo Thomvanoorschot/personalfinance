@@ -9,10 +9,10 @@ import (
 	. "github.com/go-jet/jet/v2/postgres"
 )
 
-func (r *Repository) UpsertTransaction(ctx context.Context, m model.Transaction) error {
+func (r *Repository) UpsertTransactions(ctx context.Context, m []model.Transaction) error {
 	sql, args := Transaction.
 		INSERT(Transaction.MutableColumns).
-		MODEL(m).
+		MODELS(m).
 		ON_CONFLICT(Transaction.ExternalID).
 		DO_UPDATE(
 			SET(

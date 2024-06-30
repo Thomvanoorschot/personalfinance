@@ -27,3 +27,10 @@ message GetTransactionsRequest {
 message GetTransactionsResponse {
 
 }
+
+message HandleRequisitionRequest {
+  string requisitionReference = 1;
+}
+message HandleRequisitionResponse {
+
+}

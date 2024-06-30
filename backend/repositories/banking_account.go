@@ -12,7 +12,7 @@ import (
 
 func (r *Repository) UpsertBankingAccount(ctx context.Context, m model.Account) error {
 	sql, args := Account.
-		INSERT(Account.MutableColumns).
+		INSERT(Account.AllColumns).
 		MODEL(m).
 		ON_CONFLICT(Account.ID).
 		DO_NOTHING().

@@ -15,6 +15,8 @@ import (
 type Requisition struct {
 	ID        uuid.UUID `sql:"primary_key"`
 	UserID    uuid.UUID
+	Reference uuid.UUID
+	Status    *string
 	CreatedAt *time.Time
 	UpdatedAt *time.Time
 }
