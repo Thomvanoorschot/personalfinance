@@ -1,0 +1,158 @@
+//
+//  Generated code. Do not modify.
+//  source: main.proto
+//
+// @dart = 2.12
+
+// ignore_for_file: annotate_overrides, camel_case_types, comment_references
+// ignore_for_file: constant_identifier_names, library_prefixes
+// ignore_for_file: non_constant_identifier_names, prefer_final_fields
+// ignore_for_file: unnecessary_import, unnecessary_this, unused_import
+
+import 'dart:async' as $async;
+import 'dart:core' as $core;
+
+import 'package:grpc/service_api.dart' as $grpc;
+import 'package:protobuf/protobuf.dart' as $pb;
+
+import 'banking.pb.dart' as $0;
+import 'user.pb.dart' as $1;
+
+export 'main.pb.dart';
+
+@$pb.GrpcServiceName('BankingService')
+class BankingServiceClient extends $grpc.Client {
+  static final _$getBanks = $grpc.ClientMethod<$0.GetBanksRequest, $0.GetBanksResponse>(
+      '/BankingService/GetBanks',
+      ($0.GetBanksRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.GetBanksResponse.fromBuffer(value));
+  static final _$createRequisition = $grpc.ClientMethod<$0.CreateRequisitionRequest, $0.CreateRequisitionResponse>(
+      '/BankingService/CreateRequisition',
+      ($0.CreateRequisitionRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.CreateRequisitionResponse.fromBuffer(value));
+  static final _$getTransactions = $grpc.ClientMethod<$0.GetTransactionsRequest, $0.GetTransactionsResponse>(
+      '/BankingService/GetTransactions',
+      ($0.GetTransactionsRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.GetTransactionsResponse.fromBuffer(value));
+  static final _$handleRequisition = $grpc.ClientMethod<$0.HandleRequisitionRequest, $0.HandleRequisitionResponse>(
+      '/BankingService/HandleRequisition',
+      ($0.HandleRequisitionRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.HandleRequisitionResponse.fromBuffer(value));
+
+  BankingServiceClient($grpc.ClientChannel channel,
+      {$grpc.CallOptions? options,
+      $core.Iterable<$grpc.ClientInterceptor>? interceptors})
+      : super(channel, options: options,
+        interceptors: interceptors);
+
+  $grpc.ResponseFuture<$0.GetBanksResponse> getBanks($0.GetBanksRequest request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$getBanks, request, options: options);
+  }
+
+  $grpc.ResponseFuture<$0.CreateRequisitionResponse> createRequisition($0.CreateRequisitionRequest request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$createRequisition, request, options: options);
+  }
+
+  $grpc.ResponseFuture<$0.GetTransactionsResponse> getTransactions($0.GetTransactionsRequest request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$getTransactions, request, options: options);
+  }
+
+  $grpc.ResponseFuture<$0.HandleRequisitionResponse> handleRequisition($0.HandleRequisitionRequest request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$handleRequisition, request, options: options);
+  }
+}
+
+@$pb.GrpcServiceName('BankingService')
+abstract class BankingServiceBase extends $grpc.Service {
+  $core.String get $name => 'BankingService';
+
+  BankingServiceBase() {
+    $addMethod($grpc.ServiceMethod<$0.GetBanksRequest, $0.GetBanksResponse>(
+        'GetBanks',
+        getBanks_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $0.GetBanksRequest.fromBuffer(value),
+        ($0.GetBanksResponse value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.CreateRequisitionRequest, $0.CreateRequisitionResponse>(
+        'CreateRequisition',
+        createRequisition_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $0.CreateRequisitionRequest.fromBuffer(value),
+        ($0.CreateRequisitionResponse value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.GetTransactionsRequest, $0.GetTransactionsResponse>(
+        'GetTransactions',
+        getTransactions_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $0.GetTransactionsRequest.fromBuffer(value),
+        ($0.GetTransactionsResponse value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.HandleRequisitionRequest, $0.HandleRequisitionResponse>(
+        'HandleRequisition',
+        handleRequisition_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $0.HandleRequisitionRequest.fromBuffer(value),
+        ($0.HandleRequisitionResponse value) => value.writeToBuffer()));
+  }
+
+  $async.Future<$0.GetBanksResponse> getBanks_Pre($grpc.ServiceCall call, $async.Future<$0.GetBanksRequest> request) async {
+    return getBanks(call, await request);
+  }
+
+  $async.Future<$0.CreateRequisitionResponse> createRequisition_Pre($grpc.ServiceCall call, $async.Future<$0.CreateRequisitionRequest> request) async {
+    return createRequisition(call, await request);
+  }
+
+  $async.Future<$0.GetTransactionsResponse> getTransactions_Pre($grpc.ServiceCall call, $async.Future<$0.GetTransactionsRequest> request) async {
+    return getTransactions(call, await request);
+  }
+
+  $async.Future<$0.HandleRequisitionResponse> handleRequisition_Pre($grpc.ServiceCall call, $async.Future<$0.HandleRequisitionRequest> request) async {
+    return handleRequisition(call, await request);
+  }
+
+  $async.Future<$0.GetBanksResponse> getBanks($grpc.ServiceCall call, $0.GetBanksRequest request);
+  $async.Future<$0.CreateRequisitionResponse> createRequisition($grpc.ServiceCall call, $0.CreateRequisitionRequest request);
+  $async.Future<$0.GetTransactionsResponse> getTransactions($grpc.ServiceCall call, $0.GetTransactionsRequest request);
+  $async.Future<$0.HandleRequisitionResponse> handleRequisition($grpc.ServiceCall call, $0.HandleRequisitionRequest request);
+}
+@$pb.GrpcServiceName('UserService')
+class UserServiceClient extends $grpc.Client {
+  static final _$register = $grpc.ClientMethod<$1.RegisterRequest, $1.RegisterResponse>(
+      '/UserService/Register',
+      ($1.RegisterRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $1.RegisterResponse.fromBuffer(value));
+
+  UserServiceClient($grpc.ClientChannel channel,
+      {$grpc.CallOptions? options,
+      $core.Iterable<$grpc.ClientInterceptor>? interceptors})
+      : super(channel, options: options,
+        interceptors: interceptors);
+
+  $grpc.ResponseFuture<$1.RegisterResponse> register($1.RegisterRequest request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$register, request, options: options);
+  }
+}
+
+@$pb.GrpcServiceName('UserService')
+abstract class UserServiceBase extends $grpc.Service {
+  $core.String get $name => 'UserService';
+
+  UserServiceBase() {
+    $addMethod($grpc.ServiceMethod<$1.RegisterRequest, $1.RegisterResponse>(
+        'Register',
+        register_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $1.RegisterRequest.fromBuffer(value),
+        ($1.RegisterResponse value) => value.writeToBuffer()));
+  }
+
+  $async.Future<$1.RegisterResponse> register_Pre($grpc.ServiceCall call, $async.Future<$1.RegisterRequest> request) async {
+    return register(call, await request);
+  }
+
+  $async.Future<$1.RegisterResponse> register($grpc.ServiceCall call, $1.RegisterRequest request);
+}

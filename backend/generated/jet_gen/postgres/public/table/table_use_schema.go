@@ -13,5 +13,6 @@ func UseSchema(schema string) {
 	Account = Account.FromSchema(schema)
 	Requisition = Requisition.FromSchema(schema)
 	Transaction = Transaction.FromSchema(schema)
+	TransactionCategory = TransactionCategory.FromSchema(schema)
 	User = User.FromSchema(schema)
 }

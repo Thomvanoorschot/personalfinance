@@ -19,6 +19,15 @@ CREATE TABLE account
     FOREIGN KEY (user_id) REFERENCES "user" (id) ON DELETE CASCADE
 );
 
+CREATE TABLE transaction_category
+(
+    id         UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    label      TEXT UNIQUE NOT NULL,
+    created_at TIMESTAMP        DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP        DEFAULT CURRENT_TIMESTAMP
+);
+CREATE INDEX idx_transaction_category_label ON transaction_category (label);
+
 CREATE TABLE transaction
 (
     id                                UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -41,9 +50,11 @@ CREATE TABLE transaction
     debtor_iban                       TEXT,
     created_at                        TIMESTAMP        DEFAULT CURRENT_TIMESTAMP,
     updated_at                        TIMESTAMP        DEFAULT CURRENT_TIMESTAMP,
+    transaction_category_id           UUID,
 
     FOREIGN KEY (user_id) REFERENCES "user" (id) ON DELETE CASCADE,
-    FOREIGN KEY (account_id) REFERENCES account (id) ON DELETE CASCADE
+    FOREIGN KEY (account_id) REFERENCES account (id) ON DELETE CASCADE,
+    FOREIGN KEY (transaction_category_id) REFERENCES transaction_category (id) ON DELETE CASCADE
 );
 
 CREATE TABLE requisition
@@ -96,5 +107,11 @@ EXECUTE FUNCTION set_timestamps();
 CREATE TRIGGER set_timestamp_requisition
     BEFORE INSERT OR UPDATE
     ON requisition
+    FOR EACH ROW
+EXECUTE FUNCTION set_timestamps();
+
+CREATE TRIGGER set_timestamp_transaction_category
+    BEFORE INSERT OR UPDATE
+    ON transaction_category
     FOR EACH ROW
 EXECUTE FUNCTION set_timestamps();

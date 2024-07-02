@@ -29,6 +29,8 @@ type Repository interface {
 	UpdateRequisitionStatus(ctx context.Context, requisitionID uuid.UUID, status gocardless.RequisitionStatus) error
 	UpsertBankingAccount(ctx context.Context, m model.Account) error
 	UpsertTransactions(ctx context.Context, m []model.Transaction) error
+	SetTransactionCategory(ctx context.Context, transactionID uuid.UUID, categoryID uuid.UUID) error
+	RemoveTransactionCategory(ctx context.Context, transactionID uuid.UUID) error
 }
 
 type Service struct {

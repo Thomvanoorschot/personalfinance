@@ -33,4 +33,5 @@ type Transaction struct {
 	DebtorIban                     *string
 	CreatedAt                      *time.Time
 	UpdatedAt                      *time.Time
+	TransactionCategoryID          *uuid.UUID
 }
