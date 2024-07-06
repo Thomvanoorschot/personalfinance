@@ -15,7 +15,7 @@ import (
 )
 
 const (
-	userID          = "f490bccb-eebe-4304-8621-3d3293799ff1"
+	userID          = "dc25d8fb-7eb7-4e2d-a2da-3d9489a1bdec"
 	tempRedirectURL = "https://google.com"
 )
 
@@ -31,6 +31,7 @@ type Repository interface {
 	UpsertTransactions(ctx context.Context, m []model.Transaction) error
 	SetTransactionCategory(ctx context.Context, transactionID uuid.UUID, categoryID uuid.UUID) error
 	RemoveTransactionCategory(ctx context.Context, transactionID uuid.UUID) error
+	GetTransactions(ctx context.Context, userID uuid.UUID, limit, offset int64) (resp []model.Transaction, err error)
 }
 
 type Service struct {
@@ -129,6 +130,10 @@ func (s *Service) HandleRequisition(ctx context.Context, req *proto.HandleRequis
 			if err != nil {
 				return "", err
 			}
+			balanceAmount, err := strconv.ParseFloat(bookedTx.BalanceAfterTransaction.BalanceAmount.Amount, 64)
+			if err != nil {
+				return "", err
+			}
 			var externalID = bookedTx.TransactionId
 			if bookedTx.TransactionId == "" {
 				externalID = bookedTx.InternalTransactionId
@@ -149,6 +154,7 @@ func (s *Service) HandleRequisition(ctx context.Context, req *proto.HandleRequis
 				ProprietaryBankTransactionCode: &bookedTx.ProprietaryBankTransactionCode,
 				BalanceCurrency:                &bookedTx.BalanceAfterTransaction.BalanceAmount.Currency,
 				BalanceType:                    &bookedTx.BalanceAfterTransaction.BalanceType,
+				BalanceAfterTransaction:        &balanceAmount,
 				InternalTransactionID:          &bookedTx.InternalTransactionId,
 				DebtorName:                     &bookedTx.DebtorName,
 				DebtorIban:                     &bookedTx.DebtorAccount.Iban,
@@ -175,24 +181,16 @@ func (s *Service) HandleRequisition(ctx context.Context, req *proto.HandleRequis
 	return tempRedirectURL, nil
 }
 func (s *Service) GetTransactions(ctx context.Context, req *proto.GetTransactionsRequest) (*proto.GetTransactionsResponse, error) {
-	return nil, nil
-	//requisitionIDs, err := s.repo.GetRequisitions(ctx, userID)
-	//if err != nil {
-	//	return nil, err
-	//}
-	//accounts, err := s.gcls.GetAccount(req.InstitutionId)
-	//if err != nil {
-	//	return nil, err
-	//}
-	//err = s.repo.UpsertRequisition(ctx, model.Requisition{
-	//	ID:     uuid.MustParse(requisition.Id),
-	//	UserID: uuid.MustParse(userID),
-	//})
-	//if err != nil {
-	//	return nil, err
-	//}
-	//resp := &proto.CreateRequisitionResponse{
-	//	Url: requisition.Link,
-	//}
-	//return resp, nil
+	txs, err := s.repo.GetTransactions(ctx, uuid.MustParse(req.UserId), req.Limit, req.Offset)
+	if err != nil {
+		return nil, err
+	}
+	var txsResponse []*proto.TransactionResponse
+	for _, tx := range txs {
+		txsResponse = append(txsResponse, ConvertToTransactionResponse(tx))
+	}
+	resp := &proto.GetTransactionsResponse{
+		Transactions: txsResponse,
+	}
+	return resp, nil
 }

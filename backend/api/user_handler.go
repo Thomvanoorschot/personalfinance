@@ -7,7 +7,8 @@ import (
 )
 
 type UserService interface {
-	Register(context.Context, *proto.RegisterRequest) error
+	RegisterUnverifiedUser(context.Context, *proto.RegisterUnverifiedUserRequest) (*proto.RegisterUnverifiedUserResponse, error)
+	LinkUser(context.Context, *proto.LinkUserRequest) error
 }
 
 type UserHandler struct {
@@ -19,13 +20,23 @@ func NewUserHandler(service UserService) *UserHandler {
 	return &UserHandler{service: service}
 }
 
-func (h *UserHandler) Register(
+func (h *UserHandler) RegisterUnverifiedUser(
 	ctx context.Context,
-	req *proto.RegisterRequest,
-) (*proto.RegisterResponse, error) {
-	err := h.service.Register(ctx, req)
+	req *proto.RegisterUnverifiedUserRequest,
+) (*proto.RegisterUnverifiedUserResponse, error) {
+	resp, err := h.service.RegisterUnverifiedUser(ctx, req)
 	if err != nil {
 		return nil, err
 	}
-	return nil, nil
+	return resp, nil
+}
+func (h *UserHandler) LinkUser(
+	ctx context.Context,
+	req *proto.LinkUserRequest,
+) (*proto.LinkUserResponse, error) {
+	err := h.service.LinkUser(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+	return &proto.LinkUserResponse{}, nil
 }

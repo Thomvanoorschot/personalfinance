@@ -2,10 +2,11 @@
 
 CREATE TABLE "user"
 (
-    id         UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    email      TEXT UNIQUE NOT NULL,
-    created_at TIMESTAMP        DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP        DEFAULT CURRENT_TIMESTAMP
+    id                   UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    email                TEXT UNIQUE,
+    unverified_unique_id TEXT UNIQUE NOT NULL,
+    created_at           TIMESTAMP        DEFAULT CURRENT_TIMESTAMP,
+    updated_at           TIMESTAMP        DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE account
@@ -45,6 +46,7 @@ CREATE TABLE transaction
     proprietary_bank_transaction_code TEXT,
     balance_currency                  TEXT,
     balance_type                      TEXT,
+    balance_after_transaction         NUMERIC(20, 2),
     internal_transaction_id           TEXT,
     debtor_name                       TEXT,
     debtor_iban                       TEXT,

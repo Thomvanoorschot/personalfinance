@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend/src/routing/scaffold_with_nested_navigation.dart';
-import 'package:frontend/src/screens/user/user_screen.dart';
+import 'package:frontend/src/screens/home/home_screen.dart';
+import 'package:frontend/src/screens/statements/statements_screen.dart';
 import 'package:go_router/go_router.dart';
 
 enum AppRoute {
@@ -40,7 +41,7 @@ final goRouterProvider = Provider<GoRouter>(
                   name: AppRoute.home.name,
                   pageBuilder: (context, state) => NoTransitionPage(
                     key: state.pageKey,
-                    child: const UserScreen(),
+                    child: const HomeScreen(),
                   ),
                 ),
               ],
@@ -53,7 +54,7 @@ final goRouterProvider = Provider<GoRouter>(
                   name: AppRoute.locationOverview.name,
                   pageBuilder: (context, state) => NoTransitionPage(
                     key: state.pageKey,
-                    child: const UserScreen(),
+                    child: const StatementsScreen(),
                   ),
                   routes: [
                     GoRoute(
@@ -64,7 +65,7 @@ final goRouterProvider = Provider<GoRouter>(
                         return MaterialPage(
                           key: state.pageKey,
                           // child: LocationDetailScreen(id: id),
-                          child: UserScreen(),
+                          child: HomeScreen(),
                         );
                       },
                     ),
@@ -74,7 +75,7 @@ final goRouterProvider = Provider<GoRouter>(
                       pageBuilder: (context, state) {
                         return MaterialPage(
                           key: state.pageKey,
-                          child: const UserScreen(),
+                          child: const HomeScreen(),
                         );
                       },
                     )

@@ -20,5 +20,6 @@ service BankingService {
 }
 
 service UserService {
-  rpc Register(RegisterRequest) returns (RegisterResponse);
+  rpc RegisterUnverifiedUser(RegisterUnverifiedUserRequest) returns (RegisterUnverifiedUserResponse);
+  rpc LinkUser(LinkUserRequest) returns (LinkUserResponse);
 }

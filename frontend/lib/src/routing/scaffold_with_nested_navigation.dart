@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
 // Stateful navigation based on:
@@ -57,16 +58,26 @@ class ScaffoldWithNavigationBar extends StatelessWidget {
       body: body,
       bottomNavigationBar: NavigationBar(
         selectedIndex: currentIndex,
-        destinations: const [
+        destinations: [
           NavigationDestination(
-            icon: Icon(Icons.search_outlined),
-            selectedIcon: Icon(Icons.search),
-            label: 'Search',
+            icon: SvgPicture.asset(
+              height: 24,
+              width: 24,
+              'assets/home_icon.svg',
+              colorFilter: ColorFilter.mode(Theme.of(context).colorScheme.secondary, BlendMode.srcIn),
+            ),
+            selectedIcon: SvgPicture.asset(
+              height: 24,
+              width: 24,
+              'assets/home_icon.svg',
+              colorFilter: ColorFilter.mode(Theme.of(context).colorScheme.secondary, BlendMode.srcIn),
+            ),
+            label: 'Home',
           ),
           NavigationDestination(
             icon: Icon(Icons.location_city_outlined),
             selectedIcon: Icon(Icons.location_city),
-            label: 'Locations',
+            label: 'Statements',
           ),
         ],
         onDestinationSelected: onDestinationSelected,
@@ -95,9 +106,12 @@ class ScaffoldWithNavigationRail extends StatelessWidget {
             selectedIndex: currentIndex,
             onDestinationSelected: onDestinationSelected,
             labelType: NavigationRailLabelType.all,
-            destinations: const <NavigationRailDestination>[
+            destinations:  <NavigationRailDestination>[
               NavigationRailDestination(
-                icon: Icon(Icons.search_outlined),
+                icon: SvgPicture.asset(
+                  'assets/money_bag.svg',
+                  colorFilter: ColorFilter.mode(Theme.of(context).colorScheme.secondary, BlendMode.srcIn),
+                ),
                 selectedIcon: Icon(Icons.search),
                 label: Text('Search'),
               ),

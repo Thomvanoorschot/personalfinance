@@ -17,10 +17,11 @@ type userTable struct {
 	postgres.Table
 
 	// Columns
-	ID        postgres.ColumnString
-	Email     postgres.ColumnString
-	CreatedAt postgres.ColumnTimestamp
-	UpdatedAt postgres.ColumnTimestamp
+	ID                 postgres.ColumnString
+	Email              postgres.ColumnString
+	UnverifiedUniqueID postgres.ColumnString
+	CreatedAt          postgres.ColumnTimestamp
+	UpdatedAt          postgres.ColumnTimestamp
 
 	AllColumns     postgres.ColumnList
 	MutableColumns postgres.ColumnList
@@ -61,22 +62,24 @@ func newUserTable(schemaName, tableName, alias string) *UserTable {
 
 func newUserTableImpl(schemaName, tableName, alias string) userTable {
 	var (
-		IDColumn        = postgres.StringColumn("id")
-		EmailColumn     = postgres.StringColumn("email")
-		CreatedAtColumn = postgres.TimestampColumn("created_at")
-		UpdatedAtColumn = postgres.TimestampColumn("updated_at")
-		allColumns      = postgres.ColumnList{IDColumn, EmailColumn, CreatedAtColumn, UpdatedAtColumn}
-		mutableColumns  = postgres.ColumnList{EmailColumn, CreatedAtColumn, UpdatedAtColumn}
+		IDColumn                 = postgres.StringColumn("id")
+		EmailColumn              = postgres.StringColumn("email")
+		UnverifiedUniqueIDColumn = postgres.StringColumn("unverified_unique_id")
+		CreatedAtColumn          = postgres.TimestampColumn("created_at")
+		UpdatedAtColumn          = postgres.TimestampColumn("updated_at")
+		allColumns               = postgres.ColumnList{IDColumn, EmailColumn, UnverifiedUniqueIDColumn, CreatedAtColumn, UpdatedAtColumn}
+		mutableColumns           = postgres.ColumnList{EmailColumn, UnverifiedUniqueIDColumn, CreatedAtColumn, UpdatedAtColumn}
 	)
 
 	return userTable{
 		Table: postgres.NewTable(schemaName, tableName, alias, allColumns...),
 
 		//Columns
-		ID:        IDColumn,
-		Email:     EmailColumn,
-		CreatedAt: CreatedAtColumn,
-		UpdatedAt: UpdatedAtColumn,
+		ID:                 IDColumn,
+		Email:              EmailColumn,
+		UnverifiedUniqueID: UnverifiedUniqueIDColumn,
+		CreatedAt:          CreatedAtColumn,
+		UpdatedAt:          UpdatedAtColumn,
 
 		AllColumns:     allColumns,
 		MutableColumns: mutableColumns,

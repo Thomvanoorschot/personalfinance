@@ -13,22 +13,127 @@ import 'dart:core' as $core;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
-class RegisterRequest extends $pb.GeneratedMessage {
-  factory RegisterRequest({
+class RegisterUnverifiedUserRequest extends $pb.GeneratedMessage {
+  factory RegisterUnverifiedUserRequest({
+    $core.String? uniqueDeviceId,
+  }) {
+    final $result = create();
+    if (uniqueDeviceId != null) {
+      $result.uniqueDeviceId = uniqueDeviceId;
+    }
+    return $result;
+  }
+  RegisterUnverifiedUserRequest._() : super();
+  factory RegisterUnverifiedUserRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory RegisterUnverifiedUserRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'RegisterUnverifiedUserRequest', createEmptyInstance: create)
+    ..aOS(1, _omitFieldNames ? '' : 'uniqueDeviceId', protoName: 'uniqueDeviceId')
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  RegisterUnverifiedUserRequest clone() => RegisterUnverifiedUserRequest()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  RegisterUnverifiedUserRequest copyWith(void Function(RegisterUnverifiedUserRequest) updates) => super.copyWith((message) => updates(message as RegisterUnverifiedUserRequest)) as RegisterUnverifiedUserRequest;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static RegisterUnverifiedUserRequest create() => RegisterUnverifiedUserRequest._();
+  RegisterUnverifiedUserRequest createEmptyInstance() => create();
+  static $pb.PbList<RegisterUnverifiedUserRequest> createRepeated() => $pb.PbList<RegisterUnverifiedUserRequest>();
+  @$core.pragma('dart2js:noInline')
+  static RegisterUnverifiedUserRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<RegisterUnverifiedUserRequest>(create);
+  static RegisterUnverifiedUserRequest? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get uniqueDeviceId => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set uniqueDeviceId($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasUniqueDeviceId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearUniqueDeviceId() => clearField(1);
+}
+
+class RegisterUnverifiedUserResponse extends $pb.GeneratedMessage {
+  factory RegisterUnverifiedUserResponse({
+    $core.String? userId,
+  }) {
+    final $result = create();
+    if (userId != null) {
+      $result.userId = userId;
+    }
+    return $result;
+  }
+  RegisterUnverifiedUserResponse._() : super();
+  factory RegisterUnverifiedUserResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory RegisterUnverifiedUserResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'RegisterUnverifiedUserResponse', createEmptyInstance: create)
+    ..aOS(1, _omitFieldNames ? '' : 'userId', protoName: 'userId')
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  RegisterUnverifiedUserResponse clone() => RegisterUnverifiedUserResponse()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  RegisterUnverifiedUserResponse copyWith(void Function(RegisterUnverifiedUserResponse) updates) => super.copyWith((message) => updates(message as RegisterUnverifiedUserResponse)) as RegisterUnverifiedUserResponse;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static RegisterUnverifiedUserResponse create() => RegisterUnverifiedUserResponse._();
+  RegisterUnverifiedUserResponse createEmptyInstance() => create();
+  static $pb.PbList<RegisterUnverifiedUserResponse> createRepeated() => $pb.PbList<RegisterUnverifiedUserResponse>();
+  @$core.pragma('dart2js:noInline')
+  static RegisterUnverifiedUserResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<RegisterUnverifiedUserResponse>(create);
+  static RegisterUnverifiedUserResponse? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get userId => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set userId($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasUserId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearUserId() => clearField(1);
+}
+
+class LinkUserRequest extends $pb.GeneratedMessage {
+  factory LinkUserRequest({
+    $core.String? uniqueDeviceId,
     $core.String? email,
   }) {
     final $result = create();
+    if (uniqueDeviceId != null) {
+      $result.uniqueDeviceId = uniqueDeviceId;
+    }
     if (email != null) {
       $result.email = email;
     }
     return $result;
   }
-  RegisterRequest._() : super();
-  factory RegisterRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory RegisterRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  LinkUserRequest._() : super();
+  factory LinkUserRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory LinkUserRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'RegisterRequest', createEmptyInstance: create)
-    ..aOS(1, _omitFieldNames ? '' : 'email')
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'LinkUserRequest', createEmptyInstance: create)
+    ..aOS(1, _omitFieldNames ? '' : 'uniqueDeviceId', protoName: 'uniqueDeviceId')
+    ..aOS(2, _omitFieldNames ? '' : 'email')
     ..hasRequiredFields = false
   ;
 
@@ -36,40 +141,49 @@ class RegisterRequest extends $pb.GeneratedMessage {
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
   'Will be removed in next major version')
-  RegisterRequest clone() => RegisterRequest()..mergeFromMessage(this);
+  LinkUserRequest clone() => LinkUserRequest()..mergeFromMessage(this);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  RegisterRequest copyWith(void Function(RegisterRequest) updates) => super.copyWith((message) => updates(message as RegisterRequest)) as RegisterRequest;
+  LinkUserRequest copyWith(void Function(LinkUserRequest) updates) => super.copyWith((message) => updates(message as LinkUserRequest)) as LinkUserRequest;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static RegisterRequest create() => RegisterRequest._();
-  RegisterRequest createEmptyInstance() => create();
-  static $pb.PbList<RegisterRequest> createRepeated() => $pb.PbList<RegisterRequest>();
+  static LinkUserRequest create() => LinkUserRequest._();
+  LinkUserRequest createEmptyInstance() => create();
+  static $pb.PbList<LinkUserRequest> createRepeated() => $pb.PbList<LinkUserRequest>();
   @$core.pragma('dart2js:noInline')
-  static RegisterRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<RegisterRequest>(create);
-  static RegisterRequest? _defaultInstance;
+  static LinkUserRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<LinkUserRequest>(create);
+  static LinkUserRequest? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.String get email => $_getSZ(0);
+  $core.String get uniqueDeviceId => $_getSZ(0);
   @$pb.TagNumber(1)
-  set email($core.String v) { $_setString(0, v); }
+  set uniqueDeviceId($core.String v) { $_setString(0, v); }
   @$pb.TagNumber(1)
-  $core.bool hasEmail() => $_has(0);
+  $core.bool hasUniqueDeviceId() => $_has(0);
   @$pb.TagNumber(1)
-  void clearEmail() => clearField(1);
+  void clearUniqueDeviceId() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.String get email => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set email($core.String v) { $_setString(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasEmail() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearEmail() => clearField(2);
 }
 
-class RegisterResponse extends $pb.GeneratedMessage {
-  factory RegisterResponse() => create();
-  RegisterResponse._() : super();
-  factory RegisterResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory RegisterResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+class LinkUserResponse extends $pb.GeneratedMessage {
+  factory LinkUserResponse() => create();
+  LinkUserResponse._() : super();
+  factory LinkUserResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory LinkUserResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'RegisterResponse', createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'LinkUserResponse', createEmptyInstance: create)
     ..hasRequiredFields = false
   ;
 
@@ -77,22 +191,22 @@ class RegisterResponse extends $pb.GeneratedMessage {
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
   'Will be removed in next major version')
-  RegisterResponse clone() => RegisterResponse()..mergeFromMessage(this);
+  LinkUserResponse clone() => LinkUserResponse()..mergeFromMessage(this);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  RegisterResponse copyWith(void Function(RegisterResponse) updates) => super.copyWith((message) => updates(message as RegisterResponse)) as RegisterResponse;
+  LinkUserResponse copyWith(void Function(LinkUserResponse) updates) => super.copyWith((message) => updates(message as LinkUserResponse)) as LinkUserResponse;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static RegisterResponse create() => RegisterResponse._();
-  RegisterResponse createEmptyInstance() => create();
-  static $pb.PbList<RegisterResponse> createRepeated() => $pb.PbList<RegisterResponse>();
+  static LinkUserResponse create() => LinkUserResponse._();
+  LinkUserResponse createEmptyInstance() => create();
+  static $pb.PbList<LinkUserResponse> createRepeated() => $pb.PbList<LinkUserResponse>();
   @$core.pragma('dart2js:noInline')
-  static RegisterResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<RegisterResponse>(create);
-  static RegisterResponse? _defaultInstance;
+  static LinkUserResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<LinkUserResponse>(create);
+  static LinkUserResponse? _defaultInstance;
 }
 
 

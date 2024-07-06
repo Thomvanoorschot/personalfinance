@@ -28,6 +28,7 @@ type Transaction struct {
 	ProprietaryBankTransactionCode *string
 	BalanceCurrency                *string
 	BalanceType                    *string
+	BalanceAfterTransaction        *float64
 	InternalTransactionID          *string
 	DebtorName                     *string
 	DebtorIban                     *string

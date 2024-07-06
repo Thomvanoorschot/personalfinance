@@ -224,14 +224,16 @@ var BankingService_ServiceDesc = grpc.ServiceDesc{
 }
 
 const (
-	UserService_Register_FullMethodName = "/UserService/Register"
+	UserService_RegisterUnverifiedUser_FullMethodName = "/UserService/RegisterUnverifiedUser"
+	UserService_LinkUser_FullMethodName               = "/UserService/LinkUser"
 )
 
 // UserServiceClient is the client API for UserService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type UserServiceClient interface {
-	Register(ctx context.Context, in *RegisterRequest, opts ...grpc.CallOption) (*RegisterResponse, error)
+	RegisterUnverifiedUser(ctx context.Context, in *RegisterUnverifiedUserRequest, opts ...grpc.CallOption) (*RegisterUnverifiedUserResponse, error)
+	LinkUser(ctx context.Context, in *LinkUserRequest, opts ...grpc.CallOption) (*LinkUserResponse, error)
 }
 
 type userServiceClient struct {
@@ -242,10 +244,20 @@ func NewUserServiceClient(cc grpc.ClientConnInterface) UserServiceClient {
 	return &userServiceClient{cc}
 }
 
-func (c *userServiceClient) Register(ctx context.Context, in *RegisterRequest, opts ...grpc.CallOption) (*RegisterResponse, error) {
+func (c *userServiceClient) RegisterUnverifiedUser(ctx context.Context, in *RegisterUnverifiedUserRequest, opts ...grpc.CallOption) (*RegisterUnverifiedUserResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(RegisterResponse)
-	err := c.cc.Invoke(ctx, UserService_Register_FullMethodName, in, out, cOpts...)
+	out := new(RegisterUnverifiedUserResponse)
+	err := c.cc.Invoke(ctx, UserService_RegisterUnverifiedUser_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) LinkUser(ctx context.Context, in *LinkUserRequest, opts ...grpc.CallOption) (*LinkUserResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(LinkUserResponse)
+	err := c.cc.Invoke(ctx, UserService_LinkUser_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -256,7 +268,8 @@ func (c *userServiceClient) Register(ctx context.Context, in *RegisterRequest, o
 // All implementations must embed UnimplementedUserServiceServer
 // for forward compatibility
 type UserServiceServer interface {
-	Register(context.Context, *RegisterRequest) (*RegisterResponse, error)
+	RegisterUnverifiedUser(context.Context, *RegisterUnverifiedUserRequest) (*RegisterUnverifiedUserResponse, error)
+	LinkUser(context.Context, *LinkUserRequest) (*LinkUserResponse, error)
 	mustEmbedUnimplementedUserServiceServer()
 }
 
@@ -264,8 +277,11 @@ type UserServiceServer interface {
 type UnimplementedUserServiceServer struct {
 }
 
-func (UnimplementedUserServiceServer) Register(context.Context, *RegisterRequest) (*RegisterResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Register not implemented")
+func (UnimplementedUserServiceServer) RegisterUnverifiedUser(context.Context, *RegisterUnverifiedUserRequest) (*RegisterUnverifiedUserResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RegisterUnverifiedUser not implemented")
+}
+func (UnimplementedUserServiceServer) LinkUser(context.Context, *LinkUserRequest) (*LinkUserResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method LinkUser not implemented")
 }
 func (UnimplementedUserServiceServer) mustEmbedUnimplementedUserServiceServer() {}
 
@@ -280,20 +296,38 @@ func RegisterUserServiceServer(s grpc.ServiceRegistrar, srv UserServiceServer) {
 	s.RegisterService(&UserService_ServiceDesc, srv)
 }
 
-func _UserService_Register_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(RegisterRequest)
+func _UserService_RegisterUnverifiedUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RegisterUnverifiedUserRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UserServiceServer).Register(ctx, in)
+		return srv.(UserServiceServer).RegisterUnverifiedUser(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: UserService_Register_FullMethodName,
+		FullMethod: UserService_RegisterUnverifiedUser_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).Register(ctx, req.(*RegisterRequest))
+		return srv.(UserServiceServer).RegisterUnverifiedUser(ctx, req.(*RegisterUnverifiedUserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_LinkUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(LinkUserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).LinkUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_LinkUser_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).LinkUser(ctx, req.(*LinkUserRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -306,8 +340,12 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*UserServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "Register",
-			Handler:    _UserService_Register_Handler,
+			MethodName: "RegisterUnverifiedUser",
+			Handler:    _UserService_RegisterUnverifiedUser_Handler,
+		},
+		{
+			MethodName: "LinkUser",
+			Handler:    _UserService_LinkUser_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

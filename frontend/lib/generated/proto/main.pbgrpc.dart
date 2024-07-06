@@ -120,10 +120,14 @@ abstract class BankingServiceBase extends $grpc.Service {
 }
 @$pb.GrpcServiceName('UserService')
 class UserServiceClient extends $grpc.Client {
-  static final _$register = $grpc.ClientMethod<$1.RegisterRequest, $1.RegisterResponse>(
-      '/UserService/Register',
-      ($1.RegisterRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $1.RegisterResponse.fromBuffer(value));
+  static final _$registerUnverifiedUser = $grpc.ClientMethod<$1.RegisterUnverifiedUserRequest, $1.RegisterUnverifiedUserResponse>(
+      '/UserService/RegisterUnverifiedUser',
+      ($1.RegisterUnverifiedUserRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $1.RegisterUnverifiedUserResponse.fromBuffer(value));
+  static final _$linkUser = $grpc.ClientMethod<$1.LinkUserRequest, $1.LinkUserResponse>(
+      '/UserService/LinkUser',
+      ($1.LinkUserRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $1.LinkUserResponse.fromBuffer(value));
 
   UserServiceClient($grpc.ClientChannel channel,
       {$grpc.CallOptions? options,
@@ -131,8 +135,12 @@ class UserServiceClient extends $grpc.Client {
       : super(channel, options: options,
         interceptors: interceptors);
 
-  $grpc.ResponseFuture<$1.RegisterResponse> register($1.RegisterRequest request, {$grpc.CallOptions? options}) {
-    return $createUnaryCall(_$register, request, options: options);
+  $grpc.ResponseFuture<$1.RegisterUnverifiedUserResponse> registerUnverifiedUser($1.RegisterUnverifiedUserRequest request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$registerUnverifiedUser, request, options: options);
+  }
+
+  $grpc.ResponseFuture<$1.LinkUserResponse> linkUser($1.LinkUserRequest request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$linkUser, request, options: options);
   }
 }
 
@@ -141,18 +149,30 @@ abstract class UserServiceBase extends $grpc.Service {
   $core.String get $name => 'UserService';
 
   UserServiceBase() {
-    $addMethod($grpc.ServiceMethod<$1.RegisterRequest, $1.RegisterResponse>(
-        'Register',
-        register_Pre,
+    $addMethod($grpc.ServiceMethod<$1.RegisterUnverifiedUserRequest, $1.RegisterUnverifiedUserResponse>(
+        'RegisterUnverifiedUser',
+        registerUnverifiedUser_Pre,
         false,
         false,
-        ($core.List<$core.int> value) => $1.RegisterRequest.fromBuffer(value),
-        ($1.RegisterResponse value) => value.writeToBuffer()));
+        ($core.List<$core.int> value) => $1.RegisterUnverifiedUserRequest.fromBuffer(value),
+        ($1.RegisterUnverifiedUserResponse value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$1.LinkUserRequest, $1.LinkUserResponse>(
+        'LinkUser',
+        linkUser_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $1.LinkUserRequest.fromBuffer(value),
+        ($1.LinkUserResponse value) => value.writeToBuffer()));
   }
 
-  $async.Future<$1.RegisterResponse> register_Pre($grpc.ServiceCall call, $async.Future<$1.RegisterRequest> request) async {
-    return register(call, await request);
+  $async.Future<$1.RegisterUnverifiedUserResponse> registerUnverifiedUser_Pre($grpc.ServiceCall call, $async.Future<$1.RegisterUnverifiedUserRequest> request) async {
+    return registerUnverifiedUser(call, await request);
   }
 
-  $async.Future<$1.RegisterResponse> register($grpc.ServiceCall call, $1.RegisterRequest request);
+  $async.Future<$1.LinkUserResponse> linkUser_Pre($grpc.ServiceCall call, $async.Future<$1.LinkUserRequest> request) async {
+    return linkUser(call, await request);
+  }
+
+  $async.Future<$1.RegisterUnverifiedUserResponse> registerUnverifiedUser($grpc.ServiceCall call, $1.RegisterUnverifiedUserRequest request);
+  $async.Future<$1.LinkUserResponse> linkUser($grpc.ServiceCall call, $1.LinkUserRequest request);
 }

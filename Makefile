@@ -1,5 +1,5 @@
 generate:
-	cd proto && buf generate && cd ..
+	cd proto && buf generate --include-imports --include-wkt && cd ..
 
 	jet -source=postgres -dsn="user=postgres password=Welkom01! host=localhost dbname=postgres sslmode=disable" -schema=public -path=./backend/generated/jet_gen
 #	rm -f -r ./backend/generated/proto && protoc \

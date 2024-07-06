@@ -4,9 +4,17 @@ import "buf/validate/validate.proto";
 
 option go_package = "personalfinance/generated/proto";
 
-message RegisterRequest {
-  string email = 1[(buf.validate.field).string.email = true];
+message RegisterUnverifiedUserRequest {
+  string uniqueDeviceId = 1;
 }
 
-message RegisterResponse {
+message RegisterUnverifiedUserResponse {
+  string userId = 1 [(buf.validate.field).string.uuid = true];
+}
+message LinkUserRequest {
+  string uniqueDeviceId = 1;
+  string email = 2 [(buf.validate.field).string.email = true];
+}
+
+message LinkUserResponse {
 }

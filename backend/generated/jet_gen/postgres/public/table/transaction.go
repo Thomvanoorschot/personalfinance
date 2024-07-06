@@ -32,6 +32,7 @@ type transactionTable struct {
 	ProprietaryBankTransactionCode postgres.ColumnString
 	BalanceCurrency                postgres.ColumnString
 	BalanceType                    postgres.ColumnString
+	BalanceAfterTransaction        postgres.ColumnFloat
 	InternalTransactionID          postgres.ColumnString
 	DebtorName                     postgres.ColumnString
 	DebtorIban                     postgres.ColumnString
@@ -93,14 +94,15 @@ func newTransactionTableImpl(schemaName, tableName, alias string) transactionTab
 		ProprietaryBankTransactionCodeColumn = postgres.StringColumn("proprietary_bank_transaction_code")
 		BalanceCurrencyColumn                = postgres.StringColumn("balance_currency")
 		BalanceTypeColumn                    = postgres.StringColumn("balance_type")
+		BalanceAfterTransactionColumn        = postgres.FloatColumn("balance_after_transaction")
 		InternalTransactionIDColumn          = postgres.StringColumn("internal_transaction_id")
 		DebtorNameColumn                     = postgres.StringColumn("debtor_name")
 		DebtorIbanColumn                     = postgres.StringColumn("debtor_iban")
 		CreatedAtColumn                      = postgres.TimestampColumn("created_at")
 		UpdatedAtColumn                      = postgres.TimestampColumn("updated_at")
 		TransactionCategoryIDColumn          = postgres.StringColumn("transaction_category_id")
-		allColumns                           = postgres.ColumnList{IDColumn, AccountIDColumn, ExternalIDColumn, UserIDColumn, BookingDateColumn, ValueDateColumn, ValueDateTimeColumn, TransactionAmountColumn, CurrencyColumn, CreditorNameColumn, CreditorIbanColumn, RemittanceInformationColumn, ProprietaryBankTransactionCodeColumn, BalanceCurrencyColumn, BalanceTypeColumn, InternalTransactionIDColumn, DebtorNameColumn, DebtorIbanColumn, CreatedAtColumn, UpdatedAtColumn, TransactionCategoryIDColumn}
-		mutableColumns                       = postgres.ColumnList{AccountIDColumn, ExternalIDColumn, UserIDColumn, BookingDateColumn, ValueDateColumn, ValueDateTimeColumn, TransactionAmountColumn, CurrencyColumn, CreditorNameColumn, CreditorIbanColumn, RemittanceInformationColumn, ProprietaryBankTransactionCodeColumn, BalanceCurrencyColumn, BalanceTypeColumn, InternalTransactionIDColumn, DebtorNameColumn, DebtorIbanColumn, CreatedAtColumn, UpdatedAtColumn, TransactionCategoryIDColumn}
+		allColumns                           = postgres.ColumnList{IDColumn, AccountIDColumn, ExternalIDColumn, UserIDColumn, BookingDateColumn, ValueDateColumn, ValueDateTimeColumn, TransactionAmountColumn, CurrencyColumn, CreditorNameColumn, CreditorIbanColumn, RemittanceInformationColumn, ProprietaryBankTransactionCodeColumn, BalanceCurrencyColumn, BalanceTypeColumn, BalanceAfterTransactionColumn, InternalTransactionIDColumn, DebtorNameColumn, DebtorIbanColumn, CreatedAtColumn, UpdatedAtColumn, TransactionCategoryIDColumn}
+		mutableColumns                       = postgres.ColumnList{AccountIDColumn, ExternalIDColumn, UserIDColumn, BookingDateColumn, ValueDateColumn, ValueDateTimeColumn, TransactionAmountColumn, CurrencyColumn, CreditorNameColumn, CreditorIbanColumn, RemittanceInformationColumn, ProprietaryBankTransactionCodeColumn, BalanceCurrencyColumn, BalanceTypeColumn, BalanceAfterTransactionColumn, InternalTransactionIDColumn, DebtorNameColumn, DebtorIbanColumn, CreatedAtColumn, UpdatedAtColumn, TransactionCategoryIDColumn}
 	)
 
 	return transactionTable{
@@ -122,6 +124,7 @@ func newTransactionTableImpl(schemaName, tableName, alias string) transactionTab
 		ProprietaryBankTransactionCode: ProprietaryBankTransactionCodeColumn,
 		BalanceCurrency:                BalanceCurrencyColumn,
 		BalanceType:                    BalanceTypeColumn,
+		BalanceAfterTransaction:        BalanceAfterTransactionColumn,
 		InternalTransactionID:          InternalTransactionIDColumn,
 		DebtorName:                     DebtorNameColumn,
 		DebtorIban:                     DebtorIbanColumn,
