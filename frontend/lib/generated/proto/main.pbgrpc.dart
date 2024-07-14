@@ -34,6 +34,10 @@ class BankingServiceClient extends $grpc.Client {
       '/BankingService/GetTransactions',
       ($0.GetTransactionsRequest value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $0.GetTransactionsResponse.fromBuffer(value));
+  static final _$getBankAccounts = $grpc.ClientMethod<$0.GetBankAccountsRequest, $0.GetBankAccountsResponse>(
+      '/BankingService/GetBankAccounts',
+      ($0.GetBankAccountsRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.GetBankAccountsResponse.fromBuffer(value));
   static final _$handleRequisition = $grpc.ClientMethod<$0.HandleRequisitionRequest, $0.HandleRequisitionResponse>(
       '/BankingService/HandleRequisition',
       ($0.HandleRequisitionRequest value) => value.writeToBuffer(),
@@ -55,6 +59,10 @@ class BankingServiceClient extends $grpc.Client {
 
   $grpc.ResponseFuture<$0.GetTransactionsResponse> getTransactions($0.GetTransactionsRequest request, {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$getTransactions, request, options: options);
+  }
+
+  $grpc.ResponseFuture<$0.GetBankAccountsResponse> getBankAccounts($0.GetBankAccountsRequest request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$getBankAccounts, request, options: options);
   }
 
   $grpc.ResponseFuture<$0.HandleRequisitionResponse> handleRequisition($0.HandleRequisitionRequest request, {$grpc.CallOptions? options}) {
@@ -88,6 +96,13 @@ abstract class BankingServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $0.GetTransactionsRequest.fromBuffer(value),
         ($0.GetTransactionsResponse value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.GetBankAccountsRequest, $0.GetBankAccountsResponse>(
+        'GetBankAccounts',
+        getBankAccounts_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $0.GetBankAccountsRequest.fromBuffer(value),
+        ($0.GetBankAccountsResponse value) => value.writeToBuffer()));
     $addMethod($grpc.ServiceMethod<$0.HandleRequisitionRequest, $0.HandleRequisitionResponse>(
         'HandleRequisition',
         handleRequisition_Pre,
@@ -109,6 +124,10 @@ abstract class BankingServiceBase extends $grpc.Service {
     return getTransactions(call, await request);
   }
 
+  $async.Future<$0.GetBankAccountsResponse> getBankAccounts_Pre($grpc.ServiceCall call, $async.Future<$0.GetBankAccountsRequest> request) async {
+    return getBankAccounts(call, await request);
+  }
+
   $async.Future<$0.HandleRequisitionResponse> handleRequisition_Pre($grpc.ServiceCall call, $async.Future<$0.HandleRequisitionRequest> request) async {
     return handleRequisition(call, await request);
   }
@@ -116,6 +135,7 @@ abstract class BankingServiceBase extends $grpc.Service {
   $async.Future<$0.GetBanksResponse> getBanks($grpc.ServiceCall call, $0.GetBanksRequest request);
   $async.Future<$0.CreateRequisitionResponse> createRequisition($grpc.ServiceCall call, $0.CreateRequisitionRequest request);
   $async.Future<$0.GetTransactionsResponse> getTransactions($grpc.ServiceCall call, $0.GetTransactionsRequest request);
+  $async.Future<$0.GetBankAccountsResponse> getBankAccounts($grpc.ServiceCall call, $0.GetBankAccountsRequest request);
   $async.Future<$0.HandleRequisitionResponse> handleRequisition($grpc.ServiceCall call, $0.HandleRequisitionRequest request);
 }
 @$pb.GrpcServiceName('UserService')

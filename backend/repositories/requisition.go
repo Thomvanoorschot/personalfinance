@@ -56,10 +56,10 @@ func (r *Repository) GetRequisitionByReference(ctx context.Context, reference uu
 	return uuid.Nil, errors.New("record not found")
 }
 
-func (r *Repository) GetRequisitions(ctx context.Context, userID string) (resp []uuid.UUID, err error) {
+func (r *Repository) GetRequisitions(ctx context.Context, userID uuid.UUID) (resp []uuid.UUID, err error) {
 	sql, args := SELECT(Requisition.ID).
 		FROM(Requisition).
-		WHERE(Requisition.UserID.EQ(String(userID))).
+		WHERE(Requisition.UserID.EQ(UUID(userID))).
 		Sql()
 
 	rows, _ := r.conn().Query(ctx, sql, args...)

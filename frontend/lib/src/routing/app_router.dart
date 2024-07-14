@@ -1,8 +1,15 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:frontend/src/clients/banking_client.dart';
+import 'package:frontend/src/providers/user.dart';
 import 'package:frontend/src/routing/scaffold_with_nested_navigation.dart';
 import 'package:frontend/src/screens/home/home_screen.dart';
-import 'package:frontend/src/screens/statements/statements_screen.dart';
+import 'package:frontend/src/screens/transactions/transactions_screen.dart';
+import 'package:frontend/src/widgets/banking/banks_overview.dart';
+import 'package:frontend/src/widgets/banking/create_requisition.dart';
+import 'package:frontend/src/widgets/shared/modal_bottom_sheet_page.dart';
 import 'package:go_router/go_router.dart';
 
 enum AppRoute {
@@ -17,6 +24,26 @@ final _rootNavigatorKey = GlobalKey<NavigatorState>();
 final _homeNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'home');
 final _locationNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'location');
 
+// class MyNavigatorObserver extends NavigatorObserver {
+//   @override
+//   void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {
+//     print('did push route');
+//   }
+//
+//   @override
+//   void didPop(Route<dynamic> route, Route<dynamic>? previousRoute) {
+//     print('did pop route');
+//   }
+//   @override
+//   void didRemove(Route<dynamic> route, Route<dynamic>? previousRoute) {
+//     print('did remove route');
+//   }
+//   @override
+//   void didReplace({ Route<dynamic>? newRoute, Route<dynamic>? oldRoute }) {
+//     print('did replace route');
+//   }
+// }
+
 final goRouterProvider = Provider<GoRouter>(
   (ref) {
     return GoRouter(
@@ -29,7 +56,8 @@ final goRouterProvider = Provider<GoRouter>(
         StatefulShellRoute.indexedStack(
           builder: (context, state, navigationShell) {
             return ScaffoldWithNestedNavigation(
-                navigationShell: navigationShell);
+              navigationShell: navigationShell,
+            );
           },
           branches: [
             StatefulShellBranch(
@@ -50,35 +78,41 @@ final goRouterProvider = Provider<GoRouter>(
               navigatorKey: _locationNavigatorKey,
               routes: [
                 GoRoute(
-                  path: '/locations',
+                  path: '/transactions',
                   name: AppRoute.locationOverview.name,
                   pageBuilder: (context, state) => NoTransitionPage(
                     key: state.pageKey,
-                    child: const StatementsScreen(),
+                    child: const TransactionsScreen(),
                   ),
                   routes: [
                     GoRoute(
-                      path: ':id',
+                      path: 'getBanks',
                       name: AppRoute.locationDetail.name,
-                      pageBuilder: (context, state) {
-                        final id = state.pathParameters['id'] as String;
-                        return MaterialPage(
-                          key: state.pageKey,
-                          // child: LocationDetailScreen(id: id),
-                          child: HomeScreen(),
-                        );
-                      },
+                      pageBuilder: (context, state) =>
+                          const ModalBottomSheetPage(
+                        child: BanksOverview(),
+                      ),
+                      routes: [
+                        GoRoute(
+                          path: 'createRequisition/:bankId',
+                          name: AppRoute.locationCreate.name,
+                          pageBuilder: (context, state) {
+                            final bankId =
+                                state.pathParameters['bankId'] as String;
+
+                            return ModalBottomSheetPage(
+                              child: CreateRequisition(
+                                bankId: bankId,
+                              ),
+                            );
+                          },
+                          onExit: (context, state) {
+                            ref.invalidate(getTransactionsProvider);
+                            return true;
+                          },
+                        ),
+                      ],
                     ),
-                    GoRoute(
-                      path: 'create',
-                      name: AppRoute.locationCreate.name,
-                      pageBuilder: (context, state) {
-                        return MaterialPage(
-                          key: state.pageKey,
-                          child: const HomeScreen(),
-                        );
-                      },
-                    )
                   ],
                 ),
               ],

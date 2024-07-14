@@ -53,3 +53,16 @@ message HandleRequisitionRequest {
   string requisitionReference = 1;
 }
 message HandleRequisitionResponse {}
+
+message GetBankAccountsRequest {
+  string requisitionReference = 1;
+}
+message GetBankAccountsResponse {
+  repeated BankAccountResponse accounts = 1;
+}
+message BankAccountResponse {
+  string id = 1;
+  string iban = 2;
+  string bankName = 3;
+  string iconURL =4 ;
+}

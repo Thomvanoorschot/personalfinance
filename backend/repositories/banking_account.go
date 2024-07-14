@@ -8,6 +8,7 @@ import (
 	"personalfinance/services/banking"
 
 	. "github.com/go-jet/jet/v2/postgres"
+	"github.com/google/uuid"
 )
 
 func (r *Repository) UpsertBankingAccount(ctx context.Context, m model.Account) error {
@@ -24,10 +25,10 @@ func (r *Repository) UpsertBankingAccount(ctx context.Context, m model.Account) 
 	}
 	return nil
 }
-func (r *Repository) GetAccounts(ctx context.Context, userID string) (resp []banking.BankAccount, err error) {
-	sql, args := SELECT(Account.ID).
-		FROM(Account).
-		WHERE(Account.UserID.EQ(String(userID))).
+func (r *Repository) GetAccounts(ctx context.Context, userID uuid.UUID) (resp []banking.BankAccount, err error) {
+	sql, args := SELECT(Account.ID, Account.Iban, Institution.Name, Institution.IconURL).
+		FROM(Account.INNER_JOIN(Institution, Institution.ID.EQ(Account.InstitutionID))).
+		WHERE(Account.UserID.EQ(UUID(userID))).
 		Sql()
 
 	rows, _ := r.conn().Query(ctx, sql, args...)
@@ -37,6 +38,8 @@ func (r *Repository) GetAccounts(ctx context.Context, userID string) (resp []ban
 		err = rows.Scan(
 			&bankAccount.ID,
 			&bankAccount.IBAN,
+			&bankAccount.BankName,
+			&bankAccount.IconURL,
 		)
 		if err != nil {
 			return resp, err

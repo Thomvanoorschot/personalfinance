@@ -11,6 +11,7 @@ package table
 // this method only once at the beginning of the program.
 func UseSchema(schema string) {
 	Account = Account.FromSchema(schema)
+	Institution = Institution.FromSchema(schema)
 	Requisition = Requisition.FromSchema(schema)
 	Transaction = Transaction.FromSchema(schema)
 	TransactionCategory = TransactionCategory.FromSchema(schema)

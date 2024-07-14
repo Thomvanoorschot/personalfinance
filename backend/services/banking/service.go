@@ -15,16 +15,16 @@ import (
 )
 
 const (
-	userID          = "dc25d8fb-7eb7-4e2d-a2da-3d9489a1bdec"
-	tempRedirectURL = "https://google.com"
+	userID          = "c1900cc8-0265-4060-9b24-4e14f62048fb"
+	tempRedirectURL = "personalfinance://personalfinance/transactions"
 )
 
 type Repository interface {
 	BankingTx(ctx context.Context, fn func(Repository) error) (err error)
 
 	UpsertRequisition(ctx context.Context, m model.Requisition) error
-	GetAccounts(ctx context.Context, userID string) (resp []BankAccount, err error)
-	GetRequisitions(ctx context.Context, userID string) (resp []uuid.UUID, err error)
+	GetAccounts(ctx context.Context, userID uuid.UUID) (resp []BankAccount, err error)
+	GetRequisitions(ctx context.Context, userID uuid.UUID) (resp []uuid.UUID, err error)
 	GetRequisitionByReference(ctx context.Context, reference uuid.UUID) (resp uuid.UUID, err error)
 	UpdateRequisitionStatus(ctx context.Context, requisitionID uuid.UUID, status gocardless.RequisitionStatus) error
 	UpsertBankingAccount(ctx context.Context, m model.Account) error
@@ -32,6 +32,9 @@ type Repository interface {
 	SetTransactionCategory(ctx context.Context, transactionID uuid.UUID, categoryID uuid.UUID) error
 	RemoveTransactionCategory(ctx context.Context, transactionID uuid.UUID) error
 	GetTransactions(ctx context.Context, userID uuid.UUID, limit, offset int64) (resp []model.Transaction, err error)
+	GetInstitutionsByCountryCode(ctx context.Context, countryCode string) (resp []model.Institution, err error)
+	GetInstitutionByID(ctx context.Context, institutionID string) (resp model.Institution, err error)
+	UpsertInstitutions(ctx context.Context, m []model.Institution) error
 }
 
 type Service struct {
@@ -64,12 +67,23 @@ func (s *Service) GetBanks(ctx context.Context, req *proto.GetBanksRequest) (*pr
 	defer s.institutionCacheMx.Unlock()
 
 	resp := &proto.GetBanksResponse{}
+	var toBeStoredInstitutions []model.Institution
 	for _, institution := range institutions {
 		resp.Banks = append(resp.Banks, &proto.BankResponse{
 			Id:      institution.Id,
 			Name:    institution.Name,
 			IconURL: institution.Logo,
 		})
+		toBeStoredInstitutions = append(toBeStoredInstitutions, model.Institution{
+			ID:          institution.Id,
+			Name:        institution.Name,
+			IconURL:     institution.Logo,
+			CountryCode: req.CountryCode,
+		})
+	}
+	err = s.repo.UpsertInstitutions(ctx, toBeStoredInstitutions)
+	if err != nil {
+		return nil, err
 	}
 	s.cachedInstitutions[req.CountryCode] = resp
 	return resp, nil
@@ -105,6 +119,7 @@ func (s *Service) HandleRequisition(ctx context.Context, req *proto.HandleRequis
 	if requisition.Status != gocardless.RequisitionStatusLinked {
 		return "", errors.New("requisition wasn't correctly linked to bank account")
 	}
+
 	var accounts []model.Account
 	var transactions []model.Transaction
 	for _, accountID := range requisition.Accounts {
@@ -113,9 +128,10 @@ func (s *Service) HandleRequisition(ctx context.Context, req *proto.HandleRequis
 			return "", err
 		}
 		accounts = append(accounts, model.Account{
-			ID:     account.Id,
-			UserID: uuid.MustParse(userID),
-			Iban:   account.Iban,
+			ID:            account.Id,
+			UserID:        uuid.MustParse(userID),
+			Iban:          account.Iban,
+			InstitutionID: requisition.InstitutionId,
 		})
 
 		txs, err := s.gcls.GetTransactions(accountID)
@@ -181,7 +197,7 @@ func (s *Service) HandleRequisition(ctx context.Context, req *proto.HandleRequis
 	return tempRedirectURL, nil
 }
 func (s *Service) GetTransactions(ctx context.Context, req *proto.GetTransactionsRequest) (*proto.GetTransactionsResponse, error) {
-	txs, err := s.repo.GetTransactions(ctx, uuid.MustParse(req.UserId), req.Limit, req.Offset)
+	txs, err := s.repo.GetTransactions(ctx, uuid.MustParse(userID), req.Limit, req.Offset)
 	if err != nil {
 		return nil, err
 	}
@@ -191,6 +207,20 @@ func (s *Service) GetTransactions(ctx context.Context, req *proto.GetTransaction
 	}
 	resp := &proto.GetTransactionsResponse{
 		Transactions: txsResponse,
+	}
+	return resp, nil
+}
+func (s *Service) GetBankAccounts(ctx context.Context, req *proto.GetBankAccountsRequest) (*proto.GetBankAccountsResponse, error) {
+	accounts, err := s.repo.GetAccounts(ctx, uuid.MustParse(userID))
+	if err != nil {
+		return nil, err
+	}
+	var accountsResponse []*proto.BankAccountResponse
+	for _, account := range accounts {
+		accountsResponse = append(accountsResponse, account.ConvertToResponse())
+	}
+	resp := &proto.GetBankAccountsResponse{
+		Accounts: accountsResponse,
 	}
 	return resp, nil
 }

@@ -1,6 +1,5 @@
 import 'package:frontend/generated/proto/main.pbgrpc.dart';
 import 'package:grpc/grpc.dart';
-import 'package:grpc/grpc_connection_interface.dart';
 import 'package:grpc/grpc_or_grpcweb.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 

@@ -17,11 +17,12 @@ type accountTable struct {
 	postgres.Table
 
 	// Columns
-	ID        postgres.ColumnString
-	UserID    postgres.ColumnString
-	Iban      postgres.ColumnString
-	CreatedAt postgres.ColumnTimestamp
-	UpdatedAt postgres.ColumnTimestamp
+	ID            postgres.ColumnString
+	UserID        postgres.ColumnString
+	Iban          postgres.ColumnString
+	InstitutionID postgres.ColumnString
+	CreatedAt     postgres.ColumnTimestamp
+	UpdatedAt     postgres.ColumnTimestamp
 
 	AllColumns     postgres.ColumnList
 	MutableColumns postgres.ColumnList
@@ -62,24 +63,26 @@ func newAccountTable(schemaName, tableName, alias string) *AccountTable {
 
 func newAccountTableImpl(schemaName, tableName, alias string) accountTable {
 	var (
-		IDColumn        = postgres.StringColumn("id")
-		UserIDColumn    = postgres.StringColumn("user_id")
-		IbanColumn      = postgres.StringColumn("iban")
-		CreatedAtColumn = postgres.TimestampColumn("created_at")
-		UpdatedAtColumn = postgres.TimestampColumn("updated_at")
-		allColumns      = postgres.ColumnList{IDColumn, UserIDColumn, IbanColumn, CreatedAtColumn, UpdatedAtColumn}
-		mutableColumns  = postgres.ColumnList{UserIDColumn, IbanColumn, CreatedAtColumn, UpdatedAtColumn}
+		IDColumn            = postgres.StringColumn("id")
+		UserIDColumn        = postgres.StringColumn("user_id")
+		IbanColumn          = postgres.StringColumn("iban")
+		InstitutionIDColumn = postgres.StringColumn("institution_id")
+		CreatedAtColumn     = postgres.TimestampColumn("created_at")
+		UpdatedAtColumn     = postgres.TimestampColumn("updated_at")
+		allColumns          = postgres.ColumnList{IDColumn, UserIDColumn, IbanColumn, InstitutionIDColumn, CreatedAtColumn, UpdatedAtColumn}
+		mutableColumns      = postgres.ColumnList{UserIDColumn, IbanColumn, InstitutionIDColumn, CreatedAtColumn, UpdatedAtColumn}
 	)
 
 	return accountTable{
 		Table: postgres.NewTable(schemaName, tableName, alias, allColumns...),
 
 		//Columns
-		ID:        IDColumn,
-		UserID:    UserIDColumn,
-		Iban:      IbanColumn,
-		CreatedAt: CreatedAtColumn,
-		UpdatedAt: UpdatedAtColumn,
+		ID:            IDColumn,
+		UserID:        UserIDColumn,
+		Iban:          IbanColumn,
+		InstitutionID: InstitutionIDColumn,
+		CreatedAt:     CreatedAtColumn,
+		UpdatedAt:     UpdatedAtColumn,
 
 		AllColumns:     allColumns,
 		MutableColumns: mutableColumns,

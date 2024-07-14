@@ -9,8 +9,19 @@ import (
 )
 
 type BankAccount struct {
-	ID   uuid.UUID
-	IBAN string
+	ID       uuid.UUID
+	IBAN     string
+	BankName string
+	IconURL  string
+}
+
+func (ba BankAccount) ConvertToResponse() *proto.BankAccountResponse {
+	return &proto.BankAccountResponse{
+		Id:       ba.ID.String(),
+		Iban:     ba.IBAN,
+		BankName: ba.BankName,
+		IconURL:  ba.IconURL,
+	}
 }
 
 func ConvertToTransactionResponse(t model.Transaction) *proto.TransactionResponse {

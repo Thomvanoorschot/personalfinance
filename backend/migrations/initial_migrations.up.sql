@@ -9,15 +9,28 @@ CREATE TABLE "user"
     updated_at           TIMESTAMP        DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE institution
+(
+    id           TEXT PRIMARY KEY,
+    name         TEXT NOT NULL,
+    icon_url     TEXT NOT NULL,
+    country_code TEXT NOT NULL,
+    created_at   TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at   TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+CREATE INDEX idx_institution_country_code ON institution (country_code);
+
 CREATE TABLE account
 (
-    id         UUID PRIMARY KEY,
-    user_id    UUID NOT NULL,
-    iban       TEXT NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    id             UUID PRIMARY KEY,
+    user_id        UUID NOT NULL,
+    iban           TEXT NOT NULL,
+    institution_id TEXT NOT NULL,
+    created_at     TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at     TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
-    FOREIGN KEY (user_id) REFERENCES "user" (id) ON DELETE CASCADE
+    FOREIGN KEY (user_id) REFERENCES "user" (id) ON DELETE CASCADE,
+    FOREIGN KEY (institution_id) REFERENCES "institution" (id) ON DELETE CASCADE
 );
 
 CREATE TABLE transaction_category
@@ -115,5 +128,11 @@ EXECUTE FUNCTION set_timestamps();
 CREATE TRIGGER set_timestamp_transaction_category
     BEFORE INSERT OR UPDATE
     ON transaction_category
+    FOR EACH ROW
+EXECUTE FUNCTION set_timestamps();
+
+CREATE TRIGGER set_timestamp_institution
+    BEFORE INSERT OR UPDATE
+    ON institution
     FOR EACH ROW
 EXECUTE FUNCTION set_timestamps();

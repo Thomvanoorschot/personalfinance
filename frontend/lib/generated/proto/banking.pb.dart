@@ -698,6 +698,192 @@ class HandleRequisitionResponse extends $pb.GeneratedMessage {
   static HandleRequisitionResponse? _defaultInstance;
 }
 
+class GetBankAccountsRequest extends $pb.GeneratedMessage {
+  factory GetBankAccountsRequest({
+    $core.String? requisitionReference,
+  }) {
+    final $result = create();
+    if (requisitionReference != null) {
+      $result.requisitionReference = requisitionReference;
+    }
+    return $result;
+  }
+  GetBankAccountsRequest._() : super();
+  factory GetBankAccountsRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory GetBankAccountsRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetBankAccountsRequest', createEmptyInstance: create)
+    ..aOS(1, _omitFieldNames ? '' : 'requisitionReference', protoName: 'requisitionReference')
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  GetBankAccountsRequest clone() => GetBankAccountsRequest()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  GetBankAccountsRequest copyWith(void Function(GetBankAccountsRequest) updates) => super.copyWith((message) => updates(message as GetBankAccountsRequest)) as GetBankAccountsRequest;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static GetBankAccountsRequest create() => GetBankAccountsRequest._();
+  GetBankAccountsRequest createEmptyInstance() => create();
+  static $pb.PbList<GetBankAccountsRequest> createRepeated() => $pb.PbList<GetBankAccountsRequest>();
+  @$core.pragma('dart2js:noInline')
+  static GetBankAccountsRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetBankAccountsRequest>(create);
+  static GetBankAccountsRequest? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get requisitionReference => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set requisitionReference($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasRequisitionReference() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearRequisitionReference() => clearField(1);
+}
+
+class GetBankAccountsResponse extends $pb.GeneratedMessage {
+  factory GetBankAccountsResponse({
+    $core.Iterable<BankAccountResponse>? accounts,
+  }) {
+    final $result = create();
+    if (accounts != null) {
+      $result.accounts.addAll(accounts);
+    }
+    return $result;
+  }
+  GetBankAccountsResponse._() : super();
+  factory GetBankAccountsResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory GetBankAccountsResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetBankAccountsResponse', createEmptyInstance: create)
+    ..pc<BankAccountResponse>(1, _omitFieldNames ? '' : 'accounts', $pb.PbFieldType.PM, subBuilder: BankAccountResponse.create)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  GetBankAccountsResponse clone() => GetBankAccountsResponse()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  GetBankAccountsResponse copyWith(void Function(GetBankAccountsResponse) updates) => super.copyWith((message) => updates(message as GetBankAccountsResponse)) as GetBankAccountsResponse;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static GetBankAccountsResponse create() => GetBankAccountsResponse._();
+  GetBankAccountsResponse createEmptyInstance() => create();
+  static $pb.PbList<GetBankAccountsResponse> createRepeated() => $pb.PbList<GetBankAccountsResponse>();
+  @$core.pragma('dart2js:noInline')
+  static GetBankAccountsResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetBankAccountsResponse>(create);
+  static GetBankAccountsResponse? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.List<BankAccountResponse> get accounts => $_getList(0);
+}
+
+class BankAccountResponse extends $pb.GeneratedMessage {
+  factory BankAccountResponse({
+    $core.String? id,
+    $core.String? iban,
+    $core.String? bankName,
+    $core.String? iconURL,
+  }) {
+    final $result = create();
+    if (id != null) {
+      $result.id = id;
+    }
+    if (iban != null) {
+      $result.iban = iban;
+    }
+    if (bankName != null) {
+      $result.bankName = bankName;
+    }
+    if (iconURL != null) {
+      $result.iconURL = iconURL;
+    }
+    return $result;
+  }
+  BankAccountResponse._() : super();
+  factory BankAccountResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory BankAccountResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'BankAccountResponse', createEmptyInstance: create)
+    ..aOS(1, _omitFieldNames ? '' : 'id')
+    ..aOS(2, _omitFieldNames ? '' : 'iban')
+    ..aOS(3, _omitFieldNames ? '' : 'bankName', protoName: 'bankName')
+    ..aOS(4, _omitFieldNames ? '' : 'iconURL', protoName: 'iconURL')
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  BankAccountResponse clone() => BankAccountResponse()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  BankAccountResponse copyWith(void Function(BankAccountResponse) updates) => super.copyWith((message) => updates(message as BankAccountResponse)) as BankAccountResponse;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static BankAccountResponse create() => BankAccountResponse._();
+  BankAccountResponse createEmptyInstance() => create();
+  static $pb.PbList<BankAccountResponse> createRepeated() => $pb.PbList<BankAccountResponse>();
+  @$core.pragma('dart2js:noInline')
+  static BankAccountResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<BankAccountResponse>(create);
+  static BankAccountResponse? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get id => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set id($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearId() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.String get iban => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set iban($core.String v) { $_setString(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasIban() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearIban() => clearField(2);
+
+  @$pb.TagNumber(3)
+  $core.String get bankName => $_getSZ(2);
+  @$pb.TagNumber(3)
+  set bankName($core.String v) { $_setString(2, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasBankName() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearBankName() => clearField(3);
+
+  @$pb.TagNumber(4)
+  $core.String get iconURL => $_getSZ(3);
+  @$pb.TagNumber(4)
+  set iconURL($core.String v) { $_setString(3, v); }
+  @$pb.TagNumber(4)
+  $core.bool hasIconURL() => $_has(3);
+  @$pb.TagNumber(4)
+  void clearIconURL() => clearField(4);
+}
+
 
 const _omitFieldNames = $core.bool.fromEnvironment('protobuf.omit_field_names');
 const _omitMessageNames = $core.bool.fromEnvironment('protobuf.omit_message_names');

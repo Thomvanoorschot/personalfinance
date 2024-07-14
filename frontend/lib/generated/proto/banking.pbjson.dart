@@ -160,3 +160,45 @@ const HandleRequisitionResponse$json = {
 final $typed_data.Uint8List handleRequisitionResponseDescriptor = $convert.base64Decode(
     'ChlIYW5kbGVSZXF1aXNpdGlvblJlc3BvbnNl');
 
+@$core.Deprecated('Use getBankAccountsRequestDescriptor instead')
+const GetBankAccountsRequest$json = {
+  '1': 'GetBankAccountsRequest',
+  '2': [
+    {'1': 'requisitionReference', '3': 1, '4': 1, '5': 9, '10': 'requisitionReference'},
+  ],
+};
+
+/// Descriptor for `GetBankAccountsRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getBankAccountsRequestDescriptor = $convert.base64Decode(
+    'ChZHZXRCYW5rQWNjb3VudHNSZXF1ZXN0EjIKFHJlcXVpc2l0aW9uUmVmZXJlbmNlGAEgASgJUh'
+    'RyZXF1aXNpdGlvblJlZmVyZW5jZQ==');
+
+@$core.Deprecated('Use getBankAccountsResponseDescriptor instead')
+const GetBankAccountsResponse$json = {
+  '1': 'GetBankAccountsResponse',
+  '2': [
+    {'1': 'accounts', '3': 1, '4': 3, '5': 11, '6': '.BankAccountResponse', '10': 'accounts'},
+  ],
+};
+
+/// Descriptor for `GetBankAccountsResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getBankAccountsResponseDescriptor = $convert.base64Decode(
+    'ChdHZXRCYW5rQWNjb3VudHNSZXNwb25zZRIwCghhY2NvdW50cxgBIAMoCzIULkJhbmtBY2NvdW'
+    '50UmVzcG9uc2VSCGFjY291bnRz');
+
+@$core.Deprecated('Use bankAccountResponseDescriptor instead')
+const BankAccountResponse$json = {
+  '1': 'BankAccountResponse',
+  '2': [
+    {'1': 'id', '3': 1, '4': 1, '5': 9, '10': 'id'},
+    {'1': 'iban', '3': 2, '4': 1, '5': 9, '10': 'iban'},
+    {'1': 'bankName', '3': 3, '4': 1, '5': 9, '10': 'bankName'},
+    {'1': 'iconURL', '3': 4, '4': 1, '5': 9, '10': 'iconURL'},
+  ],
+};
+
+/// Descriptor for `BankAccountResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List bankAccountResponseDescriptor = $convert.base64Decode(
+    'ChNCYW5rQWNjb3VudFJlc3BvbnNlEg4KAmlkGAEgASgJUgJpZBISCgRpYmFuGAIgASgJUgRpYm'
+    'FuEhoKCGJhbmtOYW1lGAMgASgJUghiYW5rTmFtZRIYCgdpY29uVVJMGAQgASgJUgdpY29uVVJM');
+

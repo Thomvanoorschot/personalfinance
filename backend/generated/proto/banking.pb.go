@@ -603,6 +603,171 @@ func (*HandleRequisitionResponse) Descriptor() ([]byte, []int) {
 	return file_banking_proto_rawDescGZIP(), []int{9}
 }
 
+type GetBankAccountsRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	RequisitionReference string `protobuf:"bytes,1,opt,name=requisitionReference,proto3" json:"requisitionReference,omitempty"`
+}
+
+func (x *GetBankAccountsRequest) Reset() {
+	*x = GetBankAccountsRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_banking_proto_msgTypes[10]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetBankAccountsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetBankAccountsRequest) ProtoMessage() {}
+
+func (x *GetBankAccountsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_banking_proto_msgTypes[10]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetBankAccountsRequest.ProtoReflect.Descriptor instead.
+func (*GetBankAccountsRequest) Descriptor() ([]byte, []int) {
+	return file_banking_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *GetBankAccountsRequest) GetRequisitionReference() string {
+	if x != nil {
+		return x.RequisitionReference
+	}
+	return ""
+}
+
+type GetBankAccountsResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Accounts []*BankAccountResponse `protobuf:"bytes,1,rep,name=accounts,proto3" json:"accounts,omitempty"`
+}
+
+func (x *GetBankAccountsResponse) Reset() {
+	*x = GetBankAccountsResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_banking_proto_msgTypes[11]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetBankAccountsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetBankAccountsResponse) ProtoMessage() {}
+
+func (x *GetBankAccountsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_banking_proto_msgTypes[11]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetBankAccountsResponse.ProtoReflect.Descriptor instead.
+func (*GetBankAccountsResponse) Descriptor() ([]byte, []int) {
+	return file_banking_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *GetBankAccountsResponse) GetAccounts() []*BankAccountResponse {
+	if x != nil {
+		return x.Accounts
+	}
+	return nil
+}
+
+type BankAccountResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Id       string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Iban     string `protobuf:"bytes,2,opt,name=iban,proto3" json:"iban,omitempty"`
+	BankName string `protobuf:"bytes,3,opt,name=bankName,proto3" json:"bankName,omitempty"`
+	IconURL  string `protobuf:"bytes,4,opt,name=iconURL,proto3" json:"iconURL,omitempty"`
+}
+
+func (x *BankAccountResponse) Reset() {
+	*x = BankAccountResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_banking_proto_msgTypes[12]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *BankAccountResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*BankAccountResponse) ProtoMessage() {}
+
+func (x *BankAccountResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_banking_proto_msgTypes[12]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use BankAccountResponse.ProtoReflect.Descriptor instead.
+func (*BankAccountResponse) Descriptor() ([]byte, []int) {
+	return file_banking_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *BankAccountResponse) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *BankAccountResponse) GetIban() string {
+	if x != nil {
+		return x.Iban
+	}
+	return ""
+}
+
+func (x *BankAccountResponse) GetBankName() string {
+	if x != nil {
+		return x.BankName
+	}
+	return ""
+}
+
+func (x *BankAccountResponse) GetIconURL() string {
+	if x != nil {
+		return x.IconURL
+	}
+	return ""
+}
+
 var File_banking_proto protoreflect.FileDescriptor
 
 var file_banking_proto_rawDesc = []byte{
@@ -681,10 +846,27 @@ var file_banking_proto_rawDesc = []byte{
 	0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x14, 0x72, 0x65, 0x71, 0x75, 0x69, 0x73, 0x69,
 	0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x66, 0x65, 0x72, 0x65, 0x6e, 0x63, 0x65, 0x22, 0x1b, 0x0a,
 	0x19, 0x48, 0x61, 0x6e, 0x64, 0x6c, 0x65, 0x52, 0x65, 0x71, 0x75, 0x69, 0x73, 0x69, 0x74, 0x69,
-	0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x42, 0x21, 0x5a, 0x1f, 0x70, 0x65,
-	0x72, 0x73, 0x6f, 0x6e, 0x61, 0x6c, 0x66, 0x69, 0x6e, 0x61, 0x6e, 0x63, 0x65, 0x2f, 0x67, 0x65,
-	0x6e, 0x65, 0x72, 0x61, 0x74, 0x65, 0x64, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x06, 0x70,
-	0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x4c, 0x0a, 0x16, 0x47, 0x65,
+	0x74, 0x42, 0x61, 0x6e, 0x6b, 0x41, 0x63, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x73, 0x52, 0x65, 0x71,
+	0x75, 0x65, 0x73, 0x74, 0x12, 0x32, 0x0a, 0x14, 0x72, 0x65, 0x71, 0x75, 0x69, 0x73, 0x69, 0x74,
+	0x69, 0x6f, 0x6e, 0x52, 0x65, 0x66, 0x65, 0x72, 0x65, 0x6e, 0x63, 0x65, 0x18, 0x01, 0x20, 0x01,
+	0x28, 0x09, 0x52, 0x14, 0x72, 0x65, 0x71, 0x75, 0x69, 0x73, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x52,
+	0x65, 0x66, 0x65, 0x72, 0x65, 0x6e, 0x63, 0x65, 0x22, 0x4b, 0x0a, 0x17, 0x47, 0x65, 0x74, 0x42,
+	0x61, 0x6e, 0x6b, 0x41, 0x63, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f,
+	0x6e, 0x73, 0x65, 0x12, 0x30, 0x0a, 0x08, 0x61, 0x63, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x73, 0x18,
+	0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x14, 0x2e, 0x42, 0x61, 0x6e, 0x6b, 0x41, 0x63, 0x63, 0x6f,
+	0x75, 0x6e, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x52, 0x08, 0x61, 0x63, 0x63,
+	0x6f, 0x75, 0x6e, 0x74, 0x73, 0x22, 0x6f, 0x0a, 0x13, 0x42, 0x61, 0x6e, 0x6b, 0x41, 0x63, 0x63,
+	0x6f, 0x75, 0x6e, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x0e, 0x0a, 0x02,
+	0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x69, 0x64, 0x12, 0x12, 0x0a, 0x04,
+	0x69, 0x62, 0x61, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x69, 0x62, 0x61, 0x6e,
+	0x12, 0x1a, 0x0a, 0x08, 0x62, 0x61, 0x6e, 0x6b, 0x4e, 0x61, 0x6d, 0x65, 0x18, 0x03, 0x20, 0x01,
+	0x28, 0x09, 0x52, 0x08, 0x62, 0x61, 0x6e, 0x6b, 0x4e, 0x61, 0x6d, 0x65, 0x12, 0x18, 0x0a, 0x07,
+	0x69, 0x63, 0x6f, 0x6e, 0x55, 0x52, 0x4c, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x69,
+	0x63, 0x6f, 0x6e, 0x55, 0x52, 0x4c, 0x42, 0x21, 0x5a, 0x1f, 0x70, 0x65, 0x72, 0x73, 0x6f, 0x6e,
+	0x61, 0x6c, 0x66, 0x69, 0x6e, 0x61, 0x6e, 0x63, 0x65, 0x2f, 0x67, 0x65, 0x6e, 0x65, 0x72, 0x61,
+	0x74, 0x65, 0x64, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f,
+	0x33,
 }
 
 var (
@@ -699,7 +881,7 @@ func file_banking_proto_rawDescGZIP() []byte {
 	return file_banking_proto_rawDescData
 }
 
-var file_banking_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
+var file_banking_proto_msgTypes = make([]protoimpl.MessageInfo, 13)
 var file_banking_proto_goTypes = []any{
 	(*GetBanksRequest)(nil),           // 0: GetBanksRequest
 	(*GetBanksResponse)(nil),          // 1: GetBanksResponse
@@ -711,17 +893,21 @@ var file_banking_proto_goTypes = []any{
 	(*TransactionResponse)(nil),       // 7: TransactionResponse
 	(*HandleRequisitionRequest)(nil),  // 8: HandleRequisitionRequest
 	(*HandleRequisitionResponse)(nil), // 9: HandleRequisitionResponse
-	(*timestamppb.Timestamp)(nil),     // 10: google.protobuf.Timestamp
+	(*GetBankAccountsRequest)(nil),    // 10: GetBankAccountsRequest
+	(*GetBankAccountsResponse)(nil),   // 11: GetBankAccountsResponse
+	(*BankAccountResponse)(nil),       // 12: BankAccountResponse
+	(*timestamppb.Timestamp)(nil),     // 13: google.protobuf.Timestamp
 }
 var file_banking_proto_depIdxs = []int32{
 	2,  // 0: GetBanksResponse.banks:type_name -> BankResponse
 	7,  // 1: GetTransactionsResponse.transactions:type_name -> TransactionResponse
-	10, // 2: TransactionResponse.bookingDate:type_name -> google.protobuf.Timestamp
-	3,  // [3:3] is the sub-list for method output_type
-	3,  // [3:3] is the sub-list for method input_type
-	3,  // [3:3] is the sub-list for extension type_name
-	3,  // [3:3] is the sub-list for extension extendee
-	0,  // [0:3] is the sub-list for field type_name
+	13, // 2: TransactionResponse.bookingDate:type_name -> google.protobuf.Timestamp
+	12, // 3: GetBankAccountsResponse.accounts:type_name -> BankAccountResponse
+	4,  // [4:4] is the sub-list for method output_type
+	4,  // [4:4] is the sub-list for method input_type
+	4,  // [4:4] is the sub-list for extension type_name
+	4,  // [4:4] is the sub-list for extension extendee
+	0,  // [0:4] is the sub-list for field type_name
 }
 
 func init() { file_banking_proto_init() }
@@ -850,6 +1036,42 @@ func file_banking_proto_init() {
 				return nil
 			}
 		}
+		file_banking_proto_msgTypes[10].Exporter = func(v any, i int) any {
+			switch v := v.(*GetBankAccountsRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_banking_proto_msgTypes[11].Exporter = func(v any, i int) any {
+			switch v := v.(*GetBankAccountsResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_banking_proto_msgTypes[12].Exporter = func(v any, i int) any {
+			switch v := v.(*BankAccountResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -857,7 +1079,7 @@ func file_banking_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_banking_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   10,
+			NumMessages:   13,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

@@ -2,7 +2,6 @@ package api
 
 import (
 	"context"
-	"fmt"
 
 	"personalfinance/generated/proto"
 
@@ -15,6 +14,7 @@ type BankingService interface {
 	CreateRequisition(ctx context.Context, req *proto.CreateRequisitionRequest) (*proto.CreateRequisitionResponse, error)
 	HandleRequisition(ctx context.Context, req *proto.HandleRequisitionRequest) (string, error)
 	GetTransactions(ctx context.Context, req *proto.GetTransactionsRequest) (*proto.GetTransactionsResponse, error)
+	GetBankAccounts(ctx context.Context, req *proto.GetBankAccountsRequest) (*proto.GetBankAccountsResponse, error)
 }
 
 type BankingHandler struct {
@@ -52,7 +52,17 @@ func (h *BankingHandler) GetTransactions(
 	req *proto.GetTransactionsRequest,
 ) (*proto.GetTransactionsResponse, error) {
 	resp, err := h.service.GetTransactions(ctx, req)
-	fmt.Printf("%d %d\n", req.Limit, req.Offset)
+	if err != nil {
+		return nil, err
+	}
+	return resp, nil
+}
+
+func (h *BankingHandler) GetBankAccounts(
+	ctx context.Context,
+	req *proto.GetBankAccountsRequest,
+) (*proto.GetBankAccountsResponse, error) {
+	resp, err := h.service.GetBankAccounts(ctx, req)
 	if err != nil {
 		return nil, err
 	}

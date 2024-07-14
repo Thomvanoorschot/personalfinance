@@ -22,6 +22,7 @@ const (
 	BankingService_GetBanks_FullMethodName          = "/BankingService/GetBanks"
 	BankingService_CreateRequisition_FullMethodName = "/BankingService/CreateRequisition"
 	BankingService_GetTransactions_FullMethodName   = "/BankingService/GetTransactions"
+	BankingService_GetBankAccounts_FullMethodName   = "/BankingService/GetBankAccounts"
 	BankingService_HandleRequisition_FullMethodName = "/BankingService/HandleRequisition"
 )
 
@@ -32,6 +33,7 @@ type BankingServiceClient interface {
 	GetBanks(ctx context.Context, in *GetBanksRequest, opts ...grpc.CallOption) (*GetBanksResponse, error)
 	CreateRequisition(ctx context.Context, in *CreateRequisitionRequest, opts ...grpc.CallOption) (*CreateRequisitionResponse, error)
 	GetTransactions(ctx context.Context, in *GetTransactionsRequest, opts ...grpc.CallOption) (*GetTransactionsResponse, error)
+	GetBankAccounts(ctx context.Context, in *GetBankAccountsRequest, opts ...grpc.CallOption) (*GetBankAccountsResponse, error)
 	HandleRequisition(ctx context.Context, in *HandleRequisitionRequest, opts ...grpc.CallOption) (*HandleRequisitionResponse, error)
 }
 
@@ -73,6 +75,16 @@ func (c *bankingServiceClient) GetTransactions(ctx context.Context, in *GetTrans
 	return out, nil
 }
 
+func (c *bankingServiceClient) GetBankAccounts(ctx context.Context, in *GetBankAccountsRequest, opts ...grpc.CallOption) (*GetBankAccountsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetBankAccountsResponse)
+	err := c.cc.Invoke(ctx, BankingService_GetBankAccounts_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *bankingServiceClient) HandleRequisition(ctx context.Context, in *HandleRequisitionRequest, opts ...grpc.CallOption) (*HandleRequisitionResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(HandleRequisitionResponse)
@@ -90,6 +102,7 @@ type BankingServiceServer interface {
 	GetBanks(context.Context, *GetBanksRequest) (*GetBanksResponse, error)
 	CreateRequisition(context.Context, *CreateRequisitionRequest) (*CreateRequisitionResponse, error)
 	GetTransactions(context.Context, *GetTransactionsRequest) (*GetTransactionsResponse, error)
+	GetBankAccounts(context.Context, *GetBankAccountsRequest) (*GetBankAccountsResponse, error)
 	HandleRequisition(context.Context, *HandleRequisitionRequest) (*HandleRequisitionResponse, error)
 	mustEmbedUnimplementedBankingServiceServer()
 }
@@ -106,6 +119,9 @@ func (UnimplementedBankingServiceServer) CreateRequisition(context.Context, *Cre
 }
 func (UnimplementedBankingServiceServer) GetTransactions(context.Context, *GetTransactionsRequest) (*GetTransactionsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetTransactions not implemented")
+}
+func (UnimplementedBankingServiceServer) GetBankAccounts(context.Context, *GetBankAccountsRequest) (*GetBankAccountsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetBankAccounts not implemented")
 }
 func (UnimplementedBankingServiceServer) HandleRequisition(context.Context, *HandleRequisitionRequest) (*HandleRequisitionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method HandleRequisition not implemented")
@@ -177,6 +193,24 @@ func _BankingService_GetTransactions_Handler(srv interface{}, ctx context.Contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _BankingService_GetBankAccounts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetBankAccountsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BankingServiceServer).GetBankAccounts(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: BankingService_GetBankAccounts_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BankingServiceServer).GetBankAccounts(ctx, req.(*GetBankAccountsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _BankingService_HandleRequisition_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(HandleRequisitionRequest)
 	if err := dec(in); err != nil {
@@ -213,6 +247,10 @@ var BankingService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetTransactions",
 			Handler:    _BankingService_GetTransactions_Handler,
+		},
+		{
+			MethodName: "GetBankAccounts",
+			Handler:    _BankingService_GetBankAccounts_Handler,
 		},
 		{
 			MethodName: "HandleRequisition",
