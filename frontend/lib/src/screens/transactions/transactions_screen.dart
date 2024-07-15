@@ -21,53 +21,55 @@ class TransactionsScreen extends ConsumerWidget {
         backgroundColor: Theme.of(context).colorScheme.surface,
         title: const Text("Transactions"),
       ),
-      body: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text("Bank accounts"),
-              TextButton(
-                style: TextButton.styleFrom(
-                  overlayColor: Colors.grey,
-                  textStyle: const TextStyle(fontWeight: FontWeight.bold),
-                ),
-                onPressed: () async {
-                  context.go("/transactions/getBanks");
-                  // await _showBanksModalSheet(context);
-                },
-                child: const Text(
-                  "ADD NEW +",
-                  style: TextStyle(
-                    color: Colors.grey,
+      body: RefreshIndicator(
+        onRefresh: () async {
+          ref.invalidate(getTransactionsProvider);
+          ref.invalidate(getBankAccountsProvider);
+        },
+        child: CustomScrollView(
+          slivers: [
+            SliverList(
+              delegate: SliverChildListDelegate(
+                [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text("Bank accounts"),
+                      TextButton(
+                        style: TextButton.styleFrom(
+                          overlayColor: Colors.grey,
+                          textStyle:
+                              const TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        onPressed: () async {
+                          context.go("/transactions/getBanks");
+                          // await _showBanksModalSheet(context);
+                        },
+                        child: const Text(
+                          "ADD NEW +",
+                          style: TextStyle(
+                            color: Colors.grey,
+                          ),
+                        ),
+                      )
+                    ],
                   ),
-                ),
-              )
-            ],
-          ),
-          const Flexible(
-            flex: 1,
-            child: Padding(
-              padding: EdgeInsets.all(8.0),
-              child: BankAccounts(),
+                ],
+              ),
             ),
-          ),
-          Flexible(
-            flex: 4,
-            child: RefreshIndicator(
-              onRefresh: () async {
-                ref.invalidate(getTransactionsProvider);
-                return ref.read(
-                  getTransactionsProvider(
-                    req: GetTransactionsRequest(
-                      limit: fixnum.Int64(_pageSize),
-                      offset: fixnum.Int64(0),
-                    ),
-                  ),
-                );
-              },
-              child: ListView.builder(
-                itemBuilder: (context, index) {
+            SliverToBoxAdapter(
+              child: SizedBox(
+                height: MediaQuery.sizeOf(context).height * 0.2,
+                // width: MediaQuery.sizeOf(context).width * 0.8,
+                child: const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: BankAccounts(),
+                ),
+              ),
+            ),
+            SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (context, index) {
                   final page = index ~/ _pageSize;
                   final indexInPage = index % _pageSize;
 
@@ -100,9 +102,9 @@ class TransactionsScreen extends ConsumerWidget {
                   );
                 },
               ),
-            ),
-          ),
-        ],
+            )
+          ],
+        ),
       ),
     );
   }

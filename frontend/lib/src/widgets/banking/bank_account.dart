@@ -28,7 +28,7 @@ class BankAccount extends StatelessWidget {
                 ),
                 Text(
                   bankAccount.iban,
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
                 PopupMenuButton(
                   itemBuilder: (BuildContext context) => <PopupMenuEntry<SampleItem>>[
@@ -50,7 +50,7 @@ class BankAccount extends StatelessWidget {
             ),
             Text(
               bankAccount.bankName,
-              style: TextStyle(fontWeight: FontWeight.bold),
+              style: const TextStyle(fontWeight: FontWeight.bold),
             )
           ],
         ),
