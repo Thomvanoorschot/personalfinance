@@ -29,19 +29,23 @@ func (r *Repository) GetInstitutionByID(ctx context.Context, institutionID strin
 		Institution.Name,
 		Institution.IconURL,
 		Institution.CountryCode,
+		Institution.MaxTransactionHistoryDays,
 	).
 		FROM(Institution).
 		WHERE(Institution.ID.EQ(String(institutionID))).
 		Sql()
 
-	rows, _ := r.conn().Query(ctx, sql, args...)
-
+	rows, err := r.conn().Query(ctx, sql, args...)
+	if err != nil {
+		return resp, err
+	}
 	for rows.Next() {
 		err = rows.Scan(
 			&resp.ID,
 			&resp.Name,
 			&resp.IconURL,
 			&resp.CountryCode,
+			&resp.MaxTransactionHistoryDays,
 		)
 		return resp, err
 	}
@@ -58,8 +62,10 @@ func (r *Repository) GetInstitutionsByCountryCode(ctx context.Context, countryCo
 		WHERE(Institution.CountryCode.EQ(String(countryCode))).
 		Sql()
 
-	rows, _ := r.conn().Query(ctx, sql, args...)
-
+	rows, err := r.conn().Query(ctx, sql, args...)
+	if err != nil {
+		return resp, err
+	}
 	for rows.Next() {
 		institutionRow := model.Institution{}
 		err = rows.Scan(

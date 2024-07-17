@@ -42,8 +42,10 @@ func (r *Repository) GetTransactions(ctx context.Context, userID uuid.UUID, limi
 		ORDER_BY(Transaction.ValueDateTime.DESC()).
 		Sql()
 
-	rows, _ := r.conn().Query(ctx, sql, args...)
-
+	rows, err := r.conn().Query(ctx, sql, args...)
+	if err != nil {
+		return resp, err
+	}
 	for rows.Next() {
 		var tx model.Transaction
 		err = rows.Scan(

@@ -18,7 +18,7 @@ const (
 	createEndUserAgreementURL = "https://bankaccountdata.gocardless.com/api/v2/agreements/enduser/"
 	tokenURL                  = "https://bankaccountdata.gocardless.com/api/v2/token/new/"
 	institutionsURL           = "https://bankaccountdata.gocardless.com/api/v2/institutions/?country="
-	transactionsURL           = "https://bankaccountdata.gocardless.com/api/v2/accounts/%s/transactions?date_from=%s"
+	transactionsURL           = "https://bankaccountdata.gocardless.com/api/v2/accounts/%s/transactions/?date_from=%s"
 	accountsURL               = "https://bankaccountdata.gocardless.com/api/v2/accounts/%s/"
 	allRequisitionsURL        = "https://bankaccountdata.gocardless.com/api/v2/requisitions/"
 	requisitionURL            = "https://bankaccountdata.gocardless.com/api/v2/requisitions/%s/"
@@ -154,7 +154,8 @@ func (c *client) GetTransactions(accountID uuid.UUID, amountOfDays int16) (respB
 
 	accessToken, err := c.getToken()
 	req.Header.SetMethod(http.MethodGet)
-	req.SetRequestURI(fmt.Sprintf(transactionsURL, accountID, subtractDays(amountOfDays)))
+	parameterizedURI := fmt.Sprintf(transactionsURL, accountID, subtractDays(amountOfDays))
+	req.SetRequestURI(parameterizedURI)
 	req.Header.Set("accept", applicationJSON)
 	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", accessToken))
 
@@ -321,6 +322,6 @@ func (c *client) fetchToken() (respBody TokenResponse, err error) {
 
 func subtractDays(days int16) string {
 	currentTime := time.Now()
-	newTime := currentTime.AddDate(0, 0, -int(days))
+	newTime := currentTime.AddDate(0, 0, -int(days-1))
 	return newTime.Format("2006-01-02")
 }

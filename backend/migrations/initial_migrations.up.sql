@@ -80,7 +80,7 @@ CREATE TABLE requisition
     reference             UUID NOT NULL,
     status                TEXT NULL,
     end_user_agreement_id UUID NOT NULL,
-    institution_id        UUID NOT NULL,
+    institution_id        TEXT NOT NULL,
     link                  TEXT NOT NULL,
     created_at            TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at            TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

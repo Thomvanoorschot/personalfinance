@@ -35,7 +35,7 @@ type Repository interface {
 	GetInstitutionsByCountryCode(ctx context.Context, countryCode string) (resp []model.Institution, err error)
 	GetInstitutionByID(ctx context.Context, institutionID string) (resp model.Institution, err error)
 	UpsertInstitutions(ctx context.Context, m []model.Institution) error
-	GetRequisitionByInstitutionIDForUser(ctx context.Context, institutionID uuid.UUID, userID uuid.UUID) (resp model.Requisition, err error)
+	GetRequisitionByInstitutionIDForUser(ctx context.Context, institutionID string, userID uuid.UUID) (resp model.Requisition, err error)
 }
 
 type Service struct {
@@ -97,7 +97,7 @@ func (s *Service) GetBanks(ctx context.Context, req *proto.GetBanksRequest) (*pr
 }
 
 func (s *Service) CreateRequisition(ctx context.Context, req *proto.CreateRequisitionRequest) (*proto.CreateRequisitionResponse, error) {
-	previousRequisition, err := s.repo.GetRequisitionByInstitutionIDForUser(ctx, uuid.MustParse(req.InstitutionId), uuid.MustParse(userID))
+	previousRequisition, err := s.repo.GetRequisitionByInstitutionIDForUser(ctx, req.InstitutionId, uuid.MustParse(userID))
 	if err != nil {
 		return nil, err
 	}
@@ -123,12 +123,14 @@ func (s *Service) CreateRequisition(ctx context.Context, req *proto.CreateRequis
 	if err != nil {
 		return nil, err
 	}
+	statusCreated := string(gocardless.RequisitionStatusCreated)
 	err = s.repo.UpsertRequisition(ctx, model.Requisition{
 		ID:                 uuid.MustParse(requisition.Id),
 		UserID:             uuid.MustParse(userID),
 		Reference:          uuid.MustParse(requisition.Reference),
-		InstitutionID:      uuid.MustParse(req.InstitutionId),
+		InstitutionID:      req.InstitutionId,
 		Link:               requisition.Link,
+		Status:             &statusCreated,
 		EndUserAgreementID: eua.Id,
 	})
 	if err != nil {

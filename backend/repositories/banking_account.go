@@ -31,8 +31,10 @@ func (r *Repository) GetAccounts(ctx context.Context, userID uuid.UUID) (resp []
 		WHERE(Account.UserID.EQ(UUID(userID))).
 		Sql()
 
-	rows, _ := r.conn().Query(ctx, sql, args...)
-
+	rows, err := r.conn().Query(ctx, sql, args...)
+	if err != nil {
+		return resp, err
+	}
 	for rows.Next() {
 		var bankAccount banking.BankAccount
 		err = rows.Scan(

@@ -18,7 +18,7 @@ type Requisition struct {
 	Reference          uuid.UUID
 	Status             *string
 	EndUserAgreementID uuid.UUID
-	InstitutionID      uuid.UUID
+	InstitutionID      string
 	Link               string
 	CreatedAt          *time.Time
 	UpdatedAt          *time.Time

@@ -51,8 +51,10 @@ func (r *Repository) GetRequisitionWithMaxTransactionHistoryDays(ctx context.Con
 		WHERE(Requisition.Reference.EQ(UUID(reference))).
 		Sql()
 
-	rows, _ := r.conn().Query(ctx, sql, args...)
-
+	rows, err := r.conn().Query(ctx, sql, args...)
+	if err != nil {
+		return resp, err
+	}
 	for rows.Next() {
 		err = rows.Scan(
 			&resp.RequisitionID,
@@ -63,23 +65,39 @@ func (r *Repository) GetRequisitionWithMaxTransactionHistoryDays(ctx context.Con
 	return resp, errors.New("record not found")
 }
 
-func (r *Repository) GetRequisitionByInstitutionIDForUser(ctx context.Context, institutionID uuid.UUID, userID uuid.UUID) (resp model.Requisition, err error) {
-	sql, args := SELECT(Requisition.ID).
-		WHERE(Requisition.InstitutionID.EQ(UUID(institutionID)).
+func (r *Repository) GetRequisitionByInstitutionIDForUser(ctx context.Context, institutionID string, userID uuid.UUID) (resp model.Requisition, err error) {
+	sql, args := SELECT(
+		Requisition.ID,
+		Requisition.UserID,
+		Requisition.Reference,
+		Requisition.Status,
+		Requisition.EndUserAgreementID,
+		Requisition.InstitutionID,
+		Requisition.Link,
+	).
+		FROM(Requisition).
+		WHERE(Requisition.InstitutionID.EQ(String(institutionID)).
 			AND(Requisition.UserID.EQ(UUID(userID))),
 		).
 		Sql()
 
-	rows, _ := r.conn().Query(ctx, sql, args...)
-
+	rows, err := r.conn().Query(ctx, sql, args...)
+	if errors.Is(err, pgx.ErrNoRows) {
+		return resp, nil
+	}
 	for rows.Next() {
-		err = rows.Scan(&resp)
-		if errors.Is(err, pgx.ErrNoRows) {
-			return resp, nil
-		}
+		err = rows.Scan(
+			&resp.ID,
+			&resp.UserID,
+			&resp.Reference,
+			&resp.Status,
+			&resp.EndUserAgreementID,
+			&resp.InstitutionID,
+			&resp.Link,
+		)
 		return resp, err
 	}
-	return resp, errors.New("record not found")
+	return resp, nil
 }
 
 func (r *Repository) GetRequisitions(ctx context.Context, userID uuid.UUID) (resp []uuid.UUID, err error) {
@@ -88,8 +106,10 @@ func (r *Repository) GetRequisitions(ctx context.Context, userID uuid.UUID) (res
 		WHERE(Requisition.UserID.EQ(UUID(userID))).
 		Sql()
 
-	rows, _ := r.conn().Query(ctx, sql, args...)
-
+	rows, err := r.conn().Query(ctx, sql, args...)
+	if err != nil {
+		return resp, err
+	}
 	for rows.Next() {
 		var requisitionID uuid.UUID
 		err = rows.Scan(&requisitionID)
