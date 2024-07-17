@@ -17,12 +17,13 @@ type institutionTable struct {
 	postgres.Table
 
 	// Columns
-	ID          postgres.ColumnString
-	Name        postgres.ColumnString
-	IconURL     postgres.ColumnString
-	CountryCode postgres.ColumnString
-	CreatedAt   postgres.ColumnTimestamp
-	UpdatedAt   postgres.ColumnTimestamp
+	ID                        postgres.ColumnString
+	Name                      postgres.ColumnString
+	IconURL                   postgres.ColumnString
+	CountryCode               postgres.ColumnString
+	MaxTransactionHistoryDays postgres.ColumnInteger
+	CreatedAt                 postgres.ColumnTimestamp
+	UpdatedAt                 postgres.ColumnTimestamp
 
 	AllColumns     postgres.ColumnList
 	MutableColumns postgres.ColumnList
@@ -63,26 +64,28 @@ func newInstitutionTable(schemaName, tableName, alias string) *InstitutionTable 
 
 func newInstitutionTableImpl(schemaName, tableName, alias string) institutionTable {
 	var (
-		IDColumn          = postgres.StringColumn("id")
-		NameColumn        = postgres.StringColumn("name")
-		IconURLColumn     = postgres.StringColumn("icon_url")
-		CountryCodeColumn = postgres.StringColumn("country_code")
-		CreatedAtColumn   = postgres.TimestampColumn("created_at")
-		UpdatedAtColumn   = postgres.TimestampColumn("updated_at")
-		allColumns        = postgres.ColumnList{IDColumn, NameColumn, IconURLColumn, CountryCodeColumn, CreatedAtColumn, UpdatedAtColumn}
-		mutableColumns    = postgres.ColumnList{NameColumn, IconURLColumn, CountryCodeColumn, CreatedAtColumn, UpdatedAtColumn}
+		IDColumn                        = postgres.StringColumn("id")
+		NameColumn                      = postgres.StringColumn("name")
+		IconURLColumn                   = postgres.StringColumn("icon_url")
+		CountryCodeColumn               = postgres.StringColumn("country_code")
+		MaxTransactionHistoryDaysColumn = postgres.IntegerColumn("max_transaction_history_days")
+		CreatedAtColumn                 = postgres.TimestampColumn("created_at")
+		UpdatedAtColumn                 = postgres.TimestampColumn("updated_at")
+		allColumns                      = postgres.ColumnList{IDColumn, NameColumn, IconURLColumn, CountryCodeColumn, MaxTransactionHistoryDaysColumn, CreatedAtColumn, UpdatedAtColumn}
+		mutableColumns                  = postgres.ColumnList{NameColumn, IconURLColumn, CountryCodeColumn, MaxTransactionHistoryDaysColumn, CreatedAtColumn, UpdatedAtColumn}
 	)
 
 	return institutionTable{
 		Table: postgres.NewTable(schemaName, tableName, alias, allColumns...),
 
 		//Columns
-		ID:          IDColumn,
-		Name:        NameColumn,
-		IconURL:     IconURLColumn,
-		CountryCode: CountryCodeColumn,
-		CreatedAt:   CreatedAtColumn,
-		UpdatedAt:   UpdatedAtColumn,
+		ID:                        IDColumn,
+		Name:                      NameColumn,
+		IconURL:                   IconURLColumn,
+		CountryCode:               CountryCodeColumn,
+		MaxTransactionHistoryDays: MaxTransactionHistoryDaysColumn,
+		CreatedAt:                 CreatedAtColumn,
+		UpdatedAt:                 UpdatedAtColumn,
 
 		AllColumns:     allColumns,
 		MutableColumns: mutableColumns,

@@ -162,3 +162,14 @@ type DeleteRequisitionResponse struct {
 	Detail     string `json:"detail"`
 	StatusCode int    `json:"status_code"`
 }
+
+type CreateEndUserAgreementRequest struct {
+	InstitutionId      string   `json:"institution_id"`
+	MaxHistoricalDays  int      `json:"max_historical_days"`
+	AccessValidForDays int      `json:"access_valid_for_days"`
+	AccessScope        []string `json:"access_scope"`
+}
+
+type CreateEndUserAgreementResponse struct {
+	Id uuid.UUID `json:"id"`
+}

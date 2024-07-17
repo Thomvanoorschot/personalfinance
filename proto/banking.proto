@@ -52,7 +52,8 @@ message TransactionResponse {
 message HandleRequisitionRequest {
   string requisitionReference = 1;
 }
-message HandleRequisitionResponse {}
+message HandleRequisitionResponse {
+}
 
 message GetBankAccountsRequest {
   string requisitionReference = 1;

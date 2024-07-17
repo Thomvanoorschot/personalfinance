@@ -8,6 +8,11 @@ import (
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
+type RequisitionWithMaxTransactionHistoryDays struct {
+	RequisitionID             uuid.UUID
+	MaxTransactionHistoryDays int16
+}
+
 type BankAccount struct {
 	ID       uuid.UUID
 	IBAN     string

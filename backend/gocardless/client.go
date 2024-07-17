@@ -15,9 +15,10 @@ const (
 	applicationJSON           = "application/json"
 	requisitionsRedirectURL   = "https://panther-choice-greatly.ngrok-free.app/handleRequisition/%s"
 	createRequisitionsLinkURL = "https://bankaccountdata.gocardless.com/api/v2/requisitions/"
+	createEndUserAgreementURL = "https://bankaccountdata.gocardless.com/api/v2/agreements/enduser/"
 	tokenURL                  = "https://bankaccountdata.gocardless.com/api/v2/token/new/"
 	institutionsURL           = "https://bankaccountdata.gocardless.com/api/v2/institutions/?country="
-	transactionsURL           = "https://bankaccountdata.gocardless.com/api/v2/accounts/%s/transactions/"
+	transactionsURL           = "https://bankaccountdata.gocardless.com/api/v2/accounts/%s/transactions?date_from=%s"
 	accountsURL               = "https://bankaccountdata.gocardless.com/api/v2/accounts/%s/"
 	allRequisitionsURL        = "https://bankaccountdata.gocardless.com/api/v2/requisitions/"
 	requisitionURL            = "https://bankaccountdata.gocardless.com/api/v2/requisitions/%s/"
@@ -26,12 +27,13 @@ const (
 
 type Client interface {
 	GetInstitutions(countryCode string) (respBody InstitutionsResponse, err error)
-	CreateRequisitionsLink(institutionID string) (respBody CreateRequisitionsLinkResponse, err error)
-	GetTransactions(accountID uuid.UUID) (respBody TransactionsResponse, err error)
+	CreateRequisitionsLink(institutionID string, endUserAgreementID uuid.UUID) (respBody CreateRequisitionsLinkResponse, err error)
+	GetTransactions(accountID uuid.UUID, amountOfDays int16) (respBody TransactionsResponse, err error)
 	GetAccount(accountID uuid.UUID) (respBody AccountResponse, err error)
 	GetRequisition(requisitionID uuid.UUID) (respBody RequisitionResponse, err error)
 	DeleteRequisition(requisitionID uuid.UUID) (respBody DeleteRequisitionResponse, err error)
 	GetAllRequisition() (respBody AllRequisitionsResponse, err error)
+	CreateEndUserAgreement(institutionID string, maxTransactionHistoryDays int16) (respBody CreateEndUserAgreementResponse, err error)
 }
 
 type client struct {
@@ -69,7 +71,7 @@ func (c *client) GetInstitutions(countryCode string) (respBody InstitutionsRespo
 	return respBody, err
 }
 
-func (c *client) CreateRequisitionsLink(institutionID string) (respBody CreateRequisitionsLinkResponse, err error) {
+func (c *client) CreateRequisitionsLink(institutionID string, endUserAgreementID uuid.UUID) (respBody CreateRequisitionsLinkResponse, err error) {
 	req := fasthttp.AcquireRequest()
 	defer fasthttp.ReleaseRequest(req)
 
@@ -86,6 +88,7 @@ func (c *client) CreateRequisitionsLink(institutionID string) (respBody CreateRe
 		Redirect:      fmt.Sprintf(requisitionsRedirectURL, ref),
 		InstitutionID: institutionID,
 		Reference:     ref,
+		Agreement:     endUserAgreementID.String(),
 	})
 	if err != nil {
 		return respBody, err
@@ -105,13 +108,53 @@ func (c *client) CreateRequisitionsLink(institutionID string) (respBody CreateRe
 	return respBody, err
 }
 
-func (c *client) GetTransactions(accountID uuid.UUID) (respBody TransactionsResponse, err error) {
+func (c *client) CreateEndUserAgreement(institutionID string, maxTransactionHistoryDays int16) (respBody CreateEndUserAgreementResponse, err error) {
+	req := fasthttp.AcquireRequest()
+	defer fasthttp.ReleaseRequest(req)
+
+	accessToken, err := c.getToken()
+
+	req.Header.SetMethod(http.MethodPost)
+	req.SetRequestURI(createEndUserAgreementURL)
+	req.Header.Set("accept", applicationJSON)
+	req.Header.Set("Content-Type", applicationJSON)
+	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", accessToken))
+
+	reqBytes, err := json.Marshal(CreateEndUserAgreementRequest{
+		InstitutionId:      institutionID,
+		MaxHistoricalDays:  int(maxTransactionHistoryDays),
+		AccessValidForDays: 90,
+		AccessScope: []string{
+			"balances",
+			"details",
+			"transactions",
+		},
+	})
+	if err != nil {
+		return respBody, err
+	}
+	req.SetBody(reqBytes)
+	resp := fasthttp.AcquireResponse()
+	defer fasthttp.ReleaseResponse(resp)
+
+	err = fasthttp.Do(req, resp)
+	if err != nil {
+		return respBody, err
+	}
+	err = json.Unmarshal(resp.Body(), &respBody)
+	if err != nil {
+		return respBody, err
+	}
+	return respBody, err
+}
+
+func (c *client) GetTransactions(accountID uuid.UUID, amountOfDays int16) (respBody TransactionsResponse, err error) {
 	req := fasthttp.AcquireRequest()
 	defer fasthttp.ReleaseRequest(req)
 
 	accessToken, err := c.getToken()
 	req.Header.SetMethod(http.MethodGet)
-	req.SetRequestURI(fmt.Sprintf(transactionsURL, accountID))
+	req.SetRequestURI(fmt.Sprintf(transactionsURL, accountID, subtractDays(amountOfDays)))
 	req.Header.Set("accept", applicationJSON)
 	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", accessToken))
 
@@ -274,4 +317,10 @@ func (c *client) fetchToken() (respBody TokenResponse, err error) {
 	respBody.AccessExpiredAt = time.Now().Add(time.Duration(respBody.AccessExpires) * time.Second)
 	respBody.RefreshExpiredAt = time.Now().Add(time.Duration(respBody.RefreshExpires) * time.Second)
 	return respBody, err
+}
+
+func subtractDays(days int16) string {
+	currentTime := time.Now()
+	newTime := currentTime.AddDate(0, 0, -int(days))
+	return newTime.Format("2006-01-02")
 }

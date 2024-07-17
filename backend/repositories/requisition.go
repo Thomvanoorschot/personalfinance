@@ -7,9 +7,11 @@ import (
 	"personalfinance/generated/jet_gen/postgres/public/model"
 	. "personalfinance/generated/jet_gen/postgres/public/table"
 	"personalfinance/gocardless"
+	"personalfinance/services/banking"
 
 	. "github.com/go-jet/jet/v2/postgres"
 	"github.com/google/uuid"
+	"github.com/jackc/pgx/v5"
 )
 
 func (r *Repository) UpsertRequisition(ctx context.Context, m model.Requisition) error {
@@ -41,19 +43,43 @@ func (r *Repository) UpdateRequisitionStatus(ctx context.Context, requisitionID 
 	return nil
 }
 
-func (r *Repository) GetRequisitionByReference(ctx context.Context, reference uuid.UUID) (resp uuid.UUID, err error) {
-	sql, args := SELECT(Requisition.ID).
-		FROM(Requisition).
+func (r *Repository) GetRequisitionWithMaxTransactionHistoryDays(ctx context.Context, reference uuid.UUID) (resp banking.RequisitionWithMaxTransactionHistoryDays, err error) {
+	sql, args := SELECT(Requisition.ID, Institution.MaxTransactionHistoryDays).
+		FROM(Requisition.
+			INNER_JOIN(Institution, Institution.ID.EQ(Requisition.InstitutionID)),
+		).
 		WHERE(Requisition.Reference.EQ(UUID(reference))).
 		Sql()
 
 	rows, _ := r.conn().Query(ctx, sql, args...)
 
 	for rows.Next() {
-		err = rows.Scan(&resp)
+		err = rows.Scan(
+			&resp.RequisitionID,
+			&resp.MaxTransactionHistoryDays,
+		)
 		return resp, err
 	}
-	return uuid.Nil, errors.New("record not found")
+	return resp, errors.New("record not found")
+}
+
+func (r *Repository) GetRequisitionByInstitutionIDForUser(ctx context.Context, institutionID uuid.UUID, userID uuid.UUID) (resp model.Requisition, err error) {
+	sql, args := SELECT(Requisition.ID).
+		WHERE(Requisition.InstitutionID.EQ(UUID(institutionID)).
+			AND(Requisition.UserID.EQ(UUID(userID))),
+		).
+		Sql()
+
+	rows, _ := r.conn().Query(ctx, sql, args...)
+
+	for rows.Next() {
+		err = rows.Scan(&resp)
+		if errors.Is(err, pgx.ErrNoRows) {
+			return resp, nil
+		}
+		return resp, err
+	}
+	return resp, errors.New("record not found")
 }
 
 func (r *Repository) GetRequisitions(ctx context.Context, userID uuid.UUID) (resp []uuid.UUID, err error) {

@@ -17,12 +17,15 @@ type requisitionTable struct {
 	postgres.Table
 
 	// Columns
-	ID        postgres.ColumnString
-	UserID    postgres.ColumnString
-	Reference postgres.ColumnString
-	Status    postgres.ColumnString
-	CreatedAt postgres.ColumnTimestamp
-	UpdatedAt postgres.ColumnTimestamp
+	ID                 postgres.ColumnString
+	UserID             postgres.ColumnString
+	Reference          postgres.ColumnString
+	Status             postgres.ColumnString
+	EndUserAgreementID postgres.ColumnString
+	InstitutionID      postgres.ColumnString
+	Link               postgres.ColumnString
+	CreatedAt          postgres.ColumnTimestamp
+	UpdatedAt          postgres.ColumnTimestamp
 
 	AllColumns     postgres.ColumnList
 	MutableColumns postgres.ColumnList
@@ -63,26 +66,32 @@ func newRequisitionTable(schemaName, tableName, alias string) *RequisitionTable 
 
 func newRequisitionTableImpl(schemaName, tableName, alias string) requisitionTable {
 	var (
-		IDColumn        = postgres.StringColumn("id")
-		UserIDColumn    = postgres.StringColumn("user_id")
-		ReferenceColumn = postgres.StringColumn("reference")
-		StatusColumn    = postgres.StringColumn("status")
-		CreatedAtColumn = postgres.TimestampColumn("created_at")
-		UpdatedAtColumn = postgres.TimestampColumn("updated_at")
-		allColumns      = postgres.ColumnList{IDColumn, UserIDColumn, ReferenceColumn, StatusColumn, CreatedAtColumn, UpdatedAtColumn}
-		mutableColumns  = postgres.ColumnList{UserIDColumn, ReferenceColumn, StatusColumn, CreatedAtColumn, UpdatedAtColumn}
+		IDColumn                 = postgres.StringColumn("id")
+		UserIDColumn             = postgres.StringColumn("user_id")
+		ReferenceColumn          = postgres.StringColumn("reference")
+		StatusColumn             = postgres.StringColumn("status")
+		EndUserAgreementIDColumn = postgres.StringColumn("end_user_agreement_id")
+		InstitutionIDColumn      = postgres.StringColumn("institution_id")
+		LinkColumn               = postgres.StringColumn("link")
+		CreatedAtColumn          = postgres.TimestampColumn("created_at")
+		UpdatedAtColumn          = postgres.TimestampColumn("updated_at")
+		allColumns               = postgres.ColumnList{IDColumn, UserIDColumn, ReferenceColumn, StatusColumn, EndUserAgreementIDColumn, InstitutionIDColumn, LinkColumn, CreatedAtColumn, UpdatedAtColumn}
+		mutableColumns           = postgres.ColumnList{UserIDColumn, ReferenceColumn, StatusColumn, EndUserAgreementIDColumn, InstitutionIDColumn, LinkColumn, CreatedAtColumn, UpdatedAtColumn}
 	)
 
 	return requisitionTable{
 		Table: postgres.NewTable(schemaName, tableName, alias, allColumns...),
 
 		//Columns
-		ID:        IDColumn,
-		UserID:    UserIDColumn,
-		Reference: ReferenceColumn,
-		Status:    StatusColumn,
-		CreatedAt: CreatedAtColumn,
-		UpdatedAt: UpdatedAtColumn,
+		ID:                 IDColumn,
+		UserID:             UserIDColumn,
+		Reference:          ReferenceColumn,
+		Status:             StatusColumn,
+		EndUserAgreementID: EndUserAgreementIDColumn,
+		InstitutionID:      InstitutionIDColumn,
+		Link:               LinkColumn,
+		CreatedAt:          CreatedAtColumn,
+		UpdatedAt:          UpdatedAtColumn,
 
 		AllColumns:     allColumns,
 		MutableColumns: mutableColumns,

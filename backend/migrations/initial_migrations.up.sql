@@ -11,12 +11,13 @@ CREATE TABLE "user"
 
 CREATE TABLE institution
 (
-    id           TEXT PRIMARY KEY,
-    name         TEXT NOT NULL,
-    icon_url     TEXT NOT NULL,
-    country_code TEXT NOT NULL,
-    created_at   TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at   TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    id                           TEXT PRIMARY KEY,
+    name                         TEXT        NOT NULL,
+    icon_url                     TEXT        NOT NULL,
+    country_code                 TEXT        NOT NULL,
+    max_transaction_history_days SMALLSERIAL NOT NULL,
+    created_at                   TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at                   TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 CREATE INDEX idx_institution_country_code ON institution (country_code);
 
@@ -74,12 +75,15 @@ CREATE TABLE transaction
 
 CREATE TABLE requisition
 (
-    id         UUID PRIMARY KEY,
-    user_id    UUID NOT NULL,
-    reference  UUID NOT NULL,
-    status     TEXT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    id                    UUID PRIMARY KEY,
+    user_id               UUID NOT NULL,
+    reference             UUID NOT NULL,
+    status                TEXT NULL,
+    end_user_agreement_id UUID NOT NULL,
+    institution_id        UUID NOT NULL,
+    link                  TEXT NOT NULL,
+    created_at            TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at            TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
     FOREIGN KEY (user_id) REFERENCES "user" (id) ON DELETE CASCADE
 );

@@ -12,10 +12,11 @@ import (
 )
 
 type Institution struct {
-	ID          string `sql:"primary_key"`
-	Name        string
-	IconURL     string
-	CountryCode string
-	CreatedAt   *time.Time
-	UpdatedAt   *time.Time
+	ID                        string `sql:"primary_key"`
+	Name                      string
+	IconURL                   string
+	CountryCode               string
+	MaxTransactionHistoryDays int16
+	CreatedAt                 *time.Time
+	UpdatedAt                 *time.Time
 }

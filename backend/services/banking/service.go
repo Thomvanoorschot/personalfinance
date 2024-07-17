@@ -25,7 +25,7 @@ type Repository interface {
 	UpsertRequisition(ctx context.Context, m model.Requisition) error
 	GetAccounts(ctx context.Context, userID uuid.UUID) (resp []BankAccount, err error)
 	GetRequisitions(ctx context.Context, userID uuid.UUID) (resp []uuid.UUID, err error)
-	GetRequisitionByReference(ctx context.Context, reference uuid.UUID) (resp uuid.UUID, err error)
+	GetRequisitionWithMaxTransactionHistoryDays(ctx context.Context, reference uuid.UUID) (resp RequisitionWithMaxTransactionHistoryDays, err error)
 	UpdateRequisitionStatus(ctx context.Context, requisitionID uuid.UUID, status gocardless.RequisitionStatus) error
 	UpsertBankingAccount(ctx context.Context, m model.Account) error
 	UpsertTransactions(ctx context.Context, m []model.Transaction) error
@@ -35,6 +35,7 @@ type Repository interface {
 	GetInstitutionsByCountryCode(ctx context.Context, countryCode string) (resp []model.Institution, err error)
 	GetInstitutionByID(ctx context.Context, institutionID string) (resp model.Institution, err error)
 	UpsertInstitutions(ctx context.Context, m []model.Institution) error
+	GetRequisitionByInstitutionIDForUser(ctx context.Context, institutionID uuid.UUID, userID uuid.UUID) (resp model.Requisition, err error)
 }
 
 type Service struct {
@@ -49,6 +50,7 @@ func NewService(repo Repository, gcls gocardless.Client) *Service {
 	return &Service{repo: repo, gcls: gcls, cachedInstitutions: make(map[string]*proto.GetBanksResponse)}
 }
 
+// TODO update timestamps for GetTransactions according to MaxTransactionHistoryDays max variable
 func (s *Service) GetBanks(ctx context.Context, req *proto.GetBanksRequest) (*proto.GetBanksResponse, error) {
 	s.institutionCacheMx.RLock()
 	cachedResponse, ok := s.cachedInstitutions[req.CountryCode]
@@ -74,11 +76,16 @@ func (s *Service) GetBanks(ctx context.Context, req *proto.GetBanksRequest) (*pr
 			Name:    institution.Name,
 			IconURL: institution.Logo,
 		})
+		transactionTotalDays, err := strconv.ParseInt(institution.TransactionTotalDays, 10, 16)
+		if err != nil {
+			return nil, err
+		}
 		toBeStoredInstitutions = append(toBeStoredInstitutions, model.Institution{
-			ID:          institution.Id,
-			Name:        institution.Name,
-			IconURL:     institution.Logo,
-			CountryCode: req.CountryCode,
+			ID:                        institution.Id,
+			Name:                      institution.Name,
+			IconURL:                   institution.Logo,
+			CountryCode:               req.CountryCode,
+			MaxTransactionHistoryDays: int16(transactionTotalDays),
 		})
 	}
 	err = s.repo.UpsertInstitutions(ctx, toBeStoredInstitutions)
@@ -90,14 +97,39 @@ func (s *Service) GetBanks(ctx context.Context, req *proto.GetBanksRequest) (*pr
 }
 
 func (s *Service) CreateRequisition(ctx context.Context, req *proto.CreateRequisitionRequest) (*proto.CreateRequisitionResponse, error) {
-	requisition, err := s.gcls.CreateRequisitionsLink(req.InstitutionId)
+	previousRequisition, err := s.repo.GetRequisitionByInstitutionIDForUser(ctx, uuid.MustParse(req.InstitutionId), uuid.MustParse(userID))
+	if err != nil {
+		return nil, err
+	}
+
+	if previousRequisition.ID != uuid.Nil &&
+		previousRequisition.Status != nil &&
+		gocardless.RequisitionStatus(*previousRequisition.Status) == gocardless.RequisitionStatusCreated {
+		return &proto.CreateRequisitionResponse{
+			Url: previousRequisition.Link,
+		}, nil
+	}
+
+	institution, err := s.repo.GetInstitutionByID(ctx, req.InstitutionId)
+	if err != nil {
+		return nil, err
+	}
+
+	eua, err := s.gcls.CreateEndUserAgreement(req.InstitutionId, institution.MaxTransactionHistoryDays)
+	if err != nil {
+		return nil, err
+	}
+	requisition, err := s.gcls.CreateRequisitionsLink(req.InstitutionId, eua.Id)
 	if err != nil {
 		return nil, err
 	}
 	err = s.repo.UpsertRequisition(ctx, model.Requisition{
-		ID:        uuid.MustParse(requisition.Id),
-		UserID:    uuid.MustParse(userID),
-		Reference: uuid.MustParse(requisition.Reference),
+		ID:                 uuid.MustParse(requisition.Id),
+		UserID:             uuid.MustParse(userID),
+		Reference:          uuid.MustParse(requisition.Reference),
+		InstitutionID:      uuid.MustParse(req.InstitutionId),
+		Link:               requisition.Link,
+		EndUserAgreementID: eua.Id,
 	})
 	if err != nil {
 		return nil, err
@@ -108,11 +140,11 @@ func (s *Service) CreateRequisition(ctx context.Context, req *proto.CreateRequis
 	return resp, nil
 }
 func (s *Service) HandleRequisition(ctx context.Context, req *proto.HandleRequisitionRequest) (string, error) {
-	requisitionID, err := s.repo.GetRequisitionByReference(ctx, uuid.MustParse(req.RequisitionReference))
+	requisitionWithMaxTxDays, err := s.repo.GetRequisitionWithMaxTransactionHistoryDays(ctx, uuid.MustParse(req.RequisitionReference))
 	if err != nil {
 		return "", err
 	}
-	requisition, err := s.gcls.GetRequisition(requisitionID)
+	requisition, err := s.gcls.GetRequisition(requisitionWithMaxTxDays.RequisitionID)
 	if err != nil {
 		return "", err
 	}
@@ -134,7 +166,7 @@ func (s *Service) HandleRequisition(ctx context.Context, req *proto.HandleRequis
 			InstitutionID: requisition.InstitutionId,
 		})
 
-		txs, err := s.gcls.GetTransactions(accountID)
+		txs, err := s.gcls.GetTransactions(accountID, requisitionWithMaxTxDays.MaxTransactionHistoryDays)
 		if err != nil {
 			return "", err
 		}
@@ -178,7 +210,7 @@ func (s *Service) HandleRequisition(ctx context.Context, req *proto.HandleRequis
 		}
 	}
 	err = s.repo.BankingTx(ctx, func(repo Repository) error {
-		txErr := repo.UpdateRequisitionStatus(ctx, requisitionID, requisition.Status)
+		txErr := repo.UpdateRequisitionStatus(ctx, requisitionWithMaxTxDays.RequisitionID, requisition.Status)
 		if txErr != nil {
 			return txErr
 		}
