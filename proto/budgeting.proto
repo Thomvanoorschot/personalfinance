@@ -1,0 +1,67 @@
+syntax = "proto3";
+
+import "buf/validate/validate.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "personalfinance/generated/proto";
+
+
+message GetTransactionsRequest {
+  string userId = 1 [(buf.validate.field).string.uuid = true];
+  int64 limit = 2;
+  int64 offset = 3;
+}
+message GetTransactionsResponse {
+  repeated TransactionResponse transactions = 1;
+}
+
+message GetUncategorizedTransactionRequest {
+  string userId = 1 [(buf.validate.field).string.uuid = true];
+}
+
+message GetUncategorizedTransactionResponse {
+  string id = 1;
+  google.protobuf.Timestamp date = 2;
+  double transactionAmount = 3;
+  string currency = 4;
+  string partyName = 5;
+  string partyIban = 6;
+  string description = 7;
+  repeated MatchingUncategorizedTransactionResponse matchingTransactions = 8;
+}
+message MatchingUncategorizedTransactionResponse {
+  string id = 1;
+  google.protobuf.Timestamp date = 2;
+  double transactionAmount = 3;
+}
+
+message CategorizeTransactionAndContinueRequest {
+  string userId = 1 [(buf.validate.field).string.uuid = true];
+  repeated string transactionIds = 2;
+  string categoryId = 3  [(buf.validate.field).string.uuid = true];
+}
+
+message TransactionResponse {
+  string id = 1;
+  string accountId = 2;
+  google.protobuf.Timestamp date = 3;
+  double transactionAmount = 4;
+  string currency = 5;
+  string partyName = 6;
+  string partyIban = 7;
+  string description = 8;
+  string transactionCategoryLabel = 9;
+  string transactionCategoryId = 10;
+  double balanceAfterTransaction = 11;
+}
+
+message GetTransactionCategoriesRequest {
+}
+
+message GetTransactionCategoriesResponse {
+  repeated TransactionCategoryResponse categories = 1;
+}
+message TransactionCategoryResponse {
+  string id = 1;
+  string label = 2;
+}

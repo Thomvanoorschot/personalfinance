@@ -23,15 +23,14 @@ type Repository interface {
 	BankingTx(ctx context.Context, fn func(Repository) error) (err error)
 
 	UpsertRequisition(ctx context.Context, m model.Requisition) error
-	GetAccounts(ctx context.Context, userID uuid.UUID) (resp []BankAccount, err error)
+	GetAccounts(ctx context.Context, userID uuid.UUID) (resp BankAccounts, err error)
 	GetRequisitions(ctx context.Context, userID uuid.UUID) (resp []uuid.UUID, err error)
 	GetRequisitionWithMaxTransactionHistoryDays(ctx context.Context, reference uuid.UUID) (resp RequisitionWithMaxTransactionHistoryDays, err error)
 	UpdateRequisitionStatus(ctx context.Context, requisitionID uuid.UUID, status gocardless.RequisitionStatus) error
 	UpsertBankingAccount(ctx context.Context, m model.Account) error
 	UpsertTransactions(ctx context.Context, m []model.Transaction) error
-	SetTransactionCategory(ctx context.Context, transactionID uuid.UUID, categoryID uuid.UUID) error
+	SetTransactionCategories(ctx context.Context, transactionIDs []uuid.UUID, categoryID uuid.UUID) error
 	RemoveTransactionCategory(ctx context.Context, transactionID uuid.UUID) error
-	GetTransactions(ctx context.Context, userID uuid.UUID, limit, offset int64) (resp []model.Transaction, err error)
 	GetInstitutionsByCountryCode(ctx context.Context, countryCode string) (resp []model.Institution, err error)
 	GetInstitutionByID(ctx context.Context, institutionID string) (resp model.Institution, err error)
 	UpsertInstitutions(ctx context.Context, m []model.Institution) error
@@ -50,7 +49,6 @@ func NewService(repo Repository, gcls gocardless.Client) *Service {
 	return &Service{repo: repo, gcls: gcls, cachedInstitutions: make(map[string]*proto.GetBanksResponse)}
 }
 
-// TODO update timestamps for GetTransactions according to MaxTransactionHistoryDays max variable
 func (s *Service) GetBanks(ctx context.Context, req *proto.GetBanksRequest) (*proto.GetBanksResponse, error) {
 	s.institutionCacheMx.RLock()
 	cachedResponse, ok := s.cachedInstitutions[req.CountryCode]
@@ -166,6 +164,7 @@ func (s *Service) HandleRequisition(ctx context.Context, req *proto.HandleRequis
 			UserID:        uuid.MustParse(userID),
 			Iban:          account.Iban,
 			InstitutionID: requisition.InstitutionId,
+			OwnerName:     account.OwnerName,
 		})
 
 		txs, err := s.gcls.GetTransactions(accountID, requisitionWithMaxTxDays.MaxTransactionHistoryDays)
@@ -189,6 +188,34 @@ func (s *Service) HandleRequisition(ctx context.Context, req *proto.HandleRequis
 				externalID = bookedTx.InternalTransactionId
 			}
 			remittanceInformation := gocardless.FormatRemittanceData(bookedTx.RemittanceInformationUnstructuredArray)
+
+			if bookedTx.CreditorAccount.Iban == "" && bookedTx.DebtorAccount.Iban == "" {
+				if txAmount < 0 {
+					bookedTx.DebtorAccount.Iban = account.Iban
+					bookedTx.DebtorName = account.OwnerName
+				} else {
+					bookedTx.CreditorAccount.Iban = account.Iban
+					bookedTx.CreditorName = account.OwnerName
+				}
+			}
+
+			var creditorName *string
+			if bookedTx.CreditorName != "" {
+				creditorName = &bookedTx.CreditorName
+			}
+			var creditorIBAN *string
+			if bookedTx.CreditorAccount.Iban != "" {
+				creditorIBAN = &bookedTx.CreditorAccount.Iban
+			}
+			var debtorName *string
+			if bookedTx.DebtorName != "" {
+				debtorName = &bookedTx.DebtorName
+			}
+			var debtorIBAN *string
+			if bookedTx.DebtorAccount.Iban != "" {
+				debtorIBAN = &bookedTx.DebtorAccount.Iban
+			}
+
 			transactions = append(transactions, model.Transaction{
 				AccountID:                      accountID,
 				ExternalID:                     externalID,
@@ -198,16 +225,16 @@ func (s *Service) HandleRequisition(ctx context.Context, req *proto.HandleRequis
 				ValueDateTime:                  &valueDateTime,
 				TransactionAmount:              txAmount,
 				Currency:                       bookedTx.TransactionAmount.Currency,
-				CreditorName:                   &bookedTx.CreditorName,
-				CreditorIban:                   &bookedTx.CreditorAccount.Iban,
+				CreditorName:                   creditorName,
+				CreditorIban:                   creditorIBAN,
+				DebtorName:                     debtorName,
+				DebtorIban:                     debtorIBAN,
 				RemittanceInformation:          &remittanceInformation,
 				ProprietaryBankTransactionCode: &bookedTx.ProprietaryBankTransactionCode,
 				BalanceCurrency:                &bookedTx.BalanceAfterTransaction.BalanceAmount.Currency,
 				BalanceType:                    &bookedTx.BalanceAfterTransaction.BalanceType,
 				BalanceAfterTransaction:        &balanceAmount,
 				InternalTransactionID:          &bookedTx.InternalTransactionId,
-				DebtorName:                     &bookedTx.DebtorName,
-				DebtorIban:                     &bookedTx.DebtorAccount.Iban,
 			})
 		}
 	}
@@ -230,31 +257,11 @@ func (s *Service) HandleRequisition(ctx context.Context, req *proto.HandleRequis
 	}
 	return tempRedirectURL, nil
 }
-func (s *Service) GetTransactions(ctx context.Context, req *proto.GetTransactionsRequest) (*proto.GetTransactionsResponse, error) {
-	txs, err := s.repo.GetTransactions(ctx, uuid.MustParse(userID), req.Limit, req.Offset)
-	if err != nil {
-		return nil, err
-	}
-	var txsResponse []*proto.TransactionResponse
-	for _, tx := range txs {
-		txsResponse = append(txsResponse, ConvertToTransactionResponse(tx))
-	}
-	resp := &proto.GetTransactionsResponse{
-		Transactions: txsResponse,
-	}
-	return resp, nil
-}
-func (s *Service) GetBankAccounts(ctx context.Context, req *proto.GetBankAccountsRequest) (*proto.GetBankAccountsResponse, error) {
+
+func (s *Service) GetBankAccounts(ctx context.Context, _ *proto.GetBankAccountsRequest) (*proto.GetBankAccountsResponse, error) {
 	accounts, err := s.repo.GetAccounts(ctx, uuid.MustParse(userID))
 	if err != nil {
 		return nil, err
 	}
-	var accountsResponse []*proto.BankAccountResponse
-	for _, account := range accounts {
-		accountsResponse = append(accountsResponse, account.ConvertToResponse())
-	}
-	resp := &proto.GetBankAccountsResponse{
-		Accounts: accountsResponse,
-	}
-	return resp, nil
+	return accounts.ConvertToResponse(), nil
 }

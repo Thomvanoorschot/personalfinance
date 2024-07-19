@@ -5,37 +5,31 @@ import (
 
 	"personalfinance/generated/jet_gen/postgres/public/model"
 	. "personalfinance/generated/jet_gen/postgres/public/table"
+	"personalfinance/services/budgeting"
 
 	. "github.com/go-jet/jet/v2/postgres"
 	"github.com/google/uuid"
 )
 
-func (r *Repository) GetTransactions(ctx context.Context, userID uuid.UUID, limit, offset int64) (resp []model.Transaction, err error) {
+func (r *Repository) GetTransactions(ctx context.Context, userID uuid.UUID, limit, offset int64) (resp budgeting.Transactions, err error) {
 	sql, args := SELECT(
 		Transaction.ID,
 		Transaction.AccountID,
-		Transaction.ExternalID,
-		Transaction.UserID,
-		Transaction.BookingDate,
-		Transaction.ValueDate,
 		Transaction.ValueDateTime,
 		Transaction.TransactionAmount,
+		Transaction.BalanceAfterTransaction,
 		Transaction.Currency,
 		Transaction.CreditorName,
 		Transaction.CreditorIban,
-		Transaction.RemittanceInformation,
-		Transaction.ProprietaryBankTransactionCode,
-		Transaction.BalanceCurrency,
-		Transaction.BalanceType,
-		Transaction.BalanceAfterTransaction,
-		Transaction.InternalTransactionID,
 		Transaction.DebtorName,
 		Transaction.DebtorIban,
-		Transaction.CreatedAt,
-		Transaction.UpdatedAt,
+		Transaction.RemittanceInformation,
 		Transaction.TransactionCategoryID,
+		TransactionCategory.Label,
 	).
-		FROM(Transaction).
+		FROM(Transaction.
+			LEFT_JOIN(TransactionCategory, TransactionCategory.ID.EQ(Transaction.TransactionCategoryID)),
+		).
 		WHERE(Transaction.UserID.EQ(UUID(userID))).
 		LIMIT(limit).
 		OFFSET(offset).
@@ -47,35 +41,102 @@ func (r *Repository) GetTransactions(ctx context.Context, userID uuid.UUID, limi
 		return resp, err
 	}
 	for rows.Next() {
-		var tx model.Transaction
+		var tx budgeting.Transaction
 		err = rows.Scan(
 			&tx.ID,
 			&tx.AccountID,
-			&tx.ExternalID,
-			&tx.UserID,
-			&tx.BookingDate,
-			&tx.ValueDate,
 			&tx.ValueDateTime,
 			&tx.TransactionAmount,
+			&tx.BalanceAfterTransaction,
 			&tx.Currency,
 			&tx.CreditorName,
-			&tx.CreditorIban,
-			&tx.RemittanceInformation,
-			&tx.ProprietaryBankTransactionCode,
-			&tx.BalanceCurrency,
-			&tx.BalanceType,
-			&tx.BalanceAfterTransaction,
-			&tx.InternalTransactionID,
+			&tx.CreditorIBAN,
 			&tx.DebtorName,
-			&tx.DebtorIban,
-			&tx.CreatedAt,
-			&tx.UpdatedAt,
+			&tx.DebtorIBAN,
+			&tx.Description,
 			&tx.TransactionCategoryID,
+			&tx.TransactionCategoryLabel,
 		)
 		if err != nil {
 			return resp, err
 		}
 		resp = append(resp, tx)
+	}
+	return resp, nil
+}
+
+func (r *Repository) GetUncategorizedTransaction(ctx context.Context, userID uuid.UUID) (resp budgeting.UncategorizedTransaction, err error) {
+	subQuery := SELECT(
+		Transaction.CreditorIban,
+		Transaction.CreditorName,
+		Transaction.DebtorIban,
+		Transaction.DebtorName,
+		Transaction.TransactionAmount,
+	).FROM(
+		Transaction,
+	).WHERE(
+		Transaction.UserID.EQ(UUID(userID)).
+			AND(Transaction.TransactionCategoryID.IS_NULL()),
+	).ORDER_BY(
+		Transaction.ValueDateTime.DESC(),
+	).LIMIT(1).AsTable("t2")
+
+	t2CreditorIBAN := Transaction.CreditorIban.From(subQuery)
+	t2CreditorName := Transaction.CreditorName.From(subQuery)
+	t2DebtorIBAN := Transaction.DebtorIban.From(subQuery)
+	t2DebtorName := Transaction.DebtorName.From(subQuery)
+	t2TransactionAmount := Transaction.TransactionAmount.From(subQuery)
+
+	sql, args := SELECT(
+		Transaction.ID,
+		Transaction.ValueDateTime,
+		Transaction.TransactionAmount,
+		Transaction.Currency,
+		Transaction.CreditorName,
+		Transaction.CreditorIban,
+		Transaction.DebtorName,
+		Transaction.DebtorIban,
+		Transaction.RemittanceInformation,
+	).FROM(subQuery.INNER_JOIN(
+		Transaction,
+		((t2TransactionAmount.GT(Float(0)).OR(t2DebtorIBAN.IS_NULL())).OR(Transaction.TransactionAmount.EQ(t2TransactionAmount))).
+			AND(
+				(Transaction.CreditorIban.EQ(t2CreditorIBAN).AND(Transaction.CreditorName.EQ(t2CreditorName))).
+					OR(Transaction.DebtorIban.EQ(t2DebtorIBAN).AND(Transaction.DebtorName.EQ(t2DebtorName))),
+			),
+	)).ORDER_BY(Transaction.ValueDateTime.DESC()).
+		Sql()
+
+	rows, err := r.conn().Query(ctx, sql, args...)
+	if err != nil {
+		return resp, err
+	}
+
+	for rows.Next() {
+		var tx budgeting.UncategorizedTransaction
+		err = rows.Scan(
+			&tx.ID,
+			&tx.ValueDateTime,
+			&tx.TransactionAmount,
+			&tx.Currency,
+			&tx.CreditorName,
+			&tx.CreditorIBAN,
+			&tx.DebtorName,
+			&tx.DebtorIBAN,
+			&tx.Description,
+		)
+		if err != nil {
+			return resp, err
+		}
+		if resp.ID == uuid.Nil {
+			resp = tx
+		} else {
+			resp.MatchingTransactions = append(resp.MatchingTransactions, budgeting.MatchingUncategorizedTransaction{
+				ID:                tx.ID,
+				ValueDateTime:     tx.ValueDateTime,
+				TransactionAmount: tx.TransactionAmount,
+			})
+		}
 	}
 	return resp, nil
 }

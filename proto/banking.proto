@@ -25,30 +25,6 @@ message CreateRequisitionResponse {
   string url = 1;
 }
 
-message GetTransactionsRequest {
-  string userId = 1 [(buf.validate.field).string.uuid = true];
-  int64 limit = 2;
-  int64 offset = 3;
-}
-message GetTransactionsResponse {
-  repeated TransactionResponse transactions = 1;
-}
-
-message TransactionResponse {
-  string accountId = 1;
-  google.protobuf.Timestamp bookingDate = 2;
-  double transactionAmount = 3;
-  string currency = 4;
-  string creditorName = 5;
-  string creditorIban = 6;
-  string description = 7;
-  string debtorName = 8;
-  string debtorIban = 9;
-  string transactionCategoryLabel = 10;
-  string transactionCategoryId = 11;
-  string balanceAfterTransaction = 12;
-}
-
 message HandleRequisitionRequest {
   string requisitionReference = 1;
 }

@@ -25,7 +25,7 @@ func (r *Repository) UpsertBankingAccount(ctx context.Context, m model.Account) 
 	}
 	return nil
 }
-func (r *Repository) GetAccounts(ctx context.Context, userID uuid.UUID) (resp []banking.BankAccount, err error) {
+func (r *Repository) GetAccounts(ctx context.Context, userID uuid.UUID) (resp banking.BankAccounts, err error) {
 	sql, args := SELECT(Account.ID, Account.Iban, Institution.Name, Institution.IconURL).
 		FROM(Account.INNER_JOIN(Institution, Institution.ID.EQ(Account.InstitutionID))).
 		WHERE(Account.UserID.EQ(UUID(userID))).

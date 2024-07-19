@@ -19,4 +19,5 @@ type Account struct {
 	InstitutionID string
 	CreatedAt     *time.Time
 	UpdatedAt     *time.Time
+	OwnerName     string
 }

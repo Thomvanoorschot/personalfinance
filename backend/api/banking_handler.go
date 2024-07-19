@@ -13,7 +13,6 @@ type BankingService interface {
 	GetBanks(context.Context, *proto.GetBanksRequest) (*proto.GetBanksResponse, error)
 	CreateRequisition(ctx context.Context, req *proto.CreateRequisitionRequest) (*proto.CreateRequisitionResponse, error)
 	HandleRequisition(ctx context.Context, req *proto.HandleRequisitionRequest) (string, error)
-	GetTransactions(ctx context.Context, req *proto.GetTransactionsRequest) (*proto.GetTransactionsResponse, error)
 	GetBankAccounts(ctx context.Context, req *proto.GetBankAccountsRequest) (*proto.GetBankAccountsResponse, error)
 }
 
@@ -42,16 +41,6 @@ func (h *BankingHandler) CreateRequisition(
 	req *proto.CreateRequisitionRequest,
 ) (*proto.CreateRequisitionResponse, error) {
 	resp, err := h.service.CreateRequisition(ctx, req)
-	if err != nil {
-		return nil, err
-	}
-	return resp, nil
-}
-func (h *BankingHandler) GetTransactions(
-	ctx context.Context,
-	req *proto.GetTransactionsRequest,
-) (*proto.GetTransactionsResponse, error) {
-	resp, err := h.service.GetTransactions(ctx, req)
 	if err != nil {
 		return nil, err
 	}

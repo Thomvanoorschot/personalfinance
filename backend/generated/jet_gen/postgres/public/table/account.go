@@ -23,6 +23,7 @@ type accountTable struct {
 	InstitutionID postgres.ColumnString
 	CreatedAt     postgres.ColumnTimestamp
 	UpdatedAt     postgres.ColumnTimestamp
+	OwnerName     postgres.ColumnString
 
 	AllColumns     postgres.ColumnList
 	MutableColumns postgres.ColumnList
@@ -69,8 +70,9 @@ func newAccountTableImpl(schemaName, tableName, alias string) accountTable {
 		InstitutionIDColumn = postgres.StringColumn("institution_id")
 		CreatedAtColumn     = postgres.TimestampColumn("created_at")
 		UpdatedAtColumn     = postgres.TimestampColumn("updated_at")
-		allColumns          = postgres.ColumnList{IDColumn, UserIDColumn, IbanColumn, InstitutionIDColumn, CreatedAtColumn, UpdatedAtColumn}
-		mutableColumns      = postgres.ColumnList{UserIDColumn, IbanColumn, InstitutionIDColumn, CreatedAtColumn, UpdatedAtColumn}
+		OwnerNameColumn     = postgres.StringColumn("owner_name")
+		allColumns          = postgres.ColumnList{IDColumn, UserIDColumn, IbanColumn, InstitutionIDColumn, CreatedAtColumn, UpdatedAtColumn, OwnerNameColumn}
+		mutableColumns      = postgres.ColumnList{UserIDColumn, IbanColumn, InstitutionIDColumn, CreatedAtColumn, UpdatedAtColumn, OwnerNameColumn}
 	)
 
 	return accountTable{
@@ -83,6 +85,7 @@ func newAccountTableImpl(schemaName, tableName, alias string) accountTable {
 		InstitutionID: InstitutionIDColumn,
 		CreatedAt:     CreatedAtColumn,
 		UpdatedAt:     UpdatedAtColumn,
+		OwnerName:     OwnerNameColumn,
 
 		AllColumns:     allColumns,
 		MutableColumns: mutableColumns,

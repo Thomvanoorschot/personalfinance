@@ -21,7 +21,6 @@ const _ = grpc.SupportPackageIsVersion8
 const (
 	BankingService_GetBanks_FullMethodName          = "/BankingService/GetBanks"
 	BankingService_CreateRequisition_FullMethodName = "/BankingService/CreateRequisition"
-	BankingService_GetTransactions_FullMethodName   = "/BankingService/GetTransactions"
 	BankingService_GetBankAccounts_FullMethodName   = "/BankingService/GetBankAccounts"
 	BankingService_HandleRequisition_FullMethodName = "/BankingService/HandleRequisition"
 )
@@ -32,7 +31,6 @@ const (
 type BankingServiceClient interface {
 	GetBanks(ctx context.Context, in *GetBanksRequest, opts ...grpc.CallOption) (*GetBanksResponse, error)
 	CreateRequisition(ctx context.Context, in *CreateRequisitionRequest, opts ...grpc.CallOption) (*CreateRequisitionResponse, error)
-	GetTransactions(ctx context.Context, in *GetTransactionsRequest, opts ...grpc.CallOption) (*GetTransactionsResponse, error)
 	GetBankAccounts(ctx context.Context, in *GetBankAccountsRequest, opts ...grpc.CallOption) (*GetBankAccountsResponse, error)
 	HandleRequisition(ctx context.Context, in *HandleRequisitionRequest, opts ...grpc.CallOption) (*HandleRequisitionResponse, error)
 }
@@ -65,16 +63,6 @@ func (c *bankingServiceClient) CreateRequisition(ctx context.Context, in *Create
 	return out, nil
 }
 
-func (c *bankingServiceClient) GetTransactions(ctx context.Context, in *GetTransactionsRequest, opts ...grpc.CallOption) (*GetTransactionsResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(GetTransactionsResponse)
-	err := c.cc.Invoke(ctx, BankingService_GetTransactions_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *bankingServiceClient) GetBankAccounts(ctx context.Context, in *GetBankAccountsRequest, opts ...grpc.CallOption) (*GetBankAccountsResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(GetBankAccountsResponse)
@@ -101,7 +89,6 @@ func (c *bankingServiceClient) HandleRequisition(ctx context.Context, in *Handle
 type BankingServiceServer interface {
 	GetBanks(context.Context, *GetBanksRequest) (*GetBanksResponse, error)
 	CreateRequisition(context.Context, *CreateRequisitionRequest) (*CreateRequisitionResponse, error)
-	GetTransactions(context.Context, *GetTransactionsRequest) (*GetTransactionsResponse, error)
 	GetBankAccounts(context.Context, *GetBankAccountsRequest) (*GetBankAccountsResponse, error)
 	HandleRequisition(context.Context, *HandleRequisitionRequest) (*HandleRequisitionResponse, error)
 	mustEmbedUnimplementedBankingServiceServer()
@@ -116,9 +103,6 @@ func (UnimplementedBankingServiceServer) GetBanks(context.Context, *GetBanksRequ
 }
 func (UnimplementedBankingServiceServer) CreateRequisition(context.Context, *CreateRequisitionRequest) (*CreateRequisitionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateRequisition not implemented")
-}
-func (UnimplementedBankingServiceServer) GetTransactions(context.Context, *GetTransactionsRequest) (*GetTransactionsResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetTransactions not implemented")
 }
 func (UnimplementedBankingServiceServer) GetBankAccounts(context.Context, *GetBankAccountsRequest) (*GetBankAccountsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetBankAccounts not implemented")
@@ -175,24 +159,6 @@ func _BankingService_CreateRequisition_Handler(srv interface{}, ctx context.Cont
 	return interceptor(ctx, in, info, handler)
 }
 
-func _BankingService_GetTransactions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetTransactionsRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(BankingServiceServer).GetTransactions(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: BankingService_GetTransactions_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(BankingServiceServer).GetTransactions(ctx, req.(*GetTransactionsRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _BankingService_GetBankAccounts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetBankAccountsRequest)
 	if err := dec(in); err != nil {
@@ -243,10 +209,6 @@ var BankingService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CreateRequisition",
 			Handler:    _BankingService_CreateRequisition_Handler,
-		},
-		{
-			MethodName: "GetTransactions",
-			Handler:    _BankingService_GetTransactions_Handler,
 		},
 		{
 			MethodName: "GetBankAccounts",
@@ -384,6 +346,211 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "LinkUser",
 			Handler:    _UserService_LinkUser_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "main.proto",
+}
+
+const (
+	BudgetingService_GetTransactions_FullMethodName                  = "/BudgetingService/GetTransactions"
+	BudgetingService_GetUncategorizedTransaction_FullMethodName      = "/BudgetingService/GetUncategorizedTransaction"
+	BudgetingService_CategorizeTransactionAndContinue_FullMethodName = "/BudgetingService/CategorizeTransactionAndContinue"
+	BudgetingService_GetTransactionCategories_FullMethodName         = "/BudgetingService/GetTransactionCategories"
+)
+
+// BudgetingServiceClient is the client API for BudgetingService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type BudgetingServiceClient interface {
+	GetTransactions(ctx context.Context, in *GetTransactionsRequest, opts ...grpc.CallOption) (*GetTransactionsResponse, error)
+	GetUncategorizedTransaction(ctx context.Context, in *GetUncategorizedTransactionRequest, opts ...grpc.CallOption) (*GetUncategorizedTransactionResponse, error)
+	CategorizeTransactionAndContinue(ctx context.Context, in *CategorizeTransactionAndContinueRequest, opts ...grpc.CallOption) (*GetUncategorizedTransactionResponse, error)
+	GetTransactionCategories(ctx context.Context, in *GetTransactionCategoriesRequest, opts ...grpc.CallOption) (*GetTransactionCategoriesResponse, error)
+}
+
+type budgetingServiceClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewBudgetingServiceClient(cc grpc.ClientConnInterface) BudgetingServiceClient {
+	return &budgetingServiceClient{cc}
+}
+
+func (c *budgetingServiceClient) GetTransactions(ctx context.Context, in *GetTransactionsRequest, opts ...grpc.CallOption) (*GetTransactionsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetTransactionsResponse)
+	err := c.cc.Invoke(ctx, BudgetingService_GetTransactions_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *budgetingServiceClient) GetUncategorizedTransaction(ctx context.Context, in *GetUncategorizedTransactionRequest, opts ...grpc.CallOption) (*GetUncategorizedTransactionResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetUncategorizedTransactionResponse)
+	err := c.cc.Invoke(ctx, BudgetingService_GetUncategorizedTransaction_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *budgetingServiceClient) CategorizeTransactionAndContinue(ctx context.Context, in *CategorizeTransactionAndContinueRequest, opts ...grpc.CallOption) (*GetUncategorizedTransactionResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetUncategorizedTransactionResponse)
+	err := c.cc.Invoke(ctx, BudgetingService_CategorizeTransactionAndContinue_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *budgetingServiceClient) GetTransactionCategories(ctx context.Context, in *GetTransactionCategoriesRequest, opts ...grpc.CallOption) (*GetTransactionCategoriesResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetTransactionCategoriesResponse)
+	err := c.cc.Invoke(ctx, BudgetingService_GetTransactionCategories_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// BudgetingServiceServer is the server API for BudgetingService service.
+// All implementations must embed UnimplementedBudgetingServiceServer
+// for forward compatibility
+type BudgetingServiceServer interface {
+	GetTransactions(context.Context, *GetTransactionsRequest) (*GetTransactionsResponse, error)
+	GetUncategorizedTransaction(context.Context, *GetUncategorizedTransactionRequest) (*GetUncategorizedTransactionResponse, error)
+	CategorizeTransactionAndContinue(context.Context, *CategorizeTransactionAndContinueRequest) (*GetUncategorizedTransactionResponse, error)
+	GetTransactionCategories(context.Context, *GetTransactionCategoriesRequest) (*GetTransactionCategoriesResponse, error)
+	mustEmbedUnimplementedBudgetingServiceServer()
+}
+
+// UnimplementedBudgetingServiceServer must be embedded to have forward compatible implementations.
+type UnimplementedBudgetingServiceServer struct {
+}
+
+func (UnimplementedBudgetingServiceServer) GetTransactions(context.Context, *GetTransactionsRequest) (*GetTransactionsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTransactions not implemented")
+}
+func (UnimplementedBudgetingServiceServer) GetUncategorizedTransaction(context.Context, *GetUncategorizedTransactionRequest) (*GetUncategorizedTransactionResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUncategorizedTransaction not implemented")
+}
+func (UnimplementedBudgetingServiceServer) CategorizeTransactionAndContinue(context.Context, *CategorizeTransactionAndContinueRequest) (*GetUncategorizedTransactionResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CategorizeTransactionAndContinue not implemented")
+}
+func (UnimplementedBudgetingServiceServer) GetTransactionCategories(context.Context, *GetTransactionCategoriesRequest) (*GetTransactionCategoriesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTransactionCategories not implemented")
+}
+func (UnimplementedBudgetingServiceServer) mustEmbedUnimplementedBudgetingServiceServer() {}
+
+// UnsafeBudgetingServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to BudgetingServiceServer will
+// result in compilation errors.
+type UnsafeBudgetingServiceServer interface {
+	mustEmbedUnimplementedBudgetingServiceServer()
+}
+
+func RegisterBudgetingServiceServer(s grpc.ServiceRegistrar, srv BudgetingServiceServer) {
+	s.RegisterService(&BudgetingService_ServiceDesc, srv)
+}
+
+func _BudgetingService_GetTransactions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetTransactionsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BudgetingServiceServer).GetTransactions(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: BudgetingService_GetTransactions_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BudgetingServiceServer).GetTransactions(ctx, req.(*GetTransactionsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _BudgetingService_GetUncategorizedTransaction_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUncategorizedTransactionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BudgetingServiceServer).GetUncategorizedTransaction(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: BudgetingService_GetUncategorizedTransaction_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BudgetingServiceServer).GetUncategorizedTransaction(ctx, req.(*GetUncategorizedTransactionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _BudgetingService_CategorizeTransactionAndContinue_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CategorizeTransactionAndContinueRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BudgetingServiceServer).CategorizeTransactionAndContinue(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: BudgetingService_CategorizeTransactionAndContinue_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BudgetingServiceServer).CategorizeTransactionAndContinue(ctx, req.(*CategorizeTransactionAndContinueRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _BudgetingService_GetTransactionCategories_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetTransactionCategoriesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BudgetingServiceServer).GetTransactionCategories(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: BudgetingService_GetTransactionCategories_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BudgetingServiceServer).GetTransactionCategories(ctx, req.(*GetTransactionCategoriesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// BudgetingService_ServiceDesc is the grpc.ServiceDesc for BudgetingService service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var BudgetingService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "BudgetingService",
+	HandlerType: (*BudgetingServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "GetTransactions",
+			Handler:    _BudgetingService_GetTransactions_Handler,
+		},
+		{
+			MethodName: "GetUncategorizedTransaction",
+			Handler:    _BudgetingService_GetUncategorizedTransaction_Handler,
+		},
+		{
+			MethodName: "CategorizeTransactionAndContinue",
+			Handler:    _BudgetingService_CategorizeTransactionAndContinue_Handler,
+		},
+		{
+			MethodName: "GetTransactionCategories",
+			Handler:    _BudgetingService_GetTransactionCategories_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -1,8 +1,9 @@
 syntax = "proto3";
 
-import "banking.proto";
 import "google/api/annotations.proto";
+import "banking.proto";
 import "user.proto";
+import "budgeting.proto";
 
 option go_package = "personalfinance/generated/proto";
 
@@ -11,7 +12,6 @@ message Empty {}
 service BankingService {
   rpc GetBanks(GetBanksRequest) returns (GetBanksResponse);
   rpc CreateRequisition(CreateRequisitionRequest) returns (CreateRequisitionResponse);
-  rpc GetTransactions(GetTransactionsRequest) returns (GetTransactionsResponse);
   rpc GetBankAccounts(GetBankAccountsRequest) returns (GetBankAccountsResponse);
   rpc HandleRequisition(HandleRequisitionRequest) returns (HandleRequisitionResponse) {
     option (google.api.http) = {
@@ -23,4 +23,11 @@ service BankingService {
 service UserService {
   rpc RegisterUnverifiedUser(RegisterUnverifiedUserRequest) returns (RegisterUnverifiedUserResponse);
   rpc LinkUser(LinkUserRequest) returns (LinkUserResponse);
+}
+
+service BudgetingService {
+  rpc GetTransactions(GetTransactionsRequest) returns (GetTransactionsResponse);
+  rpc GetUncategorizedTransaction(GetUncategorizedTransactionRequest) returns (GetUncategorizedTransactionResponse);
+  rpc CategorizeTransactionAndContinue(CategorizeTransactionAndContinueRequest) returns (GetUncategorizedTransactionResponse);
+  rpc GetTransactionCategories(GetTransactionCategoriesRequest) returns (GetTransactionCategoriesResponse);
 }

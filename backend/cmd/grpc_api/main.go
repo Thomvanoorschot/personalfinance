@@ -12,6 +12,7 @@ import (
 	"personalfinance/gocardless"
 	"personalfinance/repositories"
 	"personalfinance/services/banking"
+	"personalfinance/services/budgeting"
 	"personalfinance/services/user"
 
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
@@ -47,6 +48,11 @@ func main() {
 	userService := user.NewService(repo)
 	userHandler := api.NewUserHandler(userService)
 	proto.RegisterUserServiceServer(s, userHandler)
+
+	// budgeting
+	budgetingService := budgeting.NewService(repo)
+	budgetingHandler := api.NewBudgetingHandler(budgetingService)
+	proto.RegisterBudgetingServiceServer(s, budgetingHandler)
 
 	reflection.Register(s)
 	go func() {

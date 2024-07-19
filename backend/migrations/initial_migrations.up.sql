@@ -26,6 +26,7 @@ CREATE TABLE account
     id             UUID PRIMARY KEY,
     user_id        UUID NOT NULL,
     iban           TEXT NOT NULL,
+    owner_name     TEXT NOT NULL,
     institution_id TEXT NOT NULL,
     created_at     TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at     TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -72,6 +73,12 @@ CREATE TABLE transaction
     FOREIGN KEY (account_id) REFERENCES account (id) ON DELETE CASCADE,
     FOREIGN KEY (transaction_category_id) REFERENCES transaction_category (id) ON DELETE CASCADE
 );
+CREATE INDEX idx_transaction_value_date_time ON transaction (value_date_time);
+CREATE INDEX idx_transaction_creditor_name ON transaction (creditor_name);
+CREATE INDEX idx_transaction_creditor_iban ON transaction (creditor_iban);
+CREATE INDEX idx_transaction_debtor_name ON transaction (debtor_name);
+CREATE INDEX idx_transaction_debtor_iban ON transaction (debtor_iban);
+CREATE INDEX idx_transaction_transaction_amount ON transaction (transaction_amount);
 
 CREATE TABLE requisition
 (
