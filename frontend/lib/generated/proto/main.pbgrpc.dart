@@ -191,10 +191,10 @@ class BudgetingServiceClient extends $grpc.Client {
       '/BudgetingService/CategorizeTransactionAndContinue',
       ($2.CategorizeTransactionAndContinueRequest value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $2.GetUncategorizedTransactionResponse.fromBuffer(value));
-  static final _$getTransactionCategories = $grpc.ClientMethod<$2.GetTransactionCategoriesRequest, $2.GetTransactionCategoriesResponse>(
-      '/BudgetingService/GetTransactionCategories',
-      ($2.GetTransactionCategoriesRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $2.GetTransactionCategoriesResponse.fromBuffer(value));
+  static final _$getTransactionCategoryGroups = $grpc.ClientMethod<$2.GetTransactionCategoryGroupsRequest, $2.GetTransactionCategoryGroupsResponse>(
+      '/BudgetingService/GetTransactionCategoryGroups',
+      ($2.GetTransactionCategoryGroupsRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $2.GetTransactionCategoryGroupsResponse.fromBuffer(value));
 
   BudgetingServiceClient($grpc.ClientChannel channel,
       {$grpc.CallOptions? options,
@@ -214,8 +214,8 @@ class BudgetingServiceClient extends $grpc.Client {
     return $createUnaryCall(_$categorizeTransactionAndContinue, request, options: options);
   }
 
-  $grpc.ResponseFuture<$2.GetTransactionCategoriesResponse> getTransactionCategories($2.GetTransactionCategoriesRequest request, {$grpc.CallOptions? options}) {
-    return $createUnaryCall(_$getTransactionCategories, request, options: options);
+  $grpc.ResponseFuture<$2.GetTransactionCategoryGroupsResponse> getTransactionCategoryGroups($2.GetTransactionCategoryGroupsRequest request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$getTransactionCategoryGroups, request, options: options);
   }
 }
 
@@ -245,13 +245,13 @@ abstract class BudgetingServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $2.CategorizeTransactionAndContinueRequest.fromBuffer(value),
         ($2.GetUncategorizedTransactionResponse value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$2.GetTransactionCategoriesRequest, $2.GetTransactionCategoriesResponse>(
-        'GetTransactionCategories',
-        getTransactionCategories_Pre,
+    $addMethod($grpc.ServiceMethod<$2.GetTransactionCategoryGroupsRequest, $2.GetTransactionCategoryGroupsResponse>(
+        'GetTransactionCategoryGroups',
+        getTransactionCategoryGroups_Pre,
         false,
         false,
-        ($core.List<$core.int> value) => $2.GetTransactionCategoriesRequest.fromBuffer(value),
-        ($2.GetTransactionCategoriesResponse value) => value.writeToBuffer()));
+        ($core.List<$core.int> value) => $2.GetTransactionCategoryGroupsRequest.fromBuffer(value),
+        ($2.GetTransactionCategoryGroupsResponse value) => value.writeToBuffer()));
   }
 
   $async.Future<$2.GetTransactionsResponse> getTransactions_Pre($grpc.ServiceCall call, $async.Future<$2.GetTransactionsRequest> request) async {
@@ -266,12 +266,12 @@ abstract class BudgetingServiceBase extends $grpc.Service {
     return categorizeTransactionAndContinue(call, await request);
   }
 
-  $async.Future<$2.GetTransactionCategoriesResponse> getTransactionCategories_Pre($grpc.ServiceCall call, $async.Future<$2.GetTransactionCategoriesRequest> request) async {
-    return getTransactionCategories(call, await request);
+  $async.Future<$2.GetTransactionCategoryGroupsResponse> getTransactionCategoryGroups_Pre($grpc.ServiceCall call, $async.Future<$2.GetTransactionCategoryGroupsRequest> request) async {
+    return getTransactionCategoryGroups(call, await request);
   }
 
   $async.Future<$2.GetTransactionsResponse> getTransactions($grpc.ServiceCall call, $2.GetTransactionsRequest request);
   $async.Future<$2.GetUncategorizedTransactionResponse> getUncategorizedTransaction($grpc.ServiceCall call, $2.GetUncategorizedTransactionRequest request);
   $async.Future<$2.GetUncategorizedTransactionResponse> categorizeTransactionAndContinue($grpc.ServiceCall call, $2.CategorizeTransactionAndContinueRequest request);
-  $async.Future<$2.GetTransactionCategoriesResponse> getTransactionCategories($grpc.ServiceCall call, $2.GetTransactionCategoriesRequest request);
+  $async.Future<$2.GetTransactionCategoryGroupsResponse> getTransactionCategoryGroups($grpc.ServiceCall call, $2.GetTransactionCategoryGroupsRequest request);
 }

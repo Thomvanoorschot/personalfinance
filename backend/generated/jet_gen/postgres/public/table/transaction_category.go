@@ -17,10 +17,13 @@ type transactionCategoryTable struct {
 	postgres.Table
 
 	// Columns
-	ID        postgres.ColumnString
-	Label     postgres.ColumnString
-	CreatedAt postgres.ColumnTimestamp
-	UpdatedAt postgres.ColumnTimestamp
+	ID                         postgres.ColumnString
+	Slug                       postgres.ColumnString
+	LabelEn                    postgres.ColumnString
+	LabelNl                    postgres.ColumnString
+	TransactionCategoryGroupID postgres.ColumnString
+	CreatedAt                  postgres.ColumnTimestamp
+	UpdatedAt                  postgres.ColumnTimestamp
 
 	AllColumns     postgres.ColumnList
 	MutableColumns postgres.ColumnList
@@ -61,22 +64,28 @@ func newTransactionCategoryTable(schemaName, tableName, alias string) *Transacti
 
 func newTransactionCategoryTableImpl(schemaName, tableName, alias string) transactionCategoryTable {
 	var (
-		IDColumn        = postgres.StringColumn("id")
-		LabelColumn     = postgres.StringColumn("label")
-		CreatedAtColumn = postgres.TimestampColumn("created_at")
-		UpdatedAtColumn = postgres.TimestampColumn("updated_at")
-		allColumns      = postgres.ColumnList{IDColumn, LabelColumn, CreatedAtColumn, UpdatedAtColumn}
-		mutableColumns  = postgres.ColumnList{LabelColumn, CreatedAtColumn, UpdatedAtColumn}
+		IDColumn                         = postgres.StringColumn("id")
+		SlugColumn                       = postgres.StringColumn("slug")
+		LabelEnColumn                    = postgres.StringColumn("label_en")
+		LabelNlColumn                    = postgres.StringColumn("label_nl")
+		TransactionCategoryGroupIDColumn = postgres.StringColumn("transaction_category_group_id")
+		CreatedAtColumn                  = postgres.TimestampColumn("created_at")
+		UpdatedAtColumn                  = postgres.TimestampColumn("updated_at")
+		allColumns                       = postgres.ColumnList{IDColumn, SlugColumn, LabelEnColumn, LabelNlColumn, TransactionCategoryGroupIDColumn, CreatedAtColumn, UpdatedAtColumn}
+		mutableColumns                   = postgres.ColumnList{SlugColumn, LabelEnColumn, LabelNlColumn, TransactionCategoryGroupIDColumn, CreatedAtColumn, UpdatedAtColumn}
 	)
 
 	return transactionCategoryTable{
 		Table: postgres.NewTable(schemaName, tableName, alias, allColumns...),
 
 		//Columns
-		ID:        IDColumn,
-		Label:     LabelColumn,
-		CreatedAt: CreatedAtColumn,
-		UpdatedAt: UpdatedAtColumn,
+		ID:                         IDColumn,
+		Slug:                       SlugColumn,
+		LabelEn:                    LabelEnColumn,
+		LabelNl:                    LabelNlColumn,
+		TransactionCategoryGroupID: TransactionCategoryGroupIDColumn,
+		CreatedAt:                  CreatedAtColumn,
+		UpdatedAt:                  UpdatedAtColumn,
 
 		AllColumns:     allColumns,
 		MutableColumns: mutableColumns,

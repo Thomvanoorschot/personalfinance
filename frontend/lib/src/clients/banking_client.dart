@@ -1,4 +1,5 @@
 import 'package:frontend/generated/proto/banking.pb.dart';
+import 'package:frontend/generated/proto/budgeting.pb.dart';
 import 'package:frontend/src/clients/grpc_client.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -15,12 +16,6 @@ Future<GetBanksResponse> getBanks(GetBanksRef ref,
 Future<CreateRequisitionResponse> createRequisition(CreateRequisitionRef ref,
     {required CreateRequisitionRequest req}) async {
   return ref.read(bankingServiceProvider).createRequisition(req);
-}
-
-@riverpod
-Future<GetTransactionsResponse> getTransactions(GetTransactionsRef ref,
-    {required GetTransactionsRequest req}) async {
-  return ref.read(bankingServiceProvider).getTransactions(req);
 }
 
 @riverpod

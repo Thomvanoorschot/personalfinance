@@ -24,14 +24,15 @@ class BankAccounts extends ConsumerWidget {
       error: (err, stack) => Text('error: $err'),
       data: (resp) {
         return ListView.builder(
-            scrollDirection: Axis.horizontal,
-            // shrinkWrap: true,
-            itemCount: resp.accounts.length,
-            itemBuilder: (context, index) {
-              return BankAccount(
-                bankAccount: resp.accounts[index],
-              );
-            });
+          scrollDirection: Axis.horizontal,
+          // shrinkWrap: true,
+          itemCount: resp.accounts.length,
+          itemBuilder: (context, index) {
+            return BankAccount(
+              bankAccount: resp.accounts[index],
+            );
+          },
+        );
       },
     );
 

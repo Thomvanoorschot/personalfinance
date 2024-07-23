@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend/generated/proto/banking.pb.dart';
+import 'package:frontend/generated/proto/budgeting.pb.dart';
 import 'package:frontend/src/clients/banking_client.dart';
+import 'package:frontend/src/clients/budgeting_client.dart';
 import 'package:frontend/src/widgets/banking/bank_accounts.dart';
-import 'package:frontend/src/widgets/banking/transaction_card.dart';
-import 'package:frontend/src/widgets/banking/transaction_card_shimmer.dart';
+import 'package:frontend/src/widgets/budgeting/transaction_card.dart';
+import 'package:frontend/src/widgets/budgeting/transaction_card_shimmer.dart';
 import 'package:go_router/go_router.dart';
 import 'package:fixnum/fixnum.dart' as fixnum;
 
@@ -43,7 +45,6 @@ class TransactionsScreen extends ConsumerWidget {
                         ),
                         onPressed: () async {
                           context.go("/transactions/getBanks");
-                          // await _showBanksModalSheet(context);
                         },
                         child: const Text(
                           "ADD NEW +",
@@ -60,11 +61,25 @@ class TransactionsScreen extends ConsumerWidget {
             SliverToBoxAdapter(
               child: SizedBox(
                 height: MediaQuery.sizeOf(context).height * 0.2,
-                // width: MediaQuery.sizeOf(context).width * 0.8,
                 child: const Padding(
                   padding: EdgeInsets.all(8.0),
                   child: BankAccounts(),
                 ),
+              ),
+            ),
+            SliverToBoxAdapter(
+              child: OverflowBar(
+                alignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Hero(
+                    tag: "categorize",
+                    child: TextButton( child: const Text('Categorize'), onPressed: () {
+                      context.go("/transactions/categorize");
+                    }),
+                  ),
+                  TextButton( child: const Text('Button 2'), onPressed: () {}),
+                  TextButton( child: const Text('Button 3'), onPressed: () {}),
+                ],
               ),
             ),
             SliverList(

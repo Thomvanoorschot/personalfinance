@@ -20,10 +20,10 @@ type accountTable struct {
 	ID            postgres.ColumnString
 	UserID        postgres.ColumnString
 	Iban          postgres.ColumnString
+	OwnerName     postgres.ColumnString
 	InstitutionID postgres.ColumnString
 	CreatedAt     postgres.ColumnTimestamp
 	UpdatedAt     postgres.ColumnTimestamp
-	OwnerName     postgres.ColumnString
 
 	AllColumns     postgres.ColumnList
 	MutableColumns postgres.ColumnList
@@ -67,12 +67,12 @@ func newAccountTableImpl(schemaName, tableName, alias string) accountTable {
 		IDColumn            = postgres.StringColumn("id")
 		UserIDColumn        = postgres.StringColumn("user_id")
 		IbanColumn          = postgres.StringColumn("iban")
+		OwnerNameColumn     = postgres.StringColumn("owner_name")
 		InstitutionIDColumn = postgres.StringColumn("institution_id")
 		CreatedAtColumn     = postgres.TimestampColumn("created_at")
 		UpdatedAtColumn     = postgres.TimestampColumn("updated_at")
-		OwnerNameColumn     = postgres.StringColumn("owner_name")
-		allColumns          = postgres.ColumnList{IDColumn, UserIDColumn, IbanColumn, InstitutionIDColumn, CreatedAtColumn, UpdatedAtColumn, OwnerNameColumn}
-		mutableColumns      = postgres.ColumnList{UserIDColumn, IbanColumn, InstitutionIDColumn, CreatedAtColumn, UpdatedAtColumn, OwnerNameColumn}
+		allColumns          = postgres.ColumnList{IDColumn, UserIDColumn, IbanColumn, OwnerNameColumn, InstitutionIDColumn, CreatedAtColumn, UpdatedAtColumn}
+		mutableColumns      = postgres.ColumnList{UserIDColumn, IbanColumn, OwnerNameColumn, InstitutionIDColumn, CreatedAtColumn, UpdatedAtColumn}
 	)
 
 	return accountTable{
@@ -82,10 +82,10 @@ func newAccountTableImpl(schemaName, tableName, alias string) accountTable {
 		ID:            IDColumn,
 		UserID:        UserIDColumn,
 		Iban:          IbanColumn,
+		OwnerName:     OwnerNameColumn,
 		InstitutionID: InstitutionIDColumn,
 		CreatedAt:     CreatedAtColumn,
 		UpdatedAt:     UpdatedAtColumn,
-		OwnerName:     OwnerNameColumn,
 
 		AllColumns:     allColumns,
 		MutableColumns: mutableColumns,

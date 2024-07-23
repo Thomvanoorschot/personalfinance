@@ -2,6 +2,7 @@ syntax = "proto3";
 
 import "buf/validate/validate.proto";
 import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
 
 option go_package = "personalfinance/generated/proto";
 
@@ -50,18 +51,26 @@ message TransactionResponse {
   string partyName = 6;
   string partyIban = 7;
   string description = 8;
-  string transactionCategoryLabel = 9;
-  string transactionCategoryId = 10;
+  google.protobuf.StringValue transactionCategoryLabel = 9;
+  google.protobuf.StringValue transactionCategoryId = 10;
   double balanceAfterTransaction = 11;
 }
 
-message GetTransactionCategoriesRequest {
+message GetTransactionCategoryGroupsRequest {
 }
 
-message GetTransactionCategoriesResponse {
-  repeated TransactionCategoryResponse categories = 1;
+message GetTransactionCategoryGroupsResponse {
+  repeated TransactionCategoryGroupResponse groups = 1;
 }
+message TransactionCategoryGroupResponse {
+  string id = 1;
+  string slug = 2;
+  string label = 3;
+  repeated TransactionCategoryResponse categories= 4;
+}
+
 message TransactionCategoryResponse {
   string id = 1;
-  string label = 2;
+  string slug = 2;
+  string label = 3;
 }

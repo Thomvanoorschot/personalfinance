@@ -13,8 +13,11 @@ import (
 )
 
 type TransactionCategory struct {
-	ID        uuid.UUID `sql:"primary_key"`
-	Label     string
-	CreatedAt *time.Time
-	UpdatedAt *time.Time
+	ID                         uuid.UUID `sql:"primary_key"`
+	Slug                       string
+	LabelEn                    string
+	LabelNl                    string
+	TransactionCategoryGroupID uuid.UUID
+	CreatedAt                  *time.Time
+	UpdatedAt                  *time.Time
 }

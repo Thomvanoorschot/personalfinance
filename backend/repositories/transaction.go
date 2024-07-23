@@ -25,7 +25,7 @@ func (r *Repository) GetTransactions(ctx context.Context, userID uuid.UUID, limi
 		Transaction.DebtorIban,
 		Transaction.RemittanceInformation,
 		Transaction.TransactionCategoryID,
-		TransactionCategory.Label,
+		transactionCategoryLabelCol(ctx),
 	).
 		FROM(Transaction.
 			LEFT_JOIN(TransactionCategory, TransactionCategory.ID.EQ(Transaction.TransactionCategoryID)),

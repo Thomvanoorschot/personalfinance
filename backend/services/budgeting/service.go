@@ -15,7 +15,7 @@ const (
 type Repository interface {
 	GetTransactions(ctx context.Context, userID uuid.UUID, limit, offset int64) (resp Transactions, err error)
 	GetUncategorizedTransaction(ctx context.Context, userID uuid.UUID) (resp UncategorizedTransaction, err error)
-	GetAllTransactionCategories(ctx context.Context) (resp TransactionCategories, err error)
+	GetAllTransactionCategoryGroups(ctx context.Context) (resp TransactionCategoryGroups, err error)
 	SetTransactionCategories(ctx context.Context, transactionIDs []uuid.UUID, categoryID uuid.UUID) error
 }
 
@@ -59,8 +59,8 @@ func (s *Service) CategorizeTransactionAndContinue(ctx context.Context, req *pro
 	return s.GetUncategorizedTransaction(ctx, &proto.GetUncategorizedTransactionRequest{})
 }
 
-func (s *Service) GetTransactionCategories(ctx context.Context, _ *proto.GetTransactionCategoriesRequest) (*proto.GetTransactionCategoriesResponse, error) {
-	transactionCategories, err := s.repo.GetAllTransactionCategories(ctx)
+func (s *Service) GetTransactionCategoryGroups(ctx context.Context, _ *proto.GetTransactionCategoryGroupsRequest) (*proto.GetTransactionCategoryGroupsResponse, error) {
+	transactionCategories, err := s.repo.GetAllTransactionCategoryGroups(ctx)
 	if err != nil {
 		return nil, err
 	}

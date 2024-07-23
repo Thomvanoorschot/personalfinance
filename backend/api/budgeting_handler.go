@@ -10,7 +10,7 @@ type BudgetingService interface {
 	GetTransactions(ctx context.Context, req *proto.GetTransactionsRequest) (*proto.GetTransactionsResponse, error)
 	GetUncategorizedTransaction(ctx context.Context, req *proto.GetUncategorizedTransactionRequest) (*proto.GetUncategorizedTransactionResponse, error)
 	CategorizeTransactionAndContinue(ctx context.Context, req *proto.CategorizeTransactionAndContinueRequest) (*proto.GetUncategorizedTransactionResponse, error)
-	GetTransactionCategories(context.Context, *proto.GetTransactionCategoriesRequest) (*proto.GetTransactionCategoriesResponse, error)
+	GetTransactionCategoryGroups(context.Context, *proto.GetTransactionCategoryGroupsRequest) (*proto.GetTransactionCategoryGroupsResponse, error)
 }
 
 type BudgetingHandler struct {
@@ -49,8 +49,8 @@ func (h *BudgetingHandler) CategorizeTransactionAndContinue(ctx context.Context,
 	return resp, nil
 }
 
-func (h *BudgetingHandler) GetTransactionCategories(ctx context.Context, req *proto.GetTransactionCategoriesRequest) (*proto.GetTransactionCategoriesResponse, error) {
-	resp, err := h.service.GetTransactionCategories(ctx, req)
+func (h *BudgetingHandler) GetTransactionCategoryGroups(ctx context.Context, req *proto.GetTransactionCategoryGroupsRequest) (*proto.GetTransactionCategoryGroupsResponse, error) {
+	resp, err := h.service.GetTransactionCategoryGroups(ctx, req)
 	if err != nil {
 		return nil, err
 	}

@@ -16,8 +16,8 @@ type Account struct {
 	ID            uuid.UUID `sql:"primary_key"`
 	UserID        uuid.UUID
 	Iban          string
+	OwnerName     string
 	InstitutionID string
 	CreatedAt     *time.Time
 	UpdatedAt     *time.Time
-	OwnerName     string
 }

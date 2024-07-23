@@ -356,7 +356,7 @@ const (
 	BudgetingService_GetTransactions_FullMethodName                  = "/BudgetingService/GetTransactions"
 	BudgetingService_GetUncategorizedTransaction_FullMethodName      = "/BudgetingService/GetUncategorizedTransaction"
 	BudgetingService_CategorizeTransactionAndContinue_FullMethodName = "/BudgetingService/CategorizeTransactionAndContinue"
-	BudgetingService_GetTransactionCategories_FullMethodName         = "/BudgetingService/GetTransactionCategories"
+	BudgetingService_GetTransactionCategoryGroups_FullMethodName     = "/BudgetingService/GetTransactionCategoryGroups"
 )
 
 // BudgetingServiceClient is the client API for BudgetingService service.
@@ -366,7 +366,7 @@ type BudgetingServiceClient interface {
 	GetTransactions(ctx context.Context, in *GetTransactionsRequest, opts ...grpc.CallOption) (*GetTransactionsResponse, error)
 	GetUncategorizedTransaction(ctx context.Context, in *GetUncategorizedTransactionRequest, opts ...grpc.CallOption) (*GetUncategorizedTransactionResponse, error)
 	CategorizeTransactionAndContinue(ctx context.Context, in *CategorizeTransactionAndContinueRequest, opts ...grpc.CallOption) (*GetUncategorizedTransactionResponse, error)
-	GetTransactionCategories(ctx context.Context, in *GetTransactionCategoriesRequest, opts ...grpc.CallOption) (*GetTransactionCategoriesResponse, error)
+	GetTransactionCategoryGroups(ctx context.Context, in *GetTransactionCategoryGroupsRequest, opts ...grpc.CallOption) (*GetTransactionCategoryGroupsResponse, error)
 }
 
 type budgetingServiceClient struct {
@@ -407,10 +407,10 @@ func (c *budgetingServiceClient) CategorizeTransactionAndContinue(ctx context.Co
 	return out, nil
 }
 
-func (c *budgetingServiceClient) GetTransactionCategories(ctx context.Context, in *GetTransactionCategoriesRequest, opts ...grpc.CallOption) (*GetTransactionCategoriesResponse, error) {
+func (c *budgetingServiceClient) GetTransactionCategoryGroups(ctx context.Context, in *GetTransactionCategoryGroupsRequest, opts ...grpc.CallOption) (*GetTransactionCategoryGroupsResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(GetTransactionCategoriesResponse)
-	err := c.cc.Invoke(ctx, BudgetingService_GetTransactionCategories_FullMethodName, in, out, cOpts...)
+	out := new(GetTransactionCategoryGroupsResponse)
+	err := c.cc.Invoke(ctx, BudgetingService_GetTransactionCategoryGroups_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -424,7 +424,7 @@ type BudgetingServiceServer interface {
 	GetTransactions(context.Context, *GetTransactionsRequest) (*GetTransactionsResponse, error)
 	GetUncategorizedTransaction(context.Context, *GetUncategorizedTransactionRequest) (*GetUncategorizedTransactionResponse, error)
 	CategorizeTransactionAndContinue(context.Context, *CategorizeTransactionAndContinueRequest) (*GetUncategorizedTransactionResponse, error)
-	GetTransactionCategories(context.Context, *GetTransactionCategoriesRequest) (*GetTransactionCategoriesResponse, error)
+	GetTransactionCategoryGroups(context.Context, *GetTransactionCategoryGroupsRequest) (*GetTransactionCategoryGroupsResponse, error)
 	mustEmbedUnimplementedBudgetingServiceServer()
 }
 
@@ -441,8 +441,8 @@ func (UnimplementedBudgetingServiceServer) GetUncategorizedTransaction(context.C
 func (UnimplementedBudgetingServiceServer) CategorizeTransactionAndContinue(context.Context, *CategorizeTransactionAndContinueRequest) (*GetUncategorizedTransactionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CategorizeTransactionAndContinue not implemented")
 }
-func (UnimplementedBudgetingServiceServer) GetTransactionCategories(context.Context, *GetTransactionCategoriesRequest) (*GetTransactionCategoriesResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetTransactionCategories not implemented")
+func (UnimplementedBudgetingServiceServer) GetTransactionCategoryGroups(context.Context, *GetTransactionCategoryGroupsRequest) (*GetTransactionCategoryGroupsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTransactionCategoryGroups not implemented")
 }
 func (UnimplementedBudgetingServiceServer) mustEmbedUnimplementedBudgetingServiceServer() {}
 
@@ -511,20 +511,20 @@ func _BudgetingService_CategorizeTransactionAndContinue_Handler(srv interface{},
 	return interceptor(ctx, in, info, handler)
 }
 
-func _BudgetingService_GetTransactionCategories_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetTransactionCategoriesRequest)
+func _BudgetingService_GetTransactionCategoryGroups_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetTransactionCategoryGroupsRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(BudgetingServiceServer).GetTransactionCategories(ctx, in)
+		return srv.(BudgetingServiceServer).GetTransactionCategoryGroups(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: BudgetingService_GetTransactionCategories_FullMethodName,
+		FullMethod: BudgetingService_GetTransactionCategoryGroups_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(BudgetingServiceServer).GetTransactionCategories(ctx, req.(*GetTransactionCategoriesRequest))
+		return srv.(BudgetingServiceServer).GetTransactionCategoryGroups(ctx, req.(*GetTransactionCategoryGroupsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -549,8 +549,8 @@ var BudgetingService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _BudgetingService_CategorizeTransactionAndContinue_Handler,
 		},
 		{
-			MethodName: "GetTransactionCategories",
-			Handler:    _BudgetingService_GetTransactionCategories_Handler,
+			MethodName: "GetTransactionCategoryGroups",
+			Handler:    _BudgetingService_GetTransactionCategoryGroups_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

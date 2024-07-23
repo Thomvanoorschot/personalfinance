@@ -1,53 +1,46 @@
-import 'dart:async';
+import "dart:async";
 
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:frontend/src/clients/banking_client.dart';
-import 'package:frontend/src/providers/user.dart';
-import 'package:frontend/src/routing/scaffold_with_nested_navigation.dart';
-import 'package:frontend/src/screens/home/home_screen.dart';
-import 'package:frontend/src/screens/transactions/transactions_screen.dart';
-import 'package:frontend/src/widgets/banking/banks_overview.dart';
-import 'package:frontend/src/widgets/banking/create_requisition.dart';
-import 'package:frontend/src/widgets/shared/modal_bottom_sheet_page.dart';
-import 'package:go_router/go_router.dart';
+import "package:flutter/material.dart";
+import "package:flutter_riverpod/flutter_riverpod.dart";
+import "package:frontend/src/clients/budgeting_client.dart";
+import "package:frontend/src/routing/scaffold_with_nested_navigation.dart";
+import "package:frontend/src/screens/home/home_screen.dart";
+import "package:frontend/src/screens/transactions/transactions_screen.dart";
+import "package:frontend/src/widgets/banking/banks_overview.dart";
+import "package:frontend/src/widgets/banking/create_requisition.dart";
+import "package:frontend/src/widgets/budgeting/categorize_card.dart";
+import "package:frontend/src/widgets/pages/modal_bottom_sheet_page.dart";
+import "package:frontend/src/widgets/pages/popup_card_page.dart";
+import "package:go_router/go_router.dart";
 
-enum AppRoute {
-  home,
-  locationOverview,
-  locationDetail,
-  locationCreate,
-}
-
-// private navigators
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
-final _homeNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'home');
-final _locationNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'location');
+final _homeNavigatorKey = GlobalKey<NavigatorState>(debugLabel: "home");
+final _locationNavigatorKey = GlobalKey<NavigatorState>(debugLabel: "location");
 
 // class MyNavigatorObserver extends NavigatorObserver {
 //   @override
 //   void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {
-//     print('did push route');
+//     print("did push route");
 //   }
 //
 //   @override
 //   void didPop(Route<dynamic> route, Route<dynamic>? previousRoute) {
-//     print('did pop route');
+//     print("did pop route");
 //   }
 //   @override
 //   void didRemove(Route<dynamic> route, Route<dynamic>? previousRoute) {
-//     print('did remove route');
+//     print("did remove route");
 //   }
 //   @override
 //   void didReplace({ Route<dynamic>? newRoute, Route<dynamic>? oldRoute }) {
-//     print('did replace route');
+//     print("did replace route");
 //   }
 // }
 
 final goRouterProvider = Provider<GoRouter>(
   (ref) {
     return GoRouter(
-      initialLocation: '/home',
+      initialLocation: "/home",
       navigatorKey: _rootNavigatorKey,
       debugLogDiagnostics: true,
       routes: [
@@ -65,8 +58,7 @@ final goRouterProvider = Provider<GoRouter>(
               routes: [
                 // Home
                 GoRoute(
-                  path: '/home',
-                  name: AppRoute.home.name,
+                  path: "/home",
                   pageBuilder: (context, state) => NoTransitionPage(
                     key: state.pageKey,
                     child: const HomeScreen(),
@@ -78,27 +70,24 @@ final goRouterProvider = Provider<GoRouter>(
               navigatorKey: _locationNavigatorKey,
               routes: [
                 GoRoute(
-                  path: '/transactions',
-                  name: AppRoute.locationOverview.name,
+                  path: "/transactions",
                   pageBuilder: (context, state) => NoTransitionPage(
                     key: state.pageKey,
                     child: const TransactionsScreen(),
                   ),
                   routes: [
                     GoRoute(
-                      path: 'getBanks',
-                      name: AppRoute.locationDetail.name,
+                      path: "getBanks",
                       pageBuilder: (context, state) =>
                           const ModalBottomSheetPage(
                         child: BanksOverview(),
                       ),
                       routes: [
                         GoRoute(
-                          path: 'createRequisition/:bankId',
-                          name: AppRoute.locationCreate.name,
+                          path: "createRequisition/:bankId",
                           pageBuilder: (context, state) {
                             final bankId =
-                                state.pathParameters['bankId'] as String;
+                                state.pathParameters["bankId"] as String;
 
                             return ModalBottomSheetPage(
                               child: CreateRequisition(
@@ -112,6 +101,29 @@ final goRouterProvider = Provider<GoRouter>(
                           },
                         ),
                       ],
+                    ),
+                    GoRoute(
+                      path: "categorize",
+                      pageBuilder: (context, state) {
+                        return PopupCardPage(
+                          tag: "categorize",
+                          child: CategorizeCard(),
+                        );
+                      },
+                      routes: [],
+                    ),
+                    GoRoute(
+                      path: "detail/:transactionId",
+                      pageBuilder: (context, state) {
+                        final transactionId =
+                            state.pathParameters["transactionId"] as String;
+
+                        return PopupCardPage(
+                          tag: transactionId,
+                          child: Text(transactionId),
+                        );
+                      },
+                      routes: [],
                     ),
                   ],
                 ),

@@ -59,6 +59,7 @@ dependencies:
   modal_bottom_sheet: ^3.0.0
   flutter_inappwebview: ^5.8.0
   shimmer: ^3.0.0
+  haptic_feedback: ^0.5.1+1
 
 dev_dependencies:
   flutter_test:
@@ -83,6 +84,20 @@ flutter:
 
   assets:
     - assets/
+    - assets/pet-care/
+    - assets/saving-and-investments/
+    - assets/food/
+    - assets/health-wellness/
+    - assets/entertainment-leisure/
+    - assets/housing/
+    - assets/income/
+    - assets/debt-repayment/
+    - assets/insurance/
+    - assets/transportation/
+    - assets/personal-care/
+    - assets/education/
+    - assets/childcare-education/
+    - assets/pet-care/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

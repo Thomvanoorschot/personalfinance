@@ -15,7 +15,7 @@ func (r *Repository) UpsertTransactionCategory(ctx context.Context, m model.Tran
 	sql, args := TransactionCategory.
 		INSERT(TransactionCategory.AllColumns).
 		MODEL(m).
-		ON_CONFLICT(TransactionCategory.Label).
+		ON_CONFLICT(TransactionCategory.Slug).
 		DO_NOTHING().
 		Sql()
 
@@ -61,7 +61,7 @@ func (r *Repository) RemoveTransactionCategory(ctx context.Context, transactionI
 func (r *Repository) GetAllTransactionCategories(ctx context.Context) (resp budgeting.TransactionCategories, err error) {
 	sql, args := SELECT(
 		TransactionCategory.ID,
-		TransactionCategory.Label,
+		transactionCategoryLabelCol(ctx),
 	).
 		FROM(TransactionCategory).
 		Sql()
@@ -82,4 +82,20 @@ func (r *Repository) GetAllTransactionCategories(ctx context.Context) (resp budg
 		resp = append(resp, transactionCategory)
 	}
 	return resp, nil
+}
+
+func transactionCategoryLabelCol(ctx context.Context) ColumnString {
+	languageVal := ctx.Value("language")
+	language, ok := languageVal.(string)
+	if !ok {
+		language = ""
+	}
+	switch language {
+	case "en":
+		return TransactionCategory.LabelEn
+	case "nl":
+		return TransactionCategory.LabelNl
+	default:
+		return TransactionCategory.LabelNl
+	}
 }

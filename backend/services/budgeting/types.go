@@ -4,31 +4,63 @@ import (
 	"time"
 
 	"personalfinance/generated/proto"
+	"personalfinance/utils/protoutils"
 
 	"github.com/google/uuid"
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
-type TransactionCategories []TransactionCategory
+type IdSlugLabel struct {
+	ID    uuid.UUID
+	Slug  string
+	Label string
+}
 
-func (tc TransactionCategories) ConvertToResponse() *proto.GetTransactionCategoriesResponse {
-	transactionCategories := make([]*proto.TransactionCategoryResponse, 0, len(tc))
-	for _, transactionCategory := range tc {
-		transactionCategories = append(transactionCategories, transactionCategory.ConvertToResponse())
+type TransactionCategoryGroups []TransactionCategoryGroup
+
+func (tcg TransactionCategoryGroups) ConvertToResponse() *proto.GetTransactionCategoryGroupsResponse {
+	transactionCategoriesGroup := make([]*proto.TransactionCategoryGroupResponse, 0, len(tcg))
+	for _, transactionCategoryGroup := range tcg {
+		transactionCategoriesGroup = append(transactionCategoriesGroup, transactionCategoryGroup.ConvertToResponse())
 	}
-	return &proto.GetTransactionCategoriesResponse{
-		Categories: transactionCategories,
+	return &proto.GetTransactionCategoryGroupsResponse{
+		Groups: transactionCategoriesGroup,
 	}
 }
 
+type TransactionCategoryGroup struct {
+	IdSlugLabel
+	Categories TransactionCategories
+}
+
+func (tcg TransactionCategoryGroup) ConvertToResponse() *proto.TransactionCategoryGroupResponse {
+	return &proto.TransactionCategoryGroupResponse{
+		Id:         tcg.ID.String(),
+		Slug:       tcg.Slug,
+		Label:      tcg.Label,
+		Categories: tcg.Categories.ConvertToResponse(),
+	}
+}
+
+type TransactionCategories []TransactionCategory
+
+func (tc TransactionCategories) ConvertToResponse() []*proto.TransactionCategoryResponse {
+	transactionCategories := make([]*proto.TransactionCategoryResponse, 0, len(tc))
+
+	for _, transactionCategoryGroup := range tc {
+		transactionCategories = append(transactionCategories, transactionCategoryGroup.ConvertToResponse())
+	}
+	return transactionCategories
+}
+
 type TransactionCategory struct {
-	ID    uuid.UUID
-	Label string
+	IdSlugLabel
 }
 
 func (tc TransactionCategory) ConvertToResponse() *proto.TransactionCategoryResponse {
 	return &proto.TransactionCategoryResponse{
 		Id:    tc.ID.String(),
+		Slug:  tc.Slug,
 		Label: tc.Label,
 	}
 }
@@ -52,22 +84,14 @@ type Transaction struct {
 	TransactionAmount        float64
 	BalanceAfterTransaction  float64
 	Currency                 string
-	CreditorName             string
-	CreditorIBAN             string
-	DebtorName               string
-	DebtorIBAN               string
 	Description              string
-	TransactionCategoryLabel string
-	TransactionCategoryID    string
+	TransactionCategoryLabel *string
+	TransactionCategoryID    *string
+	PaymentParty
 }
 
 func (t Transaction) ConvertToResponse() *proto.TransactionResponse {
-	var partyName string
-	var partyIBAN string
-	if t.TransactionAmount < 0 {
-		partyName = t.CreditorName
-		partyIBAN = t.CreditorIBAN
-	}
+	partyName, partyIBAN := t.getPartyNameAndIBAN(t.TransactionAmount)
 	return &proto.TransactionResponse{
 		Id:                       t.ID.String(),
 		AccountId:                t.AccountID.String(),
@@ -78,8 +102,8 @@ func (t Transaction) ConvertToResponse() *proto.TransactionResponse {
 		PartyName:                partyName,
 		PartyIban:                partyIBAN,
 		Description:              t.Description,
-		TransactionCategoryLabel: t.TransactionCategoryLabel,
-		TransactionCategoryId:    t.TransactionCategoryID,
+		TransactionCategoryLabel: protoutils.StringToNullableString(t.TransactionCategoryLabel),
+		TransactionCategoryId:    protoutils.StringToNullableString(t.TransactionCategoryID),
 	}
 }
 
@@ -88,32 +112,13 @@ type UncategorizedTransaction struct {
 	ValueDateTime        time.Time
 	TransactionAmount    float64
 	Currency             string
-	CreditorName         *string
-	CreditorIBAN         *string
-	DebtorName           *string
-	DebtorIBAN           *string
 	Description          string
 	MatchingTransactions MatchingUncategorizedTransactions
+	PaymentParty
 }
 
 func (ut UncategorizedTransaction) ConvertToResponse() *proto.GetUncategorizedTransactionResponse {
-	var partyName string
-	var partyIBAN string
-	if ut.TransactionAmount < 0 {
-		if ut.CreditorName != nil {
-			partyName = *ut.CreditorName
-		}
-		if ut.CreditorIBAN != nil {
-			partyIBAN = *ut.CreditorIBAN
-		}
-	} else {
-		if ut.CreditorName != nil {
-			partyName = *ut.CreditorName
-		}
-		if ut.CreditorIBAN != nil {
-			partyIBAN = *ut.CreditorIBAN
-		}
-	}
+	partyName, partyIBAN := ut.getPartyNameAndIBAN(ut.TransactionAmount)
 	return &proto.GetUncategorizedTransactionResponse{
 		Id:                   ut.ID.String(),
 		Date:                 timestamppb.New(ut.ValueDateTime),
@@ -148,4 +153,32 @@ func (mut MatchingUncategorizedTransaction) ConvertToResponse() *proto.MatchingU
 		Date:              timestamppb.New(mut.ValueDateTime),
 		TransactionAmount: mut.TransactionAmount,
 	}
+}
+
+type PaymentParty struct {
+	CreditorName *string
+	CreditorIBAN *string
+	DebtorName   *string
+	DebtorIBAN   *string
+}
+
+func (pp PaymentParty) getPartyNameAndIBAN(transactionAmount float64) (string, string) {
+	var partyName string
+	var partyIBAN string
+	if transactionAmount < 0 {
+		if pp.CreditorName != nil {
+			partyName = *pp.CreditorName
+		}
+		if pp.CreditorIBAN != nil {
+			partyIBAN = *pp.CreditorIBAN
+		}
+	} else {
+		if pp.CreditorName != nil {
+			partyName = *pp.CreditorName
+		}
+		if pp.CreditorIBAN != nil {
+			partyIBAN = *pp.CreditorIBAN
+		}
+	}
+	return partyName, partyIBAN
 }

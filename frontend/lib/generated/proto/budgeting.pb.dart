@@ -15,6 +15,7 @@ import 'package:fixnum/fixnum.dart' as $fixnum;
 import 'package:protobuf/protobuf.dart' as $pb;
 
 import 'google/protobuf/timestamp.pb.dart' as $5;
+import 'google/protobuf/wrappers.pb.dart' as $6;
 
 class GetTransactionsRequest extends $pb.GeneratedMessage {
   factory GetTransactionsRequest({
@@ -494,8 +495,8 @@ class TransactionResponse extends $pb.GeneratedMessage {
     $core.String? partyName,
     $core.String? partyIban,
     $core.String? description,
-    $core.String? transactionCategoryLabel,
-    $core.String? transactionCategoryId,
+    $6.StringValue? transactionCategoryLabel,
+    $6.StringValue? transactionCategoryId,
     $core.double? balanceAfterTransaction,
   }) {
     final $result = create();
@@ -547,8 +548,8 @@ class TransactionResponse extends $pb.GeneratedMessage {
     ..aOS(6, _omitFieldNames ? '' : 'partyName', protoName: 'partyName')
     ..aOS(7, _omitFieldNames ? '' : 'partyIban', protoName: 'partyIban')
     ..aOS(8, _omitFieldNames ? '' : 'description')
-    ..aOS(9, _omitFieldNames ? '' : 'transactionCategoryLabel', protoName: 'transactionCategoryLabel')
-    ..aOS(10, _omitFieldNames ? '' : 'transactionCategoryId', protoName: 'transactionCategoryId')
+    ..aOM<$6.StringValue>(9, _omitFieldNames ? '' : 'transactionCategoryLabel', protoName: 'transactionCategoryLabel', subBuilder: $6.StringValue.create)
+    ..aOM<$6.StringValue>(10, _omitFieldNames ? '' : 'transactionCategoryId', protoName: 'transactionCategoryId', subBuilder: $6.StringValue.create)
     ..a<$core.double>(11, _omitFieldNames ? '' : 'balanceAfterTransaction', $pb.PbFieldType.OD, protoName: 'balanceAfterTransaction')
     ..hasRequiredFields = false
   ;
@@ -649,22 +650,26 @@ class TransactionResponse extends $pb.GeneratedMessage {
   void clearDescription() => clearField(8);
 
   @$pb.TagNumber(9)
-  $core.String get transactionCategoryLabel => $_getSZ(8);
+  $6.StringValue get transactionCategoryLabel => $_getN(8);
   @$pb.TagNumber(9)
-  set transactionCategoryLabel($core.String v) { $_setString(8, v); }
+  set transactionCategoryLabel($6.StringValue v) { setField(9, v); }
   @$pb.TagNumber(9)
   $core.bool hasTransactionCategoryLabel() => $_has(8);
   @$pb.TagNumber(9)
   void clearTransactionCategoryLabel() => clearField(9);
+  @$pb.TagNumber(9)
+  $6.StringValue ensureTransactionCategoryLabel() => $_ensure(8);
 
   @$pb.TagNumber(10)
-  $core.String get transactionCategoryId => $_getSZ(9);
+  $6.StringValue get transactionCategoryId => $_getN(9);
   @$pb.TagNumber(10)
-  set transactionCategoryId($core.String v) { $_setString(9, v); }
+  set transactionCategoryId($6.StringValue v) { setField(10, v); }
   @$pb.TagNumber(10)
   $core.bool hasTransactionCategoryId() => $_has(9);
   @$pb.TagNumber(10)
   void clearTransactionCategoryId() => clearField(10);
+  @$pb.TagNumber(10)
+  $6.StringValue ensureTransactionCategoryId() => $_ensure(9);
 
   @$pb.TagNumber(11)
   $core.double get balanceAfterTransaction => $_getN(10);
@@ -676,13 +681,13 @@ class TransactionResponse extends $pb.GeneratedMessage {
   void clearBalanceAfterTransaction() => clearField(11);
 }
 
-class GetTransactionCategoriesRequest extends $pb.GeneratedMessage {
-  factory GetTransactionCategoriesRequest() => create();
-  GetTransactionCategoriesRequest._() : super();
-  factory GetTransactionCategoriesRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory GetTransactionCategoriesRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+class GetTransactionCategoryGroupsRequest extends $pb.GeneratedMessage {
+  factory GetTransactionCategoryGroupsRequest() => create();
+  GetTransactionCategoryGroupsRequest._() : super();
+  factory GetTransactionCategoryGroupsRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory GetTransactionCategoryGroupsRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetTransactionCategoriesRequest', createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetTransactionCategoryGroupsRequest', createEmptyInstance: create)
     ..hasRequiredFields = false
   ;
 
@@ -690,40 +695,99 @@ class GetTransactionCategoriesRequest extends $pb.GeneratedMessage {
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
   'Will be removed in next major version')
-  GetTransactionCategoriesRequest clone() => GetTransactionCategoriesRequest()..mergeFromMessage(this);
+  GetTransactionCategoryGroupsRequest clone() => GetTransactionCategoryGroupsRequest()..mergeFromMessage(this);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  GetTransactionCategoriesRequest copyWith(void Function(GetTransactionCategoriesRequest) updates) => super.copyWith((message) => updates(message as GetTransactionCategoriesRequest)) as GetTransactionCategoriesRequest;
+  GetTransactionCategoryGroupsRequest copyWith(void Function(GetTransactionCategoryGroupsRequest) updates) => super.copyWith((message) => updates(message as GetTransactionCategoryGroupsRequest)) as GetTransactionCategoryGroupsRequest;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static GetTransactionCategoriesRequest create() => GetTransactionCategoriesRequest._();
-  GetTransactionCategoriesRequest createEmptyInstance() => create();
-  static $pb.PbList<GetTransactionCategoriesRequest> createRepeated() => $pb.PbList<GetTransactionCategoriesRequest>();
+  static GetTransactionCategoryGroupsRequest create() => GetTransactionCategoryGroupsRequest._();
+  GetTransactionCategoryGroupsRequest createEmptyInstance() => create();
+  static $pb.PbList<GetTransactionCategoryGroupsRequest> createRepeated() => $pb.PbList<GetTransactionCategoryGroupsRequest>();
   @$core.pragma('dart2js:noInline')
-  static GetTransactionCategoriesRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetTransactionCategoriesRequest>(create);
-  static GetTransactionCategoriesRequest? _defaultInstance;
+  static GetTransactionCategoryGroupsRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetTransactionCategoryGroupsRequest>(create);
+  static GetTransactionCategoryGroupsRequest? _defaultInstance;
 }
 
-class GetTransactionCategoriesResponse extends $pb.GeneratedMessage {
-  factory GetTransactionCategoriesResponse({
+class GetTransactionCategoryGroupsResponse extends $pb.GeneratedMessage {
+  factory GetTransactionCategoryGroupsResponse({
+    $core.Iterable<TransactionCategoryGroupResponse>? groups,
+  }) {
+    final $result = create();
+    if (groups != null) {
+      $result.groups.addAll(groups);
+    }
+    return $result;
+  }
+  GetTransactionCategoryGroupsResponse._() : super();
+  factory GetTransactionCategoryGroupsResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory GetTransactionCategoryGroupsResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetTransactionCategoryGroupsResponse', createEmptyInstance: create)
+    ..pc<TransactionCategoryGroupResponse>(1, _omitFieldNames ? '' : 'groups', $pb.PbFieldType.PM, subBuilder: TransactionCategoryGroupResponse.create)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  GetTransactionCategoryGroupsResponse clone() => GetTransactionCategoryGroupsResponse()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  GetTransactionCategoryGroupsResponse copyWith(void Function(GetTransactionCategoryGroupsResponse) updates) => super.copyWith((message) => updates(message as GetTransactionCategoryGroupsResponse)) as GetTransactionCategoryGroupsResponse;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static GetTransactionCategoryGroupsResponse create() => GetTransactionCategoryGroupsResponse._();
+  GetTransactionCategoryGroupsResponse createEmptyInstance() => create();
+  static $pb.PbList<GetTransactionCategoryGroupsResponse> createRepeated() => $pb.PbList<GetTransactionCategoryGroupsResponse>();
+  @$core.pragma('dart2js:noInline')
+  static GetTransactionCategoryGroupsResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetTransactionCategoryGroupsResponse>(create);
+  static GetTransactionCategoryGroupsResponse? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.List<TransactionCategoryGroupResponse> get groups => $_getList(0);
+}
+
+class TransactionCategoryGroupResponse extends $pb.GeneratedMessage {
+  factory TransactionCategoryGroupResponse({
+    $core.String? id,
+    $core.String? slug,
+    $core.String? label,
     $core.Iterable<TransactionCategoryResponse>? categories,
   }) {
     final $result = create();
+    if (id != null) {
+      $result.id = id;
+    }
+    if (slug != null) {
+      $result.slug = slug;
+    }
+    if (label != null) {
+      $result.label = label;
+    }
     if (categories != null) {
       $result.categories.addAll(categories);
     }
     return $result;
   }
-  GetTransactionCategoriesResponse._() : super();
-  factory GetTransactionCategoriesResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory GetTransactionCategoriesResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  TransactionCategoryGroupResponse._() : super();
+  factory TransactionCategoryGroupResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory TransactionCategoryGroupResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetTransactionCategoriesResponse', createEmptyInstance: create)
-    ..pc<TransactionCategoryResponse>(1, _omitFieldNames ? '' : 'categories', $pb.PbFieldType.PM, subBuilder: TransactionCategoryResponse.create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'TransactionCategoryGroupResponse', createEmptyInstance: create)
+    ..aOS(1, _omitFieldNames ? '' : 'id')
+    ..aOS(2, _omitFieldNames ? '' : 'slug')
+    ..aOS(3, _omitFieldNames ? '' : 'label')
+    ..pc<TransactionCategoryResponse>(4, _omitFieldNames ? '' : 'categories', $pb.PbFieldType.PM, subBuilder: TransactionCategoryResponse.create)
     ..hasRequiredFields = false
   ;
 
@@ -731,35 +795,66 @@ class GetTransactionCategoriesResponse extends $pb.GeneratedMessage {
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
   'Will be removed in next major version')
-  GetTransactionCategoriesResponse clone() => GetTransactionCategoriesResponse()..mergeFromMessage(this);
+  TransactionCategoryGroupResponse clone() => TransactionCategoryGroupResponse()..mergeFromMessage(this);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  GetTransactionCategoriesResponse copyWith(void Function(GetTransactionCategoriesResponse) updates) => super.copyWith((message) => updates(message as GetTransactionCategoriesResponse)) as GetTransactionCategoriesResponse;
+  TransactionCategoryGroupResponse copyWith(void Function(TransactionCategoryGroupResponse) updates) => super.copyWith((message) => updates(message as TransactionCategoryGroupResponse)) as TransactionCategoryGroupResponse;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static GetTransactionCategoriesResponse create() => GetTransactionCategoriesResponse._();
-  GetTransactionCategoriesResponse createEmptyInstance() => create();
-  static $pb.PbList<GetTransactionCategoriesResponse> createRepeated() => $pb.PbList<GetTransactionCategoriesResponse>();
+  static TransactionCategoryGroupResponse create() => TransactionCategoryGroupResponse._();
+  TransactionCategoryGroupResponse createEmptyInstance() => create();
+  static $pb.PbList<TransactionCategoryGroupResponse> createRepeated() => $pb.PbList<TransactionCategoryGroupResponse>();
   @$core.pragma('dart2js:noInline')
-  static GetTransactionCategoriesResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetTransactionCategoriesResponse>(create);
-  static GetTransactionCategoriesResponse? _defaultInstance;
+  static TransactionCategoryGroupResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<TransactionCategoryGroupResponse>(create);
+  static TransactionCategoryGroupResponse? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.List<TransactionCategoryResponse> get categories => $_getList(0);
+  $core.String get id => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set id($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearId() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.String get slug => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set slug($core.String v) { $_setString(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasSlug() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearSlug() => clearField(2);
+
+  @$pb.TagNumber(3)
+  $core.String get label => $_getSZ(2);
+  @$pb.TagNumber(3)
+  set label($core.String v) { $_setString(2, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasLabel() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearLabel() => clearField(3);
+
+  @$pb.TagNumber(4)
+  $core.List<TransactionCategoryResponse> get categories => $_getList(3);
 }
 
 class TransactionCategoryResponse extends $pb.GeneratedMessage {
   factory TransactionCategoryResponse({
     $core.String? id,
+    $core.String? slug,
     $core.String? label,
   }) {
     final $result = create();
     if (id != null) {
       $result.id = id;
+    }
+    if (slug != null) {
+      $result.slug = slug;
     }
     if (label != null) {
       $result.label = label;
@@ -772,7 +867,8 @@ class TransactionCategoryResponse extends $pb.GeneratedMessage {
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'TransactionCategoryResponse', createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'id')
-    ..aOS(2, _omitFieldNames ? '' : 'label')
+    ..aOS(2, _omitFieldNames ? '' : 'slug')
+    ..aOS(3, _omitFieldNames ? '' : 'label')
     ..hasRequiredFields = false
   ;
 
@@ -807,13 +903,22 @@ class TransactionCategoryResponse extends $pb.GeneratedMessage {
   void clearId() => clearField(1);
 
   @$pb.TagNumber(2)
-  $core.String get label => $_getSZ(1);
+  $core.String get slug => $_getSZ(1);
   @$pb.TagNumber(2)
-  set label($core.String v) { $_setString(1, v); }
+  set slug($core.String v) { $_setString(1, v); }
   @$pb.TagNumber(2)
-  $core.bool hasLabel() => $_has(1);
+  $core.bool hasSlug() => $_has(1);
   @$pb.TagNumber(2)
-  void clearLabel() => clearField(2);
+  void clearSlug() => clearField(2);
+
+  @$pb.TagNumber(3)
+  $core.String get label => $_getSZ(2);
+  @$pb.TagNumber(3)
+  set label($core.String v) { $_setString(2, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasLabel() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearLabel() => clearField(3);
 }
 
 

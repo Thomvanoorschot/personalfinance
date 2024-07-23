@@ -26,3 +26,7 @@ UserServiceClient userService(UserServiceRef ref) =>
 @riverpod
 BankingServiceClient bankingService(BankingServiceRef ref) =>
     BankingServiceClient(ref.watch(grpcClientProvider));
+
+@riverpod
+BudgetingServiceClient budgetingService(BudgetingServiceRef ref) =>
+    BudgetingServiceClient(ref.watch(grpcClientProvider));
