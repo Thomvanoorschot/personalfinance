@@ -33,13 +33,15 @@ const GetTransactionsResponse$json = {
   '1': 'GetTransactionsResponse',
   '2': [
     {'1': 'transactions', '3': 1, '4': 3, '5': 11, '6': '.TransactionResponse', '10': 'transactions'},
+    {'1': 'totalCount', '3': 2, '4': 1, '5': 3, '10': 'totalCount'},
   ],
 };
 
 /// Descriptor for `GetTransactionsResponse`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List getTransactionsResponseDescriptor = $convert.base64Decode(
     'ChdHZXRUcmFuc2FjdGlvbnNSZXNwb25zZRI4Cgx0cmFuc2FjdGlvbnMYASADKAsyFC5UcmFuc2'
-    'FjdGlvblJlc3BvbnNlUgx0cmFuc2FjdGlvbnM=');
+    'FjdGlvblJlc3BvbnNlUgx0cmFuc2FjdGlvbnMSHgoKdG90YWxDb3VudBgCIAEoA1IKdG90YWxD'
+    'b3VudA==');
 
 @$core.Deprecated('Use getUncategorizedTransactionRequestDescriptor instead')
 const GetUncategorizedTransactionRequest$json = {
@@ -123,8 +125,8 @@ const TransactionResponse$json = {
     {'1': 'partyName', '3': 6, '4': 1, '5': 9, '10': 'partyName'},
     {'1': 'partyIban', '3': 7, '4': 1, '5': 9, '10': 'partyIban'},
     {'1': 'description', '3': 8, '4': 1, '5': 9, '10': 'description'},
-    {'1': 'transactionCategoryLabel', '3': 9, '4': 1, '5': 11, '6': '.google.protobuf.StringValue', '10': 'transactionCategoryLabel'},
-    {'1': 'transactionCategoryId', '3': 10, '4': 1, '5': 11, '6': '.google.protobuf.StringValue', '10': 'transactionCategoryId'},
+    {'1': 'transactionCategorySlug', '3': 9, '4': 1, '5': 11, '6': '.google.protobuf.StringValue', '10': 'transactionCategorySlug'},
+    {'1': 'transactionCategoryGroupSlug', '3': 10, '4': 1, '5': 11, '6': '.google.protobuf.StringValue', '10': 'transactionCategoryGroupSlug'},
     {'1': 'balanceAfterTransaction', '3': 11, '4': 1, '5': 1, '10': 'balanceAfterTransaction'},
   ],
 };
@@ -136,11 +138,11 @@ final $typed_data.Uint8List transactionResponseDescriptor = $convert.base64Decod
     'ZGF0ZRIsChF0cmFuc2FjdGlvbkFtb3VudBgEIAEoAVIRdHJhbnNhY3Rpb25BbW91bnQSGgoIY3'
     'VycmVuY3kYBSABKAlSCGN1cnJlbmN5EhwKCXBhcnR5TmFtZRgGIAEoCVIJcGFydHlOYW1lEhwK'
     'CXBhcnR5SWJhbhgHIAEoCVIJcGFydHlJYmFuEiAKC2Rlc2NyaXB0aW9uGAggASgJUgtkZXNjcm'
-    'lwdGlvbhJYChh0cmFuc2FjdGlvbkNhdGVnb3J5TGFiZWwYCSABKAsyHC5nb29nbGUucHJvdG9i'
-    'dWYuU3RyaW5nVmFsdWVSGHRyYW5zYWN0aW9uQ2F0ZWdvcnlMYWJlbBJSChV0cmFuc2FjdGlvbk'
-    'NhdGVnb3J5SWQYCiABKAsyHC5nb29nbGUucHJvdG9idWYuU3RyaW5nVmFsdWVSFXRyYW5zYWN0'
-    'aW9uQ2F0ZWdvcnlJZBI4ChdiYWxhbmNlQWZ0ZXJUcmFuc2FjdGlvbhgLIAEoAVIXYmFsYW5jZU'
-    'FmdGVyVHJhbnNhY3Rpb24=');
+    'lwdGlvbhJWChd0cmFuc2FjdGlvbkNhdGVnb3J5U2x1ZxgJIAEoCzIcLmdvb2dsZS5wcm90b2J1'
+    'Zi5TdHJpbmdWYWx1ZVIXdHJhbnNhY3Rpb25DYXRlZ29yeVNsdWcSYAocdHJhbnNhY3Rpb25DYX'
+    'RlZ29yeUdyb3VwU2x1ZxgKIAEoCzIcLmdvb2dsZS5wcm90b2J1Zi5TdHJpbmdWYWx1ZVIcdHJh'
+    'bnNhY3Rpb25DYXRlZ29yeUdyb3VwU2x1ZxI4ChdiYWxhbmNlQWZ0ZXJUcmFuc2FjdGlvbhgLIA'
+    'EoAVIXYmFsYW5jZUFmdGVyVHJhbnNhY3Rpb24=');
 
 @$core.Deprecated('Use getTransactionCategoryGroupsRequestDescriptor instead')
 const GetTransactionCategoryGroupsRequest$json = {

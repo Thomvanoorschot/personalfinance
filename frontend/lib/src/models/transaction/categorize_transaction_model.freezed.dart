@@ -20,6 +20,10 @@ mixin _$CategorizeTransactionModel {
       throw _privateConstructorUsedError;
   List<String> get toBeCategorizedTransactionIds =>
       throw _privateConstructorUsedError;
+  TransactionCategoryGroupResponse? get selectedTransactionCategoryGroup =>
+      throw _privateConstructorUsedError;
+  TransactionCategoryResponse? get selectedTransactionCategory =>
+      throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $CategorizeTransactionModelCopyWith<CategorizeTransactionModel>
@@ -35,7 +39,9 @@ abstract class $CategorizeTransactionModelCopyWith<$Res> {
   @useResult
   $Res call(
       {GetUncategorizedTransactionResponse uncategorizedTransaction,
-      List<String> toBeCategorizedTransactionIds});
+      List<String> toBeCategorizedTransactionIds,
+      TransactionCategoryGroupResponse? selectedTransactionCategoryGroup,
+      TransactionCategoryResponse? selectedTransactionCategory});
 }
 
 /// @nodoc
@@ -54,6 +60,8 @@ class _$CategorizeTransactionModelCopyWithImpl<$Res,
   $Res call({
     Object? uncategorizedTransaction = null,
     Object? toBeCategorizedTransactionIds = null,
+    Object? selectedTransactionCategoryGroup = freezed,
+    Object? selectedTransactionCategory = freezed,
   }) {
     return _then(_value.copyWith(
       uncategorizedTransaction: null == uncategorizedTransaction
@@ -64,6 +72,15 @@ class _$CategorizeTransactionModelCopyWithImpl<$Res,
           ? _value.toBeCategorizedTransactionIds
           : toBeCategorizedTransactionIds // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      selectedTransactionCategoryGroup: freezed ==
+              selectedTransactionCategoryGroup
+          ? _value.selectedTransactionCategoryGroup
+          : selectedTransactionCategoryGroup // ignore: cast_nullable_to_non_nullable
+              as TransactionCategoryGroupResponse?,
+      selectedTransactionCategory: freezed == selectedTransactionCategory
+          ? _value.selectedTransactionCategory
+          : selectedTransactionCategory // ignore: cast_nullable_to_non_nullable
+              as TransactionCategoryResponse?,
     ) as $Val);
   }
 }
@@ -79,7 +96,9 @@ abstract class _$$CategorizeTransactionModelImplCopyWith<$Res>
   @useResult
   $Res call(
       {GetUncategorizedTransactionResponse uncategorizedTransaction,
-      List<String> toBeCategorizedTransactionIds});
+      List<String> toBeCategorizedTransactionIds,
+      TransactionCategoryGroupResponse? selectedTransactionCategoryGroup,
+      TransactionCategoryResponse? selectedTransactionCategory});
 }
 
 /// @nodoc
@@ -97,6 +116,8 @@ class __$$CategorizeTransactionModelImplCopyWithImpl<$Res>
   $Res call({
     Object? uncategorizedTransaction = null,
     Object? toBeCategorizedTransactionIds = null,
+    Object? selectedTransactionCategoryGroup = freezed,
+    Object? selectedTransactionCategory = freezed,
   }) {
     return _then(_$CategorizeTransactionModelImpl(
       uncategorizedTransaction: null == uncategorizedTransaction
@@ -107,6 +128,15 @@ class __$$CategorizeTransactionModelImplCopyWithImpl<$Res>
           ? _value._toBeCategorizedTransactionIds
           : toBeCategorizedTransactionIds // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      selectedTransactionCategoryGroup: freezed ==
+              selectedTransactionCategoryGroup
+          ? _value.selectedTransactionCategoryGroup
+          : selectedTransactionCategoryGroup // ignore: cast_nullable_to_non_nullable
+              as TransactionCategoryGroupResponse?,
+      selectedTransactionCategory: freezed == selectedTransactionCategory
+          ? _value.selectedTransactionCategory
+          : selectedTransactionCategory // ignore: cast_nullable_to_non_nullable
+              as TransactionCategoryResponse?,
     ));
   }
 }
@@ -116,7 +146,9 @@ class __$$CategorizeTransactionModelImplCopyWithImpl<$Res>
 class _$CategorizeTransactionModelImpl implements _CategorizeTransactionModel {
   _$CategorizeTransactionModelImpl(
       {required this.uncategorizedTransaction,
-      required final List<String> toBeCategorizedTransactionIds})
+      required final List<String> toBeCategorizedTransactionIds,
+      this.selectedTransactionCategoryGroup,
+      this.selectedTransactionCategory})
       : _toBeCategorizedTransactionIds = toBeCategorizedTransactionIds;
 
   @override
@@ -131,8 +163,13 @@ class _$CategorizeTransactionModelImpl implements _CategorizeTransactionModel {
   }
 
   @override
+  final TransactionCategoryGroupResponse? selectedTransactionCategoryGroup;
+  @override
+  final TransactionCategoryResponse? selectedTransactionCategory;
+
+  @override
   String toString() {
-    return 'CategorizeTransactionModel(uncategorizedTransaction: $uncategorizedTransaction, toBeCategorizedTransactionIds: $toBeCategorizedTransactionIds)';
+    return 'CategorizeTransactionModel(uncategorizedTransaction: $uncategorizedTransaction, toBeCategorizedTransactionIds: $toBeCategorizedTransactionIds, selectedTransactionCategoryGroup: $selectedTransactionCategoryGroup, selectedTransactionCategory: $selectedTransactionCategory)';
   }
 
   @override
@@ -145,12 +182,24 @@ class _$CategorizeTransactionModelImpl implements _CategorizeTransactionModel {
                 other.uncategorizedTransaction == uncategorizedTransaction) &&
             const DeepCollectionEquality().equals(
                 other._toBeCategorizedTransactionIds,
-                _toBeCategorizedTransactionIds));
+                _toBeCategorizedTransactionIds) &&
+            (identical(other.selectedTransactionCategoryGroup,
+                    selectedTransactionCategoryGroup) ||
+                other.selectedTransactionCategoryGroup ==
+                    selectedTransactionCategoryGroup) &&
+            (identical(other.selectedTransactionCategory,
+                    selectedTransactionCategory) ||
+                other.selectedTransactionCategory ==
+                    selectedTransactionCategory));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, uncategorizedTransaction,
-      const DeepCollectionEquality().hash(_toBeCategorizedTransactionIds));
+  int get hashCode => Object.hash(
+      runtimeType,
+      uncategorizedTransaction,
+      const DeepCollectionEquality().hash(_toBeCategorizedTransactionIds),
+      selectedTransactionCategoryGroup,
+      selectedTransactionCategory);
 
   @JsonKey(ignore: true)
   @override
@@ -163,15 +212,21 @@ class _$CategorizeTransactionModelImpl implements _CategorizeTransactionModel {
 abstract class _CategorizeTransactionModel
     implements CategorizeTransactionModel {
   factory _CategorizeTransactionModel(
-          {required final GetUncategorizedTransactionResponse
-              uncategorizedTransaction,
-          required final List<String> toBeCategorizedTransactionIds}) =
-      _$CategorizeTransactionModelImpl;
+      {required final GetUncategorizedTransactionResponse
+          uncategorizedTransaction,
+      required final List<String> toBeCategorizedTransactionIds,
+      final TransactionCategoryGroupResponse? selectedTransactionCategoryGroup,
+      final TransactionCategoryResponse?
+          selectedTransactionCategory}) = _$CategorizeTransactionModelImpl;
 
   @override
   GetUncategorizedTransactionResponse get uncategorizedTransaction;
   @override
   List<String> get toBeCategorizedTransactionIds;
+  @override
+  TransactionCategoryGroupResponse? get selectedTransactionCategoryGroup;
+  @override
+  TransactionCategoryResponse? get selectedTransactionCategory;
   @override
   @JsonKey(ignore: true)
   _$$CategorizeTransactionModelImplCopyWith<_$CategorizeTransactionModelImpl>

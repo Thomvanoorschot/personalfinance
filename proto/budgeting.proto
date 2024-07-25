@@ -14,6 +14,7 @@ message GetTransactionsRequest {
 }
 message GetTransactionsResponse {
   repeated TransactionResponse transactions = 1;
+  int64 totalCount = 2;
 }
 
 message GetUncategorizedTransactionRequest {
@@ -51,8 +52,8 @@ message TransactionResponse {
   string partyName = 6;
   string partyIban = 7;
   string description = 8;
-  google.protobuf.StringValue transactionCategoryLabel = 9;
-  google.protobuf.StringValue transactionCategoryId = 10;
+  google.protobuf.StringValue transactionCategorySlug = 9;
+  google.protobuf.StringValue transactionCategoryGroupSlug = 10;
   double balanceAfterTransaction = 11;
 }
 

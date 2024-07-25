@@ -2,6 +2,7 @@ package budgeting
 
 import (
 	"context"
+	"strings"
 
 	"personalfinance/generated/proto"
 
@@ -13,7 +14,7 @@ const (
 )
 
 type Repository interface {
-	GetTransactions(ctx context.Context, userID uuid.UUID, limit, offset int64) (resp Transactions, err error)
+	GetTransactions(ctx context.Context, userID uuid.UUID, limit, offset int64) (resp Transactions, totalCount int64, err error)
 	GetUncategorizedTransaction(ctx context.Context, userID uuid.UUID) (resp UncategorizedTransaction, err error)
 	GetAllTransactionCategoryGroups(ctx context.Context) (resp TransactionCategoryGroups, err error)
 	SetTransactionCategories(ctx context.Context, transactionIDs []uuid.UUID, categoryID uuid.UUID) error
@@ -28,18 +29,28 @@ func NewService(repo Repository) *Service {
 }
 
 func (s *Service) GetTransactions(ctx context.Context, req *proto.GetTransactionsRequest) (*proto.GetTransactionsResponse, error) {
-	txs, err := s.repo.GetTransactions(ctx, uuid.MustParse(userID), req.Limit, req.Offset)
+	txs, totalCount, err := s.repo.GetTransactions(ctx, uuid.MustParse(userID), req.Limit, req.Offset)
 	if err != nil {
 		return nil, err
 	}
 
-	return txs.ConvertToResponse(), nil
+	return txs.ConvertToResponse(totalCount), nil
 }
 
 func (s *Service) GetUncategorizedTransaction(ctx context.Context, req *proto.GetUncategorizedTransactionRequest) (*proto.GetUncategorizedTransactionResponse, error) {
 	tx, err := s.repo.GetUncategorizedTransaction(ctx, uuid.MustParse(userID))
 	if err != nil {
 		return nil, err
+	}
+	// TODO Tikkie & Apple Pay
+	if tx.CreditorName != nil && (strings.Contains(*tx.CreditorName, "PayPal")) {
+		var newList MatchingUncategorizedTransactions
+		for _, matchingTx := range tx.MatchingTransactions {
+			if tx.TransactionAmount == matchingTx.TransactionAmount {
+				newList = append(newList, matchingTx)
+			}
+		}
+		tx.MatchingTransactions = newList
 	}
 
 	return tx.ConvertToResponse(), nil

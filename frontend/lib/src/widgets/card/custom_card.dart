@@ -17,7 +17,7 @@ class CustomCard extends StatelessWidget {
               colorOverride?.withAlpha(30) ?? Theme.of(context).colorScheme.primaryContainer.withAlpha(30),
           onTap: onTap,
           child: Padding(
-            padding: EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8.0),
             child: body,
           )),
     );

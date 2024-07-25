@@ -11,7 +11,7 @@ import (
 	"github.com/google/uuid"
 )
 
-func (r *Repository) GetTransactions(ctx context.Context, userID uuid.UUID, limit, offset int64) (resp budgeting.Transactions, err error) {
+func (r *Repository) GetTransactions(ctx context.Context, userID uuid.UUID, limit, offset int64) (resp budgeting.Transactions, totalCount int64, err error) {
 	sql, args := SELECT(
 		Transaction.ID,
 		Transaction.AccountID,
@@ -24,11 +24,13 @@ func (r *Repository) GetTransactions(ctx context.Context, userID uuid.UUID, limi
 		Transaction.DebtorName,
 		Transaction.DebtorIban,
 		Transaction.RemittanceInformation,
-		Transaction.TransactionCategoryID,
-		transactionCategoryLabelCol(ctx),
+		TransactionCategoryGroup.Slug,
+		TransactionCategory.Slug,
+		COUNT(Transaction.ID).OVER().AS("total_count"),
 	).
 		FROM(Transaction.
-			LEFT_JOIN(TransactionCategory, TransactionCategory.ID.EQ(Transaction.TransactionCategoryID)),
+			LEFT_JOIN(TransactionCategory, TransactionCategory.ID.EQ(Transaction.TransactionCategoryID)).
+			LEFT_JOIN(TransactionCategoryGroup, TransactionCategoryGroup.ID.EQ(TransactionCategory.TransactionCategoryGroupID)),
 		).
 		WHERE(Transaction.UserID.EQ(UUID(userID))).
 		LIMIT(limit).
@@ -38,7 +40,7 @@ func (r *Repository) GetTransactions(ctx context.Context, userID uuid.UUID, limi
 
 	rows, err := r.conn().Query(ctx, sql, args...)
 	if err != nil {
-		return resp, err
+		return resp, 0, err
 	}
 	for rows.Next() {
 		var tx budgeting.Transaction
@@ -54,15 +56,16 @@ func (r *Repository) GetTransactions(ctx context.Context, userID uuid.UUID, limi
 			&tx.DebtorName,
 			&tx.DebtorIBAN,
 			&tx.Description,
-			&tx.TransactionCategoryID,
-			&tx.TransactionCategoryLabel,
+			&tx.TransactionCategoryGroupSlug,
+			&tx.TransactionCategorySlug,
+			&totalCount,
 		)
 		if err != nil {
-			return resp, err
+			return resp, 0, err
 		}
 		resp = append(resp, tx)
 	}
-	return resp, nil
+	return resp, totalCount, nil
 }
 
 func (r *Repository) GetUncategorizedTransaction(ctx context.Context, userID uuid.UUID) (resp budgeting.UncategorizedTransaction, err error) {
@@ -104,7 +107,8 @@ func (r *Repository) GetUncategorizedTransaction(ctx context.Context, userID uui
 				(Transaction.CreditorIban.EQ(t2CreditorIBAN).AND(Transaction.CreditorName.EQ(t2CreditorName))).
 					OR(Transaction.DebtorIban.EQ(t2DebtorIBAN).AND(Transaction.DebtorName.EQ(t2DebtorName))),
 			),
-	)).ORDER_BY(Transaction.ValueDateTime.DESC()).
+	)).WHERE(Transaction.TransactionCategoryID.IS_NULL()).
+		ORDER_BY(Transaction.ValueDateTime.DESC()).
 		Sql()
 
 	rows, err := r.conn().Query(ctx, sql, args...)

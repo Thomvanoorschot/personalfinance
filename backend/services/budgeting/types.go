@@ -67,43 +67,44 @@ func (tc TransactionCategory) ConvertToResponse() *proto.TransactionCategoryResp
 
 type Transactions []Transaction
 
-func (t Transactions) ConvertToResponse() *proto.GetTransactionsResponse {
+func (t Transactions) ConvertToResponse(totalCount int64) *proto.GetTransactionsResponse {
 	transactions := make([]*proto.TransactionResponse, 0, len(t))
 	for _, transaction := range t {
 		transactions = append(transactions, transaction.ConvertToResponse())
 	}
 	return &proto.GetTransactionsResponse{
 		Transactions: transactions,
+		TotalCount:   totalCount,
 	}
 }
 
 type Transaction struct {
-	ID                       uuid.UUID
-	AccountID                uuid.UUID
-	ValueDateTime            time.Time
-	TransactionAmount        float64
-	BalanceAfterTransaction  float64
-	Currency                 string
-	Description              string
-	TransactionCategoryLabel *string
-	TransactionCategoryID    *string
+	ID                           uuid.UUID
+	AccountID                    uuid.UUID
+	ValueDateTime                time.Time
+	TransactionAmount            float64
+	BalanceAfterTransaction      float64
+	Currency                     string
+	Description                  string
+	TransactionCategorySlug      *string
+	TransactionCategoryGroupSlug *string
 	PaymentParty
 }
 
 func (t Transaction) ConvertToResponse() *proto.TransactionResponse {
 	partyName, partyIBAN := t.getPartyNameAndIBAN(t.TransactionAmount)
 	return &proto.TransactionResponse{
-		Id:                       t.ID.String(),
-		AccountId:                t.AccountID.String(),
-		Date:                     timestamppb.New(t.ValueDateTime),
-		TransactionAmount:        t.TransactionAmount,
-		BalanceAfterTransaction:  t.BalanceAfterTransaction,
-		Currency:                 t.Currency,
-		PartyName:                partyName,
-		PartyIban:                partyIBAN,
-		Description:              t.Description,
-		TransactionCategoryLabel: protoutils.StringToNullableString(t.TransactionCategoryLabel),
-		TransactionCategoryId:    protoutils.StringToNullableString(t.TransactionCategoryID),
+		Id:                           t.ID.String(),
+		AccountId:                    t.AccountID.String(),
+		Date:                         timestamppb.New(t.ValueDateTime),
+		TransactionAmount:            t.TransactionAmount,
+		BalanceAfterTransaction:      t.BalanceAfterTransaction,
+		Currency:                     t.Currency,
+		PartyName:                    partyName,
+		PartyIban:                    partyIBAN,
+		Description:                  t.Description,
+		TransactionCategorySlug:      protoutils.StringToNullableString(t.TransactionCategorySlug),
+		TransactionCategoryGroupSlug: protoutils.StringToNullableString(t.TransactionCategoryGroupSlug),
 	}
 }
 
@@ -165,20 +166,17 @@ type PaymentParty struct {
 func (pp PaymentParty) getPartyNameAndIBAN(transactionAmount float64) (string, string) {
 	var partyName string
 	var partyIBAN string
-	if transactionAmount < 0 {
-		if pp.CreditorName != nil {
-			partyName = *pp.CreditorName
-		}
-		if pp.CreditorIBAN != nil {
-			partyIBAN = *pp.CreditorIBAN
-		}
-	} else {
-		if pp.CreditorName != nil {
-			partyName = *pp.CreditorName
-		}
-		if pp.CreditorIBAN != nil {
-			partyIBAN = *pp.CreditorIBAN
-		}
+	if pp.CreditorName != nil {
+		partyName = *pp.CreditorName
+	}
+	if pp.CreditorIBAN != nil {
+		partyIBAN = *pp.CreditorIBAN
+	}
+	if pp.DebtorName != nil {
+		partyName = *pp.DebtorName
+	}
+	if pp.DebtorIBAN != nil {
+		partyIBAN = *pp.DebtorIBAN
 	}
 	return partyName, partyIBAN
 }

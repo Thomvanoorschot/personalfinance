@@ -35,7 +35,5 @@ class BankAccounts extends ConsumerWidget {
         );
       },
     );
-
-    return const Placeholder();
   }
 }

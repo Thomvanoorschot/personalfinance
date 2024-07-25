@@ -20,7 +20,7 @@ class TransactionCard extends StatelessWidget {
         colorOverride: transaction.transactionAmount > 0
             ? Theme.of(context).colorScheme.secondaryContainer
             : Theme.of(context).colorScheme.primaryContainer,
-        onTap: (){
+        onTap: () {
           context.go("/transactions/detail/${transaction.id}");
         },
         body: Row(
@@ -28,7 +28,11 @@ class TransactionCard extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.only(right: 10),
-              child: Container(
+              child: transaction.transactionCategoryGroupSlug.hasValue() ? SvgPicture.asset(
+                width: 48,
+                height: 48,
+                "assets/${transaction.transactionCategoryGroupSlug.value}/${transaction.transactionCategorySlug.value}.svg",
+              ) : Container(
                 padding: const EdgeInsets.all(8), // Padding inside the container
                 decoration: BoxDecoration(
                   color: Colors.grey[200], // Background color of the container

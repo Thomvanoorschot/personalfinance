@@ -8,6 +8,8 @@ class CategorizeTransactionModel with _$CategorizeTransactionModel {
   factory CategorizeTransactionModel({
     required GetUncategorizedTransactionResponse uncategorizedTransaction,
     required List<String> toBeCategorizedTransactionIds,
+    TransactionCategoryGroupResponse? selectedTransactionCategoryGroup,
+    TransactionCategoryResponse? selectedTransactionCategory,
   }) = _CategorizeTransactionModel;
 }
 

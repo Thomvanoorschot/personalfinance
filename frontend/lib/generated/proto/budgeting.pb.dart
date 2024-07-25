@@ -98,10 +98,14 @@ class GetTransactionsRequest extends $pb.GeneratedMessage {
 class GetTransactionsResponse extends $pb.GeneratedMessage {
   factory GetTransactionsResponse({
     $core.Iterable<TransactionResponse>? transactions,
+    $fixnum.Int64? totalCount,
   }) {
     final $result = create();
     if (transactions != null) {
       $result.transactions.addAll(transactions);
+    }
+    if (totalCount != null) {
+      $result.totalCount = totalCount;
     }
     return $result;
   }
@@ -111,6 +115,7 @@ class GetTransactionsResponse extends $pb.GeneratedMessage {
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetTransactionsResponse', createEmptyInstance: create)
     ..pc<TransactionResponse>(1, _omitFieldNames ? '' : 'transactions', $pb.PbFieldType.PM, subBuilder: TransactionResponse.create)
+    ..aInt64(2, _omitFieldNames ? '' : 'totalCount', protoName: 'totalCount')
     ..hasRequiredFields = false
   ;
 
@@ -137,6 +142,15 @@ class GetTransactionsResponse extends $pb.GeneratedMessage {
 
   @$pb.TagNumber(1)
   $core.List<TransactionResponse> get transactions => $_getList(0);
+
+  @$pb.TagNumber(2)
+  $fixnum.Int64 get totalCount => $_getI64(1);
+  @$pb.TagNumber(2)
+  set totalCount($fixnum.Int64 v) { $_setInt64(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasTotalCount() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearTotalCount() => clearField(2);
 }
 
 class GetUncategorizedTransactionRequest extends $pb.GeneratedMessage {
@@ -495,8 +509,8 @@ class TransactionResponse extends $pb.GeneratedMessage {
     $core.String? partyName,
     $core.String? partyIban,
     $core.String? description,
-    $6.StringValue? transactionCategoryLabel,
-    $6.StringValue? transactionCategoryId,
+    $6.StringValue? transactionCategorySlug,
+    $6.StringValue? transactionCategoryGroupSlug,
     $core.double? balanceAfterTransaction,
   }) {
     final $result = create();
@@ -524,11 +538,11 @@ class TransactionResponse extends $pb.GeneratedMessage {
     if (description != null) {
       $result.description = description;
     }
-    if (transactionCategoryLabel != null) {
-      $result.transactionCategoryLabel = transactionCategoryLabel;
+    if (transactionCategorySlug != null) {
+      $result.transactionCategorySlug = transactionCategorySlug;
     }
-    if (transactionCategoryId != null) {
-      $result.transactionCategoryId = transactionCategoryId;
+    if (transactionCategoryGroupSlug != null) {
+      $result.transactionCategoryGroupSlug = transactionCategoryGroupSlug;
     }
     if (balanceAfterTransaction != null) {
       $result.balanceAfterTransaction = balanceAfterTransaction;
@@ -548,8 +562,8 @@ class TransactionResponse extends $pb.GeneratedMessage {
     ..aOS(6, _omitFieldNames ? '' : 'partyName', protoName: 'partyName')
     ..aOS(7, _omitFieldNames ? '' : 'partyIban', protoName: 'partyIban')
     ..aOS(8, _omitFieldNames ? '' : 'description')
-    ..aOM<$6.StringValue>(9, _omitFieldNames ? '' : 'transactionCategoryLabel', protoName: 'transactionCategoryLabel', subBuilder: $6.StringValue.create)
-    ..aOM<$6.StringValue>(10, _omitFieldNames ? '' : 'transactionCategoryId', protoName: 'transactionCategoryId', subBuilder: $6.StringValue.create)
+    ..aOM<$6.StringValue>(9, _omitFieldNames ? '' : 'transactionCategorySlug', protoName: 'transactionCategorySlug', subBuilder: $6.StringValue.create)
+    ..aOM<$6.StringValue>(10, _omitFieldNames ? '' : 'transactionCategoryGroupSlug', protoName: 'transactionCategoryGroupSlug', subBuilder: $6.StringValue.create)
     ..a<$core.double>(11, _omitFieldNames ? '' : 'balanceAfterTransaction', $pb.PbFieldType.OD, protoName: 'balanceAfterTransaction')
     ..hasRequiredFields = false
   ;
@@ -650,26 +664,26 @@ class TransactionResponse extends $pb.GeneratedMessage {
   void clearDescription() => clearField(8);
 
   @$pb.TagNumber(9)
-  $6.StringValue get transactionCategoryLabel => $_getN(8);
+  $6.StringValue get transactionCategorySlug => $_getN(8);
   @$pb.TagNumber(9)
-  set transactionCategoryLabel($6.StringValue v) { setField(9, v); }
+  set transactionCategorySlug($6.StringValue v) { setField(9, v); }
   @$pb.TagNumber(9)
-  $core.bool hasTransactionCategoryLabel() => $_has(8);
+  $core.bool hasTransactionCategorySlug() => $_has(8);
   @$pb.TagNumber(9)
-  void clearTransactionCategoryLabel() => clearField(9);
+  void clearTransactionCategorySlug() => clearField(9);
   @$pb.TagNumber(9)
-  $6.StringValue ensureTransactionCategoryLabel() => $_ensure(8);
+  $6.StringValue ensureTransactionCategorySlug() => $_ensure(8);
 
   @$pb.TagNumber(10)
-  $6.StringValue get transactionCategoryId => $_getN(9);
+  $6.StringValue get transactionCategoryGroupSlug => $_getN(9);
   @$pb.TagNumber(10)
-  set transactionCategoryId($6.StringValue v) { setField(10, v); }
+  set transactionCategoryGroupSlug($6.StringValue v) { setField(10, v); }
   @$pb.TagNumber(10)
-  $core.bool hasTransactionCategoryId() => $_has(9);
+  $core.bool hasTransactionCategoryGroupSlug() => $_has(9);
   @$pb.TagNumber(10)
-  void clearTransactionCategoryId() => clearField(10);
+  void clearTransactionCategoryGroupSlug() => clearField(10);
   @$pb.TagNumber(10)
-  $6.StringValue ensureTransactionCategoryId() => $_ensure(9);
+  $6.StringValue ensureTransactionCategoryGroupSlug() => $_ensure(9);
 
   @$pb.TagNumber(11)
   $core.double get balanceAfterTransaction => $_getN(10);

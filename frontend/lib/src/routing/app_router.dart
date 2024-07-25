@@ -6,9 +6,9 @@ import "package:frontend/src/clients/budgeting_client.dart";
 import "package:frontend/src/routing/scaffold_with_nested_navigation.dart";
 import "package:frontend/src/screens/home/home_screen.dart";
 import "package:frontend/src/screens/transactions/transactions_screen.dart";
-import "package:frontend/src/widgets/banking/banks_overview.dart";
-import "package:frontend/src/widgets/banking/create_requisition.dart";
-import "package:frontend/src/widgets/budgeting/categorize_card.dart";
+import "package:frontend/src/screens/banking/banks_overview_screen.dart";
+import "package:frontend/src/screens/banking/create_requisition_screen.dart";
+import "package:frontend/src/screens/transactions/categorize_transaction_screen.dart";
 import "package:frontend/src/widgets/pages/modal_bottom_sheet_page.dart";
 import "package:frontend/src/widgets/pages/popup_card_page.dart";
 import "package:go_router/go_router.dart";
@@ -71,16 +71,22 @@ final goRouterProvider = Provider<GoRouter>(
               routes: [
                 GoRoute(
                   path: "/transactions",
+                  redirect: (context, state) {
+                    final state = transactionScreenKey.currentState;
+                    if (state != null) {
+                      state.scrollToTop();
+                    }
+                  },
                   pageBuilder: (context, state) => NoTransitionPage(
                     key: state.pageKey,
-                    child: const TransactionsScreen(),
+                    child: TransactionsScreen(),
                   ),
                   routes: [
                     GoRoute(
                       path: "getBanks",
                       pageBuilder: (context, state) =>
                           const ModalBottomSheetPage(
-                        child: BanksOverview(),
+                        child: BanksOverviewScreen(),
                       ),
                       routes: [
                         GoRoute(
@@ -90,7 +96,7 @@ final goRouterProvider = Provider<GoRouter>(
                                 state.pathParameters["bankId"] as String;
 
                             return ModalBottomSheetPage(
-                              child: CreateRequisition(
+                              child: CreateRequisitionScreen(
                                 bankId: bankId,
                               ),
                             );
@@ -105,9 +111,9 @@ final goRouterProvider = Provider<GoRouter>(
                     GoRoute(
                       path: "categorize",
                       pageBuilder: (context, state) {
-                        return PopupCardPage(
+                        return const PopupCardPage(
                           tag: "categorize",
-                          child: CategorizeCard(),
+                          child: CategorizeTransactionScreen(),
                         );
                       },
                       routes: [],

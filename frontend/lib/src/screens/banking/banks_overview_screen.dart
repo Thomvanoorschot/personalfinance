@@ -6,8 +6,8 @@ import 'package:frontend/src/clients/grpc_client.dart';
 import 'package:frontend/src/widgets/card/custom_card.dart';
 import 'package:go_router/go_router.dart';
 
-class BanksOverview extends ConsumerWidget {
-  const BanksOverview({super.key});
+class BanksOverviewScreen extends ConsumerWidget {
+  const BanksOverviewScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

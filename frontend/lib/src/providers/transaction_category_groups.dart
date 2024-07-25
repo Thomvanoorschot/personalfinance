@@ -1,15 +1,8 @@
-import 'dart:io';
 
 import 'package:frontend/generated/proto/budgeting.pb.dart';
-import 'package:frontend/generated/proto/user.pb.dart';
-import 'package:frontend/src/clients/budgeting_client.dart';
 import 'package:frontend/src/clients/grpc_client.dart';
-import 'package:frontend/src/models/transaction/categorize_transaction_model.dart';
-import 'package:frontend/src/models/user/user_model.dart';
 import 'package:protobuf/protobuf.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:device_info_plus/device_info_plus.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 part 'transaction_category_groups.g.dart';
 

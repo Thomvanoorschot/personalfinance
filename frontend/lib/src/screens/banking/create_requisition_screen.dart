@@ -8,8 +8,8 @@ import 'package:frontend/src/clients/grpc_client.dart';
 import 'package:frontend/src/widgets/card/custom_card.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-class CreateRequisition extends ConsumerWidget {
-  CreateRequisition({required this.bankId, super.key});
+class CreateRequisitionScreen extends ConsumerWidget {
+  CreateRequisitionScreen({required this.bankId, super.key});
 
   final String bankId;
   final controller = WebViewController()
