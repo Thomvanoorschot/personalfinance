@@ -15,7 +15,7 @@ import "package:go_router/go_router.dart";
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 final _homeNavigatorKey = GlobalKey<NavigatorState>(debugLabel: "home");
-final _locationNavigatorKey = GlobalKey<NavigatorState>(debugLabel: "location");
+final _transactionNavigatorKey = GlobalKey<NavigatorState>(debugLabel: "transaction");
 
 // class MyNavigatorObserver extends NavigatorObserver {
 //   @override
@@ -67,7 +67,7 @@ final goRouterProvider = Provider<GoRouter>(
               ],
             ),
             StatefulShellBranch(
-              navigatorKey: _locationNavigatorKey,
+              navigatorKey: _transactionNavigatorKey,
               routes: [
                 GoRoute(
                   path: "/transactions",
@@ -109,6 +109,7 @@ final goRouterProvider = Provider<GoRouter>(
                       ],
                     ),
                     GoRoute(
+                      parentNavigatorKey: _transactionNavigatorKey,
                       path: "categorize",
                       pageBuilder: (context, state) {
                         return const PopupCardPage(

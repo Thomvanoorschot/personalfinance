@@ -22,6 +22,7 @@ class TransactionsScreen extends ConsumerStatefulWidget {
 
 class TransactionsScreenState extends ConsumerState<TransactionsScreen> {
   final ScrollController _scrollController = ScrollController();
+  // final GlobalKey _key = GlobalKey();
 
   @override
   void dispose() {
@@ -96,6 +97,7 @@ class TransactionsScreenState extends ConsumerState<TransactionsScreen> {
                 alignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   Hero(
+                    // key: _key,
                     tag: "categorize",
                     child: TextButton(
                         child: const Text('Categorize'),

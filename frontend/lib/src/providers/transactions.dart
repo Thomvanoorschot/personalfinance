@@ -59,19 +59,21 @@ class Transactions extends _$Transactions {
     update((data) {
       List<TransactionResponse> newList = List.empty(growable: true);
       for (var x in data.transactions) {
+        TransactionResponse toBeAddedTx;
+        toBeAddedTx = x;
         for (var txId in transactionIds) {
           if (x.id == txId) {
-            // x.freeze();
+            x.freeze();
             final tcgl = x.transactionCategoryGroupSlug.rebuild((u) => u..value = transactionCategoryGroupSlug);
             final tcs = x.transactionCategorySlug.rebuild((u) => u..value = transactionCategorySlug);
             TransactionResponse updatedValue = x.rebuild((u) => u
               ..transactionCategoryGroupSlug = tcgl
               ..transactionCategorySlug = tcs);
-            newList.add(updatedValue);
+            toBeAddedTx = updatedValue;
             continue;
           }
         }
-        newList.add(x);
+        newList.add(toBeAddedTx);
       }
       return GetTransactionsResponse(transactions: newList, totalCount: data.totalCount);
     });

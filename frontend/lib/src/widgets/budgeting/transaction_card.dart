@@ -32,28 +32,10 @@ class TransactionCard extends StatelessWidget {
                 width: 48,
                 height: 48,
                 "assets/${transaction.transactionCategoryGroupSlug.value}/${transaction.transactionCategorySlug.value}.svg",
-              ) : Container(
-                padding: const EdgeInsets.all(8), // Padding inside the container
-                decoration: BoxDecoration(
-                  color: Colors.grey[200], // Background color of the container
-                  borderRadius: BorderRadius.circular(12), // Rounded edges
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Colors.black12,
-                      blurRadius: 4,
-                      offset: Offset(2, 2), // Shadow effect
-                    ),
-                  ],
-                ),
-                child: SvgPicture.asset(
-                  'assets/shopping.svg',
-                  height: 24,
-                  width: 24,
-                  colorFilter: ColorFilter.mode(
-                    Theme.of(context).colorScheme.secondary,
-                    BlendMode.srcIn,
-                  ),
-                ),
+              ) :  SvgPicture.asset(
+                width: 48,
+                height: 48,
+                "assets/unknown_category.svg",
               ),
             ),
             Expanded(
