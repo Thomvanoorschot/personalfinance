@@ -1,9 +1,12 @@
 package banking
 
 import (
+	"time"
+
 	"personalfinance/generated/proto"
 
 	"github.com/google/uuid"
+	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 type RequisitionWithMaxTransactionHistoryDays struct {
@@ -36,5 +39,29 @@ func (ba BankAccount) ConvertToResponse() *proto.BankAccountResponse {
 		Iban:     ba.IBAN,
 		BankName: ba.BankName,
 		IconURL:  ba.IconURL,
+	}
+}
+
+type BalancesPerDay []BalancePerDay
+
+func (bpd BalancesPerDay) ConvertToResponse() *proto.GetBalancesPerDayResponse {
+	balancesPerDay := make([]*proto.BalancePerDay, 0, len(bpd))
+	for _, balancePerDay := range bpd {
+		balancesPerDay = append(balancesPerDay, balancePerDay.ConvertToResponse())
+	}
+	return &proto.GetBalancesPerDayResponse{
+		Balances: balancesPerDay,
+	}
+}
+
+type BalancePerDay struct {
+	Date    time.Time
+	Balance float64
+}
+
+func (bpd BalancePerDay) ConvertToResponse() *proto.BalancePerDay {
+	return &proto.BalancePerDay{
+		Date:    timestamppb.New(bpd.Date),
+		Balance: bpd.Balance,
 	}
 }

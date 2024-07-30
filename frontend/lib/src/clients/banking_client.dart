@@ -23,3 +23,9 @@ Future<GetBankAccountsResponse> getBankAccounts(GetBankAccountsRef ref,
     {required GetBankAccountsRequest req}) async {
   return ref.read(bankingServiceProvider).getBankAccounts(req);
 }
+
+@riverpod
+Future<GetBalancesPerDayResponse> getBalancesPerDay(GetBalancesPerDayRef ref,
+    {required GetBalancesPerDayRequest req}) async {
+  return ref.read(bankingServiceProvider).getBalancesPerDay(req);
+}

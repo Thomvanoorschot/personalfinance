@@ -142,3 +142,45 @@ final $typed_data.Uint8List bankAccountResponseDescriptor = $convert.base64Decod
     'ChNCYW5rQWNjb3VudFJlc3BvbnNlEg4KAmlkGAEgASgJUgJpZBISCgRpYmFuGAIgASgJUgRpYm'
     'FuEhoKCGJhbmtOYW1lGAMgASgJUghiYW5rTmFtZRIYCgdpY29uVVJMGAQgASgJUgdpY29uVVJM');
 
+@$core.Deprecated('Use getBalancesPerDayRequestDescriptor instead')
+const GetBalancesPerDayRequest$json = {
+  '1': 'GetBalancesPerDayRequest',
+  '2': [
+    {'1': 'start', '3': 1, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'start'},
+    {'1': 'end', '3': 2, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'end'},
+  ],
+};
+
+/// Descriptor for `GetBalancesPerDayRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getBalancesPerDayRequestDescriptor = $convert.base64Decode(
+    'ChhHZXRCYWxhbmNlc1BlckRheVJlcXVlc3QSMAoFc3RhcnQYASABKAsyGi5nb29nbGUucHJvdG'
+    '9idWYuVGltZXN0YW1wUgVzdGFydBIsCgNlbmQYAiABKAsyGi5nb29nbGUucHJvdG9idWYuVGlt'
+    'ZXN0YW1wUgNlbmQ=');
+
+@$core.Deprecated('Use getBalancesPerDayResponseDescriptor instead')
+const GetBalancesPerDayResponse$json = {
+  '1': 'GetBalancesPerDayResponse',
+  '2': [
+    {'1': 'balances', '3': 1, '4': 3, '5': 11, '6': '.BalancePerDay', '10': 'balances'},
+  ],
+};
+
+/// Descriptor for `GetBalancesPerDayResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getBalancesPerDayResponseDescriptor = $convert.base64Decode(
+    'ChlHZXRCYWxhbmNlc1BlckRheVJlc3BvbnNlEioKCGJhbGFuY2VzGAEgAygLMg4uQmFsYW5jZV'
+    'BlckRheVIIYmFsYW5jZXM=');
+
+@$core.Deprecated('Use balancePerDayDescriptor instead')
+const BalancePerDay$json = {
+  '1': 'BalancePerDay',
+  '2': [
+    {'1': 'date', '3': 1, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'date'},
+    {'1': 'balance', '3': 2, '4': 1, '5': 1, '10': 'balance'},
+  ],
+};
+
+/// Descriptor for `BalancePerDay`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List balancePerDayDescriptor = $convert.base64Decode(
+    'Cg1CYWxhbmNlUGVyRGF5Ei4KBGRhdGUYASABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW'
+    '1wUgRkYXRlEhgKB2JhbGFuY2UYAiABKAFSB2JhbGFuY2U=');
+

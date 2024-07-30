@@ -420,5 +420,138 @@ class _GetBankAccountsProviderElement
   @override
   GetBankAccountsRequest get req => (origin as GetBankAccountsProvider).req;
 }
+
+String _$getBalancesPerDayHash() => r'905a2ffd6cbc95c088dea70c4726f8a898d35126';
+
+/// See also [getBalancesPerDay].
+@ProviderFor(getBalancesPerDay)
+const getBalancesPerDayProvider = GetBalancesPerDayFamily();
+
+/// See also [getBalancesPerDay].
+class GetBalancesPerDayFamily
+    extends Family<AsyncValue<GetBalancesPerDayResponse>> {
+  /// See also [getBalancesPerDay].
+  const GetBalancesPerDayFamily();
+
+  /// See also [getBalancesPerDay].
+  GetBalancesPerDayProvider call({
+    required GetBalancesPerDayRequest req,
+  }) {
+    return GetBalancesPerDayProvider(
+      req: req,
+    );
+  }
+
+  @override
+  GetBalancesPerDayProvider getProviderOverride(
+    covariant GetBalancesPerDayProvider provider,
+  ) {
+    return call(
+      req: provider.req,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'getBalancesPerDayProvider';
+}
+
+/// See also [getBalancesPerDay].
+class GetBalancesPerDayProvider
+    extends AutoDisposeFutureProvider<GetBalancesPerDayResponse> {
+  /// See also [getBalancesPerDay].
+  GetBalancesPerDayProvider({
+    required GetBalancesPerDayRequest req,
+  }) : this._internal(
+          (ref) => getBalancesPerDay(
+            ref as GetBalancesPerDayRef,
+            req: req,
+          ),
+          from: getBalancesPerDayProvider,
+          name: r'getBalancesPerDayProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$getBalancesPerDayHash,
+          dependencies: GetBalancesPerDayFamily._dependencies,
+          allTransitiveDependencies:
+              GetBalancesPerDayFamily._allTransitiveDependencies,
+          req: req,
+        );
+
+  GetBalancesPerDayProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.req,
+  }) : super.internal();
+
+  final GetBalancesPerDayRequest req;
+
+  @override
+  Override overrideWith(
+    FutureOr<GetBalancesPerDayResponse> Function(GetBalancesPerDayRef provider)
+        create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: GetBalancesPerDayProvider._internal(
+        (ref) => create(ref as GetBalancesPerDayRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        req: req,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<GetBalancesPerDayResponse> createElement() {
+    return _GetBalancesPerDayProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is GetBalancesPerDayProvider && other.req == req;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, req.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+mixin GetBalancesPerDayRef
+    on AutoDisposeFutureProviderRef<GetBalancesPerDayResponse> {
+  /// The parameter `req` of this provider.
+  GetBalancesPerDayRequest get req;
+}
+
+class _GetBalancesPerDayProviderElement
+    extends AutoDisposeFutureProviderElement<GetBalancesPerDayResponse>
+    with GetBalancesPerDayRef {
+  _GetBalancesPerDayProviderElement(super.provider);
+
+  @override
+  GetBalancesPerDayRequest get req => (origin as GetBalancesPerDayProvider).req;
+}
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

@@ -42,16 +42,8 @@ func (s *Service) GetUncategorizedTransaction(ctx context.Context, req *proto.Ge
 	if err != nil {
 		return nil, err
 	}
-	// TODO Tikkie & Apple Pay
-	if tx.CreditorName != nil && (strings.Contains(*tx.CreditorName, "PayPal")) {
-		var newList MatchingUncategorizedTransactions
-		for _, matchingTx := range tx.MatchingTransactions {
-			if tx.TransactionAmount == matchingTx.TransactionAmount {
-				newList = append(newList, matchingTx)
-			}
-		}
-		tx.MatchingTransactions = newList
-	}
+
+	PreProcessTransaction(&tx)
 
 	return tx.ConvertToResponse(), nil
 }
@@ -76,4 +68,22 @@ func (s *Service) GetTransactionCategoryGroups(ctx context.Context, _ *proto.Get
 		return nil, err
 	}
 	return transactionCategories.ConvertToResponse(), nil
+}
+
+func PreProcessTransaction(tx *UncategorizedTransaction) {
+	hasCreditorName := tx.CreditorName != nil
+	if hasCreditorName && strings.Contains(*tx.CreditorName, "PayPal") {
+		HandlePayPalTx(tx)
+		return
+	}
+}
+
+func HandlePayPalTx(tx *UncategorizedTransaction) {
+	var newList MatchingUncategorizedTransactions
+	for _, matchingTx := range tx.MatchingTransactions {
+		if tx.TransactionAmount == matchingTx.TransactionAmount {
+			newList = append(newList, matchingTx)
+		}
+	}
+	tx.MatchingTransactions = newList
 }

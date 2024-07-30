@@ -13,6 +13,8 @@ import 'dart:core' as $core;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
+import 'google/protobuf/timestamp.pb.dart' as $5;
+
 class GetBanksRequest extends $pb.GeneratedMessage {
   factory GetBanksRequest({
     $core.String? countryCode,
@@ -551,6 +553,184 @@ class BankAccountResponse extends $pb.GeneratedMessage {
   $core.bool hasIconURL() => $_has(3);
   @$pb.TagNumber(4)
   void clearIconURL() => clearField(4);
+}
+
+class GetBalancesPerDayRequest extends $pb.GeneratedMessage {
+  factory GetBalancesPerDayRequest({
+    $5.Timestamp? start,
+    $5.Timestamp? end,
+  }) {
+    final $result = create();
+    if (start != null) {
+      $result.start = start;
+    }
+    if (end != null) {
+      $result.end = end;
+    }
+    return $result;
+  }
+  GetBalancesPerDayRequest._() : super();
+  factory GetBalancesPerDayRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory GetBalancesPerDayRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetBalancesPerDayRequest', createEmptyInstance: create)
+    ..aOM<$5.Timestamp>(1, _omitFieldNames ? '' : 'start', subBuilder: $5.Timestamp.create)
+    ..aOM<$5.Timestamp>(2, _omitFieldNames ? '' : 'end', subBuilder: $5.Timestamp.create)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  GetBalancesPerDayRequest clone() => GetBalancesPerDayRequest()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  GetBalancesPerDayRequest copyWith(void Function(GetBalancesPerDayRequest) updates) => super.copyWith((message) => updates(message as GetBalancesPerDayRequest)) as GetBalancesPerDayRequest;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static GetBalancesPerDayRequest create() => GetBalancesPerDayRequest._();
+  GetBalancesPerDayRequest createEmptyInstance() => create();
+  static $pb.PbList<GetBalancesPerDayRequest> createRepeated() => $pb.PbList<GetBalancesPerDayRequest>();
+  @$core.pragma('dart2js:noInline')
+  static GetBalancesPerDayRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetBalancesPerDayRequest>(create);
+  static GetBalancesPerDayRequest? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $5.Timestamp get start => $_getN(0);
+  @$pb.TagNumber(1)
+  set start($5.Timestamp v) { setField(1, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasStart() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearStart() => clearField(1);
+  @$pb.TagNumber(1)
+  $5.Timestamp ensureStart() => $_ensure(0);
+
+  @$pb.TagNumber(2)
+  $5.Timestamp get end => $_getN(1);
+  @$pb.TagNumber(2)
+  set end($5.Timestamp v) { setField(2, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasEnd() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearEnd() => clearField(2);
+  @$pb.TagNumber(2)
+  $5.Timestamp ensureEnd() => $_ensure(1);
+}
+
+class GetBalancesPerDayResponse extends $pb.GeneratedMessage {
+  factory GetBalancesPerDayResponse({
+    $core.Iterable<BalancePerDay>? balances,
+  }) {
+    final $result = create();
+    if (balances != null) {
+      $result.balances.addAll(balances);
+    }
+    return $result;
+  }
+  GetBalancesPerDayResponse._() : super();
+  factory GetBalancesPerDayResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory GetBalancesPerDayResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetBalancesPerDayResponse', createEmptyInstance: create)
+    ..pc<BalancePerDay>(1, _omitFieldNames ? '' : 'balances', $pb.PbFieldType.PM, subBuilder: BalancePerDay.create)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  GetBalancesPerDayResponse clone() => GetBalancesPerDayResponse()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  GetBalancesPerDayResponse copyWith(void Function(GetBalancesPerDayResponse) updates) => super.copyWith((message) => updates(message as GetBalancesPerDayResponse)) as GetBalancesPerDayResponse;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static GetBalancesPerDayResponse create() => GetBalancesPerDayResponse._();
+  GetBalancesPerDayResponse createEmptyInstance() => create();
+  static $pb.PbList<GetBalancesPerDayResponse> createRepeated() => $pb.PbList<GetBalancesPerDayResponse>();
+  @$core.pragma('dart2js:noInline')
+  static GetBalancesPerDayResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetBalancesPerDayResponse>(create);
+  static GetBalancesPerDayResponse? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.List<BalancePerDay> get balances => $_getList(0);
+}
+
+class BalancePerDay extends $pb.GeneratedMessage {
+  factory BalancePerDay({
+    $5.Timestamp? date,
+    $core.double? balance,
+  }) {
+    final $result = create();
+    if (date != null) {
+      $result.date = date;
+    }
+    if (balance != null) {
+      $result.balance = balance;
+    }
+    return $result;
+  }
+  BalancePerDay._() : super();
+  factory BalancePerDay.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory BalancePerDay.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'BalancePerDay', createEmptyInstance: create)
+    ..aOM<$5.Timestamp>(1, _omitFieldNames ? '' : 'date', subBuilder: $5.Timestamp.create)
+    ..a<$core.double>(2, _omitFieldNames ? '' : 'balance', $pb.PbFieldType.OD)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  BalancePerDay clone() => BalancePerDay()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  BalancePerDay copyWith(void Function(BalancePerDay) updates) => super.copyWith((message) => updates(message as BalancePerDay)) as BalancePerDay;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static BalancePerDay create() => BalancePerDay._();
+  BalancePerDay createEmptyInstance() => create();
+  static $pb.PbList<BalancePerDay> createRepeated() => $pb.PbList<BalancePerDay>();
+  @$core.pragma('dart2js:noInline')
+  static BalancePerDay getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<BalancePerDay>(create);
+  static BalancePerDay? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $5.Timestamp get date => $_getN(0);
+  @$pb.TagNumber(1)
+  set date($5.Timestamp v) { setField(1, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasDate() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearDate() => clearField(1);
+  @$pb.TagNumber(1)
+  $5.Timestamp ensureDate() => $_ensure(0);
+
+  @$pb.TagNumber(2)
+  $core.double get balance => $_getN(1);
+  @$pb.TagNumber(2)
+  set balance($core.double v) { $_setDouble(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasBalance() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearBalance() => clearField(2);
 }
 
 

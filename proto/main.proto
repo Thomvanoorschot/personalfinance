@@ -13,6 +13,7 @@ service BankingService {
   rpc GetBanks(GetBanksRequest) returns (GetBanksResponse);
   rpc CreateRequisition(CreateRequisitionRequest) returns (CreateRequisitionResponse);
   rpc GetBankAccounts(GetBankAccountsRequest) returns (GetBankAccountsResponse);
+  rpc GetBalancesPerDay(GetBalancesPerDayRequest) returns (GetBalancesPerDayResponse);
   rpc HandleRequisition(HandleRequisitionRequest) returns (HandleRequisitionResponse) {
     option (google.api.http) = {
       get: "/handleRequisition/{requisitionReference}"

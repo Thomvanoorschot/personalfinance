@@ -43,7 +43,9 @@ List<TransactionCategoryGroupResponse> moveToFirstUtil(
 
   // Remove the element at the specified index
   TransactionCategoryGroupResponse element = list.removeAt(index);
-
+  list.sort((a, b) {
+    return a.slug.compareTo(b.slug);
+  });
   // Insert the element at the first position
   list.insert(0, element);
 

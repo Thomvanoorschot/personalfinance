@@ -14,6 +14,7 @@ type BankingService interface {
 	CreateRequisition(ctx context.Context, req *proto.CreateRequisitionRequest) (*proto.CreateRequisitionResponse, error)
 	HandleRequisition(ctx context.Context, req *proto.HandleRequisitionRequest) (string, error)
 	GetBankAccounts(ctx context.Context, req *proto.GetBankAccountsRequest) (*proto.GetBankAccountsResponse, error)
+	GetBalancesPerDay(ctx context.Context, req *proto.GetBalancesPerDayRequest) (response *proto.GetBalancesPerDayResponse, err error)
 }
 
 type BankingHandler struct {
@@ -52,6 +53,17 @@ func (h *BankingHandler) GetBankAccounts(
 	req *proto.GetBankAccountsRequest,
 ) (*proto.GetBankAccountsResponse, error) {
 	resp, err := h.service.GetBankAccounts(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+	return resp, nil
+}
+
+func (h *BankingHandler) GetBalancesPerDay(
+	ctx context.Context,
+	req *proto.GetBalancesPerDayRequest,
+) (*proto.GetBalancesPerDayResponse, error) {
+	resp, err := h.service.GetBalancesPerDay(ctx, req)
 	if err != nil {
 		return nil, err
 	}

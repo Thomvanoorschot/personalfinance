@@ -2,9 +2,11 @@ package repositories
 
 import (
 	"context"
+	"time"
 
 	"personalfinance/generated/jet_gen/postgres/public/model"
 	. "personalfinance/generated/jet_gen/postgres/public/table"
+	"personalfinance/services/banking"
 	"personalfinance/services/budgeting"
 
 	. "github.com/go-jet/jet/v2/postgres"
@@ -70,9 +72,7 @@ func (r *Repository) GetTransactions(ctx context.Context, userID uuid.UUID, limi
 
 func (r *Repository) GetUncategorizedTransaction(ctx context.Context, userID uuid.UUID) (resp budgeting.UncategorizedTransaction, err error) {
 	subQuery := SELECT(
-		Transaction.CreditorIban,
 		Transaction.CreditorName,
-		Transaction.DebtorIban,
 		Transaction.DebtorName,
 		Transaction.TransactionAmount,
 	).FROM(
@@ -84,9 +84,7 @@ func (r *Repository) GetUncategorizedTransaction(ctx context.Context, userID uui
 		Transaction.ValueDateTime.DESC(),
 	).LIMIT(1).AsTable("t2")
 
-	t2CreditorIBAN := Transaction.CreditorIban.From(subQuery)
 	t2CreditorName := Transaction.CreditorName.From(subQuery)
-	t2DebtorIBAN := Transaction.DebtorIban.From(subQuery)
 	t2DebtorName := Transaction.DebtorName.From(subQuery)
 	t2TransactionAmount := Transaction.TransactionAmount.From(subQuery)
 
@@ -102,10 +100,10 @@ func (r *Repository) GetUncategorizedTransaction(ctx context.Context, userID uui
 		Transaction.RemittanceInformation,
 	).FROM(subQuery.INNER_JOIN(
 		Transaction,
-		((t2TransactionAmount.GT(Float(0)).OR(t2DebtorIBAN.IS_NULL())).OR(Transaction.TransactionAmount.EQ(t2TransactionAmount))).
+		((t2TransactionAmount.GT(Float(0))).OR(Transaction.TransactionAmount.EQ(t2TransactionAmount))).
 			AND(
-				(Transaction.CreditorIban.EQ(t2CreditorIBAN).AND(Transaction.CreditorName.EQ(t2CreditorName))).
-					OR(Transaction.DebtorIban.EQ(t2DebtorIBAN).AND(Transaction.DebtorName.EQ(t2DebtorName))),
+				(Transaction.CreditorName.EQ(t2CreditorName)).
+					OR(Transaction.DebtorName.EQ(t2DebtorName)),
 			),
 	)).WHERE(Transaction.TransactionCategoryID.IS_NULL()).
 		ORDER_BY(Transaction.ValueDateTime.DESC()).
@@ -177,4 +175,38 @@ func (r *Repository) UpsertTransactions(ctx context.Context, m []model.Transacti
 		return err
 	}
 	return nil
+}
+
+func (r *Repository) GetBalancesPerDay(ctx context.Context, userID uuid.UUID, start, end time.Time) (resp banking.BalancesPerDay, err error) {
+	sql, args := SELECT(
+		Transaction.ValueDate,
+		Transaction.BalanceAfterTransaction,
+	).
+		FROM(Transaction).
+		WHERE(
+			Transaction.UserID.EQ(UUID(userID)).
+				AND(Transaction.ValueDateTime.GT_EQ(TimestampT(start))).
+				AND(Transaction.ValueDateTime.LT_EQ(TimestampT(end))),
+		).
+		ORDER_BY(Transaction.ValueDateTime.ASC()).
+		Sql()
+
+	rows, err := r.conn().Query(ctx, sql, args...)
+	if err != nil {
+		return resp, err
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var balancePerDay banking.BalancePerDay
+		err = rows.Scan(
+			&balancePerDay.Date,
+			&balancePerDay.Balance,
+		)
+		if err != nil {
+			return resp, err
+		}
+		resp = append(resp, balancePerDay)
+	}
+	return resp, err
 }

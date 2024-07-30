@@ -1,3 +1,4 @@
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend/generated/proto/banking.pb.dart';
@@ -5,11 +6,14 @@ import 'package:frontend/generated/proto/budgeting.pb.dart';
 import 'package:frontend/src/clients/banking_client.dart';
 import 'package:frontend/src/clients/budgeting_client.dart';
 import 'package:frontend/src/providers/transactions.dart';
+import 'package:frontend/src/utils/date_utils.dart';
 import 'package:frontend/src/widgets/banking/bank_accounts.dart';
 import 'package:frontend/src/widgets/budgeting/transaction_card.dart';
 import 'package:frontend/src/widgets/budgeting/transaction_card_shimmer.dart';
 import 'package:go_router/go_router.dart';
 import 'package:fixnum/fixnum.dart' as fixnum;
+import 'package:haptic_feedback/haptic_feedback.dart';
+import 'package:collection/collection.dart'; // Add collection package for groupBy function
 
 final GlobalKey<TransactionsScreenState> transactionScreenKey = GlobalKey<TransactionsScreenState>();
 
@@ -22,6 +26,7 @@ class TransactionsScreen extends ConsumerStatefulWidget {
 
 class TransactionsScreenState extends ConsumerState<TransactionsScreen> {
   final ScrollController _scrollController = ScrollController();
+
   // final GlobalKey _key = GlobalKey();
 
   @override
@@ -43,6 +48,15 @@ class TransactionsScreenState extends ConsumerState<TransactionsScreen> {
   @override
   Widget build(BuildContext context) {
     final transactionsResponse = ref.watch(transactionsProvider);
+
+    final balancesResponse = ref.watch(
+      getBalancesPerDayProvider(
+        req: GetBalancesPerDayRequest(
+          start: dateTimeToProtoTimestamp(DateTime.now().subtract(const Duration(days: 60))),
+          end: dateTimeToProtoTimestamp(DateTime.now()),
+        ),
+      ),
+    );
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.surface,
@@ -89,6 +103,77 @@ class TransactionsScreenState extends ConsumerState<TransactionsScreen> {
                 child: const Padding(
                   padding: EdgeInsets.all(8.0),
                   child: BankAccounts(),
+                ),
+              ),
+            ),
+            SliverToBoxAdapter(
+              child: SizedBox(
+                height: MediaQuery.sizeOf(context).height * 0.2,
+                child: balancesResponse.when(
+                  error: (err, stack) => Text(err.toString()),
+                  // todo Shimmer
+                  loading: () => const CircularProgressIndicator(),
+                  data: (resp) {
+                    final flSpots = resp.balances.map((x) {
+                      return FlSpot(x.date.seconds.toDouble(), x.balance.roundToDouble());
+                    }).toList();
+                    return LineChart(
+                      LineChartData(
+                        minY: 0,
+                        lineTouchData: LineTouchData(touchCallback: (event, response) {
+                          // if (event is FlTapUpEvent) {
+                          if (response != null && response.lineBarSpots != null) {
+                            Haptics.vibrate(HapticsType.selection);
+                            // }
+                          }
+                        }),
+                        borderData: FlBorderData(
+                          show: false,
+                        ),
+                        backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
+                        titlesData: FlTitlesData(
+                          leftTitles: const AxisTitles(
+                            sideTitles: SideTitles(showTitles: false),
+                          ),
+                          topTitles: const AxisTitles(
+                            sideTitles: SideTitles(showTitles: false),
+                          ),
+                          rightTitles: AxisTitles(
+                            sideTitles:
+                                SideTitles(showTitles: true, interval: 1000, reservedSize: MediaQuery.sizeOf(context).width * 0.1
+                                    // getTitlesWidget: (value, meta) => Text("data"),
+                                    ),
+                          ),
+                          bottomTitles: const AxisTitles(
+                            sideTitles: SideTitles(showTitles: false),
+                          ),
+                        ),
+                        gridData: const FlGridData(
+                          show: false,
+                        ),
+                        lineBarsData: [
+                          LineChartBarData(
+                            color: Colors.blue,
+                            spots: flSpots,
+                            barWidth: 3,
+                            belowBarData: BarAreaData(
+                              show: false,
+                            ),
+                            // isStepLineChart: true,
+                            isCurved: true,
+                            preventCurveOverShooting: true,
+                            preventCurveOvershootingThreshold: 0.6,
+                            dotData: const FlDotData(show: false),
+                          ),
+                        ],
+                      ),
+
+                      duration: const Duration(
+                        milliseconds: 150,
+                      ), // Optional
+                      // curve: Curves.linear,
+                    );
+                  },
                 ),
               ),
             ),

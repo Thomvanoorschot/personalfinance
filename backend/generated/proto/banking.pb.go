@@ -10,7 +10,7 @@ import (
 	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	_ "google.golang.org/protobuf/types/known/timestamppb"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 	reflect "reflect"
 	sync "sync"
 )
@@ -523,6 +523,163 @@ func (x *BankAccountResponse) GetIconURL() string {
 	return ""
 }
 
+type GetBalancesPerDayRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Start *timestamppb.Timestamp `protobuf:"bytes,1,opt,name=start,proto3" json:"start,omitempty"`
+	End   *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=end,proto3" json:"end,omitempty"`
+}
+
+func (x *GetBalancesPerDayRequest) Reset() {
+	*x = GetBalancesPerDayRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_banking_proto_msgTypes[10]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetBalancesPerDayRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetBalancesPerDayRequest) ProtoMessage() {}
+
+func (x *GetBalancesPerDayRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_banking_proto_msgTypes[10]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetBalancesPerDayRequest.ProtoReflect.Descriptor instead.
+func (*GetBalancesPerDayRequest) Descriptor() ([]byte, []int) {
+	return file_banking_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *GetBalancesPerDayRequest) GetStart() *timestamppb.Timestamp {
+	if x != nil {
+		return x.Start
+	}
+	return nil
+}
+
+func (x *GetBalancesPerDayRequest) GetEnd() *timestamppb.Timestamp {
+	if x != nil {
+		return x.End
+	}
+	return nil
+}
+
+type GetBalancesPerDayResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Balances []*BalancePerDay `protobuf:"bytes,1,rep,name=balances,proto3" json:"balances,omitempty"`
+}
+
+func (x *GetBalancesPerDayResponse) Reset() {
+	*x = GetBalancesPerDayResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_banking_proto_msgTypes[11]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetBalancesPerDayResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetBalancesPerDayResponse) ProtoMessage() {}
+
+func (x *GetBalancesPerDayResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_banking_proto_msgTypes[11]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetBalancesPerDayResponse.ProtoReflect.Descriptor instead.
+func (*GetBalancesPerDayResponse) Descriptor() ([]byte, []int) {
+	return file_banking_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *GetBalancesPerDayResponse) GetBalances() []*BalancePerDay {
+	if x != nil {
+		return x.Balances
+	}
+	return nil
+}
+
+type BalancePerDay struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Date    *timestamppb.Timestamp `protobuf:"bytes,1,opt,name=date,proto3" json:"date,omitempty"`
+	Balance float64                `protobuf:"fixed64,2,opt,name=balance,proto3" json:"balance,omitempty"`
+}
+
+func (x *BalancePerDay) Reset() {
+	*x = BalancePerDay{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_banking_proto_msgTypes[12]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *BalancePerDay) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*BalancePerDay) ProtoMessage() {}
+
+func (x *BalancePerDay) ProtoReflect() protoreflect.Message {
+	mi := &file_banking_proto_msgTypes[12]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use BalancePerDay.ProtoReflect.Descriptor instead.
+func (*BalancePerDay) Descriptor() ([]byte, []int) {
+	return file_banking_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *BalancePerDay) GetDate() *timestamppb.Timestamp {
+	if x != nil {
+		return x.Date
+	}
+	return nil
+}
+
+func (x *BalancePerDay) GetBalance() float64 {
+	if x != nil {
+		return x.Balance
+	}
+	return 0
+}
+
 var File_banking_proto protoreflect.FileDescriptor
 
 var file_banking_proto_rawDesc = []byte{
@@ -573,7 +730,25 @@ var file_banking_proto_rawDesc = []byte{
 	0x08, 0x62, 0x61, 0x6e, 0x6b, 0x4e, 0x61, 0x6d, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52,
 	0x08, 0x62, 0x61, 0x6e, 0x6b, 0x4e, 0x61, 0x6d, 0x65, 0x12, 0x18, 0x0a, 0x07, 0x69, 0x63, 0x6f,
 	0x6e, 0x55, 0x52, 0x4c, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x69, 0x63, 0x6f, 0x6e,
-	0x55, 0x52, 0x4c, 0x42, 0x21, 0x5a, 0x1f, 0x70, 0x65, 0x72, 0x73, 0x6f, 0x6e, 0x61, 0x6c, 0x66,
+	0x55, 0x52, 0x4c, 0x22, 0x7a, 0x0a, 0x18, 0x47, 0x65, 0x74, 0x42, 0x61, 0x6c, 0x61, 0x6e, 0x63,
+	0x65, 0x73, 0x50, 0x65, 0x72, 0x44, 0x61, 0x79, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12,
+	0x30, 0x0a, 0x05, 0x73, 0x74, 0x61, 0x72, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a,
+	0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66,
+	0x2e, 0x54, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x52, 0x05, 0x73, 0x74, 0x61, 0x72,
+	0x74, 0x12, 0x2c, 0x0a, 0x03, 0x65, 0x6e, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a,
+	0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66,
+	0x2e, 0x54, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x52, 0x03, 0x65, 0x6e, 0x64, 0x22,
+	0x47, 0x0a, 0x19, 0x47, 0x65, 0x74, 0x42, 0x61, 0x6c, 0x61, 0x6e, 0x63, 0x65, 0x73, 0x50, 0x65,
+	0x72, 0x44, 0x61, 0x79, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x2a, 0x0a, 0x08,
+	0x62, 0x61, 0x6c, 0x61, 0x6e, 0x63, 0x65, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x0e,
+	0x2e, 0x42, 0x61, 0x6c, 0x61, 0x6e, 0x63, 0x65, 0x50, 0x65, 0x72, 0x44, 0x61, 0x79, 0x52, 0x08,
+	0x62, 0x61, 0x6c, 0x61, 0x6e, 0x63, 0x65, 0x73, 0x22, 0x59, 0x0a, 0x0d, 0x42, 0x61, 0x6c, 0x61,
+	0x6e, 0x63, 0x65, 0x50, 0x65, 0x72, 0x44, 0x61, 0x79, 0x12, 0x2e, 0x0a, 0x04, 0x64, 0x61, 0x74,
+	0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65,
+	0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x54, 0x69, 0x6d, 0x65, 0x73, 0x74,
+	0x61, 0x6d, 0x70, 0x52, 0x04, 0x64, 0x61, 0x74, 0x65, 0x12, 0x18, 0x0a, 0x07, 0x62, 0x61, 0x6c,
+	0x61, 0x6e, 0x63, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x01, 0x52, 0x07, 0x62, 0x61, 0x6c, 0x61,
+	0x6e, 0x63, 0x65, 0x42, 0x21, 0x5a, 0x1f, 0x70, 0x65, 0x72, 0x73, 0x6f, 0x6e, 0x61, 0x6c, 0x66,
 	0x69, 0x6e, 0x61, 0x6e, 0x63, 0x65, 0x2f, 0x67, 0x65, 0x6e, 0x65, 0x72, 0x61, 0x74, 0x65, 0x64,
 	0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
@@ -590,7 +765,7 @@ func file_banking_proto_rawDescGZIP() []byte {
 	return file_banking_proto_rawDescData
 }
 
-var file_banking_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
+var file_banking_proto_msgTypes = make([]protoimpl.MessageInfo, 13)
 var file_banking_proto_goTypes = []any{
 	(*GetBanksRequest)(nil),           // 0: GetBanksRequest
 	(*GetBanksResponse)(nil),          // 1: GetBanksResponse
@@ -602,15 +777,23 @@ var file_banking_proto_goTypes = []any{
 	(*GetBankAccountsRequest)(nil),    // 7: GetBankAccountsRequest
 	(*GetBankAccountsResponse)(nil),   // 8: GetBankAccountsResponse
 	(*BankAccountResponse)(nil),       // 9: BankAccountResponse
+	(*GetBalancesPerDayRequest)(nil),  // 10: GetBalancesPerDayRequest
+	(*GetBalancesPerDayResponse)(nil), // 11: GetBalancesPerDayResponse
+	(*BalancePerDay)(nil),             // 12: BalancePerDay
+	(*timestamppb.Timestamp)(nil),     // 13: google.protobuf.Timestamp
 }
 var file_banking_proto_depIdxs = []int32{
-	2, // 0: GetBanksResponse.banks:type_name -> BankResponse
-	9, // 1: GetBankAccountsResponse.accounts:type_name -> BankAccountResponse
-	2, // [2:2] is the sub-list for method output_type
-	2, // [2:2] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	2, // [2:2] is the sub-list for extension extendee
-	0, // [0:2] is the sub-list for field type_name
+	2,  // 0: GetBanksResponse.banks:type_name -> BankResponse
+	9,  // 1: GetBankAccountsResponse.accounts:type_name -> BankAccountResponse
+	13, // 2: GetBalancesPerDayRequest.start:type_name -> google.protobuf.Timestamp
+	13, // 3: GetBalancesPerDayRequest.end:type_name -> google.protobuf.Timestamp
+	12, // 4: GetBalancesPerDayResponse.balances:type_name -> BalancePerDay
+	13, // 5: BalancePerDay.date:type_name -> google.protobuf.Timestamp
+	6,  // [6:6] is the sub-list for method output_type
+	6,  // [6:6] is the sub-list for method input_type
+	6,  // [6:6] is the sub-list for extension type_name
+	6,  // [6:6] is the sub-list for extension extendee
+	0,  // [0:6] is the sub-list for field type_name
 }
 
 func init() { file_banking_proto_init() }
@@ -739,6 +922,42 @@ func file_banking_proto_init() {
 				return nil
 			}
 		}
+		file_banking_proto_msgTypes[10].Exporter = func(v any, i int) any {
+			switch v := v.(*GetBalancesPerDayRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_banking_proto_msgTypes[11].Exporter = func(v any, i int) any {
+			switch v := v.(*GetBalancesPerDayResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_banking_proto_msgTypes[12].Exporter = func(v any, i int) any {
+			switch v := v.(*BalancePerDay); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -746,7 +965,7 @@ func file_banking_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_banking_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   10,
+			NumMessages:   13,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

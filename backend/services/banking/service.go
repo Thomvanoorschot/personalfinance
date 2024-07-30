@@ -3,13 +3,16 @@ package banking
 import (
 	"context"
 	"errors"
+	"fmt"
 	"strconv"
+	"strings"
 	"sync"
 	"time"
 
 	"personalfinance/generated/jet_gen/postgres/public/model"
 	"personalfinance/generated/proto"
 	"personalfinance/gocardless"
+	"personalfinance/utils/timeutils"
 
 	"github.com/google/uuid"
 )
@@ -35,6 +38,7 @@ type Repository interface {
 	GetInstitutionByID(ctx context.Context, institutionID string) (resp model.Institution, err error)
 	UpsertInstitutions(ctx context.Context, m []model.Institution) error
 	GetRequisitionByInstitutionIDForUser(ctx context.Context, institutionID string, userID uuid.UUID) (resp model.Requisition, err error)
+	GetBalancesPerDay(ctx context.Context, userID uuid.UUID, start, end time.Time) (resp BalancesPerDay, err error)
 }
 
 type Service struct {
@@ -189,13 +193,17 @@ func (s *Service) HandleRequisition(ctx context.Context, req *proto.HandleRequis
 			}
 			remittanceInformation := gocardless.FormatRemittanceData(bookedTx.RemittanceInformationUnstructuredArray)
 
-			if bookedTx.CreditorAccount.Iban == "" && bookedTx.DebtorAccount.Iban == "" {
-				if txAmount < 0 {
-					bookedTx.DebtorAccount.Iban = account.Iban
-					bookedTx.DebtorName = account.OwnerName
+			if bookedTx.CreditorAccount.Iban == "" && bookedTx.DebtorAccount.Iban == "" && len(bookedTx.RemittanceInformationUnstructuredArray) > 1 {
+				if strings.Contains(bookedTx.RemittanceInformationUnstructuredArray[0], "Apple Pay") {
+					bookedTx.CreditorName = bookedTx.RemittanceInformationUnstructuredArray[1]
+				} else if strings.Contains(bookedTx.RemittanceInformationUnstructuredArray[0], "ABN AMRO") {
+					bookedTx.CreditorName = bookedTx.RemittanceInformationUnstructuredArray[0]
 				} else {
-					bookedTx.CreditorAccount.Iban = account.Iban
-					bookedTx.CreditorName = account.OwnerName
+					if txAmount < 0 {
+						bookedTx.CreditorName = bookedTx.RemittanceInformationUnstructuredArray[0]
+					} else {
+						bookedTx.DebtorName = bookedTx.RemittanceInformationUnstructuredArray[0]
+					}
 				}
 			}
 
@@ -264,4 +272,46 @@ func (s *Service) GetBankAccounts(ctx context.Context, _ *proto.GetBankAccountsR
 		return nil, err
 	}
 	return accounts.ConvertToResponse(), nil
+}
+
+func (s *Service) GetBalancesPerDay(ctx context.Context, req *proto.GetBalancesPerDayRequest) (response *proto.GetBalancesPerDayResponse, err error) {
+	startTime := timeutils.StripTime(req.Start.AsTime())
+	endTime := timeutils.StripTime(req.End.AsTime())
+	if startTime.After(endTime) {
+		fmt.Println("Start date must be before end date")
+		return
+	}
+	var txBalancesPerDayCursor int
+	txBalancesPerDay, err := s.repo.GetBalancesPerDay(ctx, uuid.MustParse(userID), startTime, endTime)
+	if err != nil {
+		return nil, err
+	}
+	if len(txBalancesPerDay) == 0 {
+		return &proto.GetBalancesPerDayResponse{}, nil
+	}
+	amountOfDays := timeutils.AmountOfDays(startTime, endTime)
+	fullBalancesPerDay := make(BalancesPerDay, amountOfDays)
+
+	for amountOfDaysCursor := range amountOfDays {
+		nextDay := startTime.AddDate(0, 0, amountOfDaysCursor)
+		for len(txBalancesPerDay) > txBalancesPerDayCursor+1 &&
+			(nextDay.Equal(txBalancesPerDay[txBalancesPerDayCursor+1].Date) || nextDay.After(txBalancesPerDay[txBalancesPerDayCursor+1].Date)) {
+			txBalancesPerDayCursor++
+		}
+		if fullBalancesPerDay[amountOfDaysCursor].Date.IsZero() {
+			fullBalancesPerDay[amountOfDaysCursor] = BalancePerDay{
+				Date:    startTime.AddDate(0, 0, amountOfDaysCursor),
+				Balance: txBalancesPerDay[txBalancesPerDayCursor].Balance,
+			}
+			// TODO Does nothing
+			// TODO Checkout 1719273600
+		} else if fullBalancesPerDay[amountOfDaysCursor].Balance < txBalancesPerDay[txBalancesPerDayCursor].Balance {
+			fullBalancesPerDay[amountOfDaysCursor] = BalancePerDay{
+				Date:    startTime.AddDate(0, 0, amountOfDaysCursor),
+				Balance: txBalancesPerDay[txBalancesPerDayCursor].Balance,
+			}
+		}
+	}
+
+	return fullBalancesPerDay.ConvertToResponse(), nil
 }

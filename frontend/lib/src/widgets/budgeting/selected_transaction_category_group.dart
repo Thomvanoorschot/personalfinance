@@ -9,6 +9,7 @@ class SelectedTransactionCategoryGroup extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final selectedCategorySize = MediaQuery.sizeOf(context).width * 0.30;
     final categoryImageSize = MediaQuery.sizeOf(context).width * 0.17;
     final categorizeTransaction = ref.watch(categorizeTransactionProvider);
 
@@ -27,6 +28,8 @@ class SelectedTransactionCategoryGroup extends ConsumerWidget {
               children: [
                 Expanded(
                   child: SvgPicture.asset(
+                    height: selectedCategorySize,
+                    width: selectedCategorySize,
                     "assets/${selectedCategoryGroup.slug}/${selectedCategoryGroup.slug}.svg",
                   ),
                 ),
@@ -59,11 +62,7 @@ class SelectedTransactionCategoryGroup extends ConsumerWidget {
         Expanded(
           child: Wrap(
             direction: Axis.horizontal,
-            runSpacing: 10,
-            spacing: 5,
             runAlignment: WrapAlignment.spaceBetween,
-            crossAxisAlignment: WrapCrossAlignment.start,
-            // alignment: WrapAlignment.spaceBetween,
             children: List.generate(
               selectedCategoryGroup.categories.length,
               (categoryIndex) {

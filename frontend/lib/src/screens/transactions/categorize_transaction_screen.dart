@@ -38,43 +38,71 @@ class CategorizeTransactionScreen extends ConsumerWidget {
               child: Column(
                 children: [
                   Expanded(
-                    child: CustomScrollView(
-                      slivers: [
-                        SliverToBoxAdapter(
-                          child: Column(
-                            children: [
-                              Text(resp.uncategorizedTransaction.partyName),
-                              Text(resp.uncategorizedTransaction.transactionAmount.toStringAsFixed(2)),
-                              const TransactionCategoriesOverview(),
-                              if (resp.uncategorizedTransaction.matchingTransactions.length > 1)
-                                const Text("We found similar transactions, are these in the same category?"),
-                            ],
-                          ),
-                        ),
-                        SliverList(
-                          delegate: SliverChildBuilderDelegate(
-                            childCount: resp.uncategorizedTransaction.matchingTransactions.length,
-                            (context, index) {
-                              return CheckboxListTile(
-                                visualDensity: VisualDensity.compact,
-                                value: resp.toBeCategorizedTransactionIds.any(
-                                  (x) => x == resp.uncategorizedTransaction.matchingTransactions[index].id,
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: CustomScrollView(
+                        slivers: [
+                          SliverToBoxAdapter(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      resp.uncategorizedTransaction.partyName,
+                                      style: const TextStyle(fontWeight: FontWeight.bold),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    Padding(
+                                        padding: const EdgeInsets.only(left: 8),
+                                        child: Tooltip(
+                                          triggerMode: TooltipTriggerMode.tap,
+                                          showDuration: const Duration(milliseconds: 5000),
+                                          message: resp.uncategorizedTransaction.description,
+                                          child: const Icon(
+                                            Icons.info,
+                                          ),
+                                        ))
+                                  ],
                                 ),
-                                onChanged: (bool? value) {
-                                  ref.read(categorizeTransactionProvider.notifier).toggle(
-                                        resp.uncategorizedTransaction.matchingTransactions[index].id,
-                                      );
-                                },
-                                title: Text(resp.uncategorizedTransaction.matchingTransactions[index].transactionAmount
-                                    .toStringAsFixed(2)),
-                                subtitle: Text(
-                                  epochToDateString(resp.uncategorizedTransaction.matchingTransactions[index].date),
+                                Text(
+                                  resp.uncategorizedTransaction.transactionAmount.toStringAsFixed(2),
+                                  style: const TextStyle(fontStyle: FontStyle.italic),
+                                  textAlign: TextAlign.center,
                                 ),
-                              );
-                            },
+                                const TransactionCategoriesOverview(),
+                                if (resp.uncategorizedTransaction.matchingTransactions.length > 1)
+                                  const Text("We found similar transactions, are these in the same category?"),
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
+                          SliverList(
+                            delegate: SliverChildBuilderDelegate(
+                              childCount: resp.uncategorizedTransaction.matchingTransactions.length,
+                              (context, index) {
+                                return CheckboxListTile(
+                                  visualDensity: VisualDensity.compact,
+                                  contentPadding: EdgeInsets.zero,
+                                  value: resp.toBeCategorizedTransactionIds.any(
+                                    (x) => x == resp.uncategorizedTransaction.matchingTransactions[index].id,
+                                  ),
+                                  onChanged: (bool? value) {
+                                    ref.read(categorizeTransactionProvider.notifier).toggle(
+                                          resp.uncategorizedTransaction.matchingTransactions[index].id,
+                                        );
+                                  },
+                                  title: Text(resp.uncategorizedTransaction.matchingTransactions[index].transactionAmount
+                                      .toStringAsFixed(2)),
+                                  subtitle: Text(
+                                    epochToDateString(resp.uncategorizedTransaction.matchingTransactions[index].date),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   Row(
