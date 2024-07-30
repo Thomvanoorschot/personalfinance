@@ -143,6 +143,7 @@ func (s *Service) CreateRequisition(ctx context.Context, req *proto.CreateRequis
 	}
 	return resp, nil
 }
+
 func (s *Service) HandleRequisition(ctx context.Context, req *proto.HandleRequisitionRequest) (string, error) {
 	requisitionWithMaxTxDays, err := s.repo.GetRequisitionWithMaxTransactionHistoryDays(ctx, uuid.MustParse(req.RequisitionReference))
 	if err != nil {
@@ -187,7 +188,7 @@ func (s *Service) HandleRequisition(ctx context.Context, req *proto.HandleRequis
 			if err != nil {
 				return "", err
 			}
-			var externalID = bookedTx.TransactionId
+			externalID := bookedTx.TransactionId
 			if bookedTx.TransactionId == "" {
 				externalID = bookedTx.InternalTransactionId
 			}
