@@ -19,9 +19,9 @@ type IdSlugLabel struct {
 type TransactionCategoryGroups []TransactionCategoryGroup
 
 func (tcg TransactionCategoryGroups) ConvertToResponse() *proto.GetTransactionCategoryGroupsResponse {
-	transactionCategoriesGroup := make([]*proto.TransactionCategoryGroupResponse, 0, len(tcg))
-	for _, transactionCategoryGroup := range tcg {
-		transactionCategoriesGroup = append(transactionCategoriesGroup, transactionCategoryGroup.ConvertToResponse())
+	transactionCategoriesGroup := make([]*proto.TransactionCategoryGroupResponse, len(tcg))
+	for i, transactionCategoryGroup := range tcg {
+		transactionCategoriesGroup[i] = transactionCategoryGroup.ConvertToResponse()
 	}
 	return &proto.GetTransactionCategoryGroupsResponse{
 		Groups: transactionCategoriesGroup,
@@ -45,10 +45,10 @@ func (tcg TransactionCategoryGroup) ConvertToResponse() *proto.TransactionCatego
 type TransactionCategories []TransactionCategory
 
 func (tc TransactionCategories) ConvertToResponse() []*proto.TransactionCategoryResponse {
-	transactionCategories := make([]*proto.TransactionCategoryResponse, 0, len(tc))
+	transactionCategories := make([]*proto.TransactionCategoryResponse, len(tc))
 
-	for _, transactionCategoryGroup := range tc {
-		transactionCategories = append(transactionCategories, transactionCategoryGroup.ConvertToResponse())
+	for i, transactionCategoryGroup := range tc {
+		transactionCategories[i] = transactionCategoryGroup.ConvertToResponse()
 	}
 	return transactionCategories
 }
@@ -68,9 +68,9 @@ func (tc TransactionCategory) ConvertToResponse() *proto.TransactionCategoryResp
 type Transactions []Transaction
 
 func (t Transactions) ConvertToResponse(totalCount int64) *proto.GetTransactionsResponse {
-	transactions := make([]*proto.TransactionResponse, 0, len(t))
-	for _, transaction := range t {
-		transactions = append(transactions, transaction.ConvertToResponse())
+	transactions := make([]*proto.TransactionResponse, len(t))
+	for i, transaction := range t {
+		transactions[i] = transaction.ConvertToResponse()
 	}
 	return &proto.GetTransactionsResponse{
 		Transactions: transactions,
@@ -135,9 +135,9 @@ func (ut UncategorizedTransaction) ConvertToResponse() *proto.GetUncategorizedTr
 type MatchingUncategorizedTransactions []MatchingUncategorizedTransaction
 
 func (mut MatchingUncategorizedTransactions) ConvertToResponse() []*proto.MatchingUncategorizedTransactionResponse {
-	matchingUncategorizedTxs := make([]*proto.MatchingUncategorizedTransactionResponse, 0, len(mut))
-	for _, matchingUncategorizedTx := range mut {
-		matchingUncategorizedTxs = append(matchingUncategorizedTxs, matchingUncategorizedTx.ConvertToResponse())
+	matchingUncategorizedTxs := make([]*proto.MatchingUncategorizedTransactionResponse, len(mut))
+	for i, matchingUncategorizedTx := range mut {
+		matchingUncategorizedTxs[i] = matchingUncategorizedTx.ConvertToResponse()
 	}
 	return matchingUncategorizedTxs
 }
@@ -179,4 +179,63 @@ func (pp PaymentParty) getPartyNameAndIBAN(transactionAmount float64) (string, s
 		partyIBAN = *pp.DebtorIBAN
 	}
 	return partyName, partyIBAN
+}
+
+type CategorizedTransactionResults []CategorizedTransactionResult
+
+func (ctr CategorizedTransactionResults) ConvertToResponse() *proto.GetCategorizedTransactionResultsResponse {
+	categorizedTransactionResults := make([]*proto.GetCategorizedTransactionResultResponse, len(ctr))
+	for i, categorizedTransaction := range ctr {
+		categorizedTransactionResults[i] = categorizedTransaction.ConvertToResponse()
+	}
+	return &proto.GetCategorizedTransactionResultsResponse{
+		Results: categorizedTransactionResults,
+	}
+}
+
+type CategorizedTransactionResult struct {
+	CategorizedCategoryOrGroup
+	Categories []CategorizedCategoryOrGroup
+}
+
+type CategorizedCategoryOrGroup struct {
+	Slug       *string
+	Count      int64
+	Percentage float64
+}
+
+func (ctr CategorizedTransactionResult) ConvertToResponse() *proto.GetCategorizedTransactionResultResponse {
+	var slug string
+	if ctr.Slug != nil {
+		slug = *ctr.Slug
+	}
+	if slug == "" {
+		slug = "unknown_category"
+	}
+	categories := make([]*proto.GetCategorizedTransactionResult, len(ctr.Categories))
+	for i, category := range ctr.Categories {
+		categories[i] = category.ConvertToResponse()
+	}
+
+	return &proto.GetCategorizedTransactionResultResponse{
+		Slug:       slug,
+		Count:      ctr.Count,
+		Percentage: ctr.Percentage,
+		Categories: categories,
+	}
+}
+
+func (ctr CategorizedCategoryOrGroup) ConvertToResponse() *proto.GetCategorizedTransactionResult {
+	var slug string
+	if ctr.Slug != nil {
+		slug = *ctr.Slug
+	}
+	if slug == "" {
+		slug = "unknown_category"
+	}
+	return &proto.GetCategorizedTransactionResult{
+		Slug:       slug,
+		Count:      ctr.Count,
+		Percentage: ctr.Percentage,
+	}
 }

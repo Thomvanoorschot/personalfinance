@@ -18,10 +18,6 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$BalancesPerDayModel {
   GetBalancesPerDayResponse get balancesPerDay =>
       throw _privateConstructorUsedError;
-  int get selectedIndex => throw _privateConstructorUsedError;
-  DateTime get start => throw _privateConstructorUsedError;
-  DateTime get end => throw _privateConstructorUsedError;
-  int? get amountOfDays => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $BalancesPerDayModelCopyWith<BalancesPerDayModel> get copyWith =>
@@ -34,12 +30,7 @@ abstract class $BalancesPerDayModelCopyWith<$Res> {
           BalancesPerDayModel value, $Res Function(BalancesPerDayModel) then) =
       _$BalancesPerDayModelCopyWithImpl<$Res, BalancesPerDayModel>;
   @useResult
-  $Res call(
-      {GetBalancesPerDayResponse balancesPerDay,
-      int selectedIndex,
-      DateTime start,
-      DateTime end,
-      int? amountOfDays});
+  $Res call({GetBalancesPerDayResponse balancesPerDay});
 }
 
 /// @nodoc
@@ -56,32 +47,12 @@ class _$BalancesPerDayModelCopyWithImpl<$Res, $Val extends BalancesPerDayModel>
   @override
   $Res call({
     Object? balancesPerDay = null,
-    Object? selectedIndex = null,
-    Object? start = null,
-    Object? end = null,
-    Object? amountOfDays = freezed,
   }) {
     return _then(_value.copyWith(
       balancesPerDay: null == balancesPerDay
           ? _value.balancesPerDay
           : balancesPerDay // ignore: cast_nullable_to_non_nullable
               as GetBalancesPerDayResponse,
-      selectedIndex: null == selectedIndex
-          ? _value.selectedIndex
-          : selectedIndex // ignore: cast_nullable_to_non_nullable
-              as int,
-      start: null == start
-          ? _value.start
-          : start // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      end: null == end
-          ? _value.end
-          : end // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      amountOfDays: freezed == amountOfDays
-          ? _value.amountOfDays
-          : amountOfDays // ignore: cast_nullable_to_non_nullable
-              as int?,
     ) as $Val);
   }
 }
@@ -94,12 +65,7 @@ abstract class _$$BalancesPerDayModelImplCopyWith<$Res>
       __$$BalancesPerDayModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {GetBalancesPerDayResponse balancesPerDay,
-      int selectedIndex,
-      DateTime start,
-      DateTime end,
-      int? amountOfDays});
+  $Res call({GetBalancesPerDayResponse balancesPerDay});
 }
 
 /// @nodoc
@@ -114,32 +80,12 @@ class __$$BalancesPerDayModelImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? balancesPerDay = null,
-    Object? selectedIndex = null,
-    Object? start = null,
-    Object? end = null,
-    Object? amountOfDays = freezed,
   }) {
     return _then(_$BalancesPerDayModelImpl(
       balancesPerDay: null == balancesPerDay
           ? _value.balancesPerDay
           : balancesPerDay // ignore: cast_nullable_to_non_nullable
               as GetBalancesPerDayResponse,
-      selectedIndex: null == selectedIndex
-          ? _value.selectedIndex
-          : selectedIndex // ignore: cast_nullable_to_non_nullable
-              as int,
-      start: null == start
-          ? _value.start
-          : start // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      end: null == end
-          ? _value.end
-          : end // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      amountOfDays: freezed == amountOfDays
-          ? _value.amountOfDays
-          : amountOfDays // ignore: cast_nullable_to_non_nullable
-              as int?,
     ));
   }
 }
@@ -147,27 +93,14 @@ class __$$BalancesPerDayModelImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$BalancesPerDayModelImpl implements _BalancesPerDayModel {
-  _$BalancesPerDayModelImpl(
-      {required this.balancesPerDay,
-      required this.selectedIndex,
-      required this.start,
-      required this.end,
-      this.amountOfDays});
+  _$BalancesPerDayModelImpl({required this.balancesPerDay});
 
   @override
   final GetBalancesPerDayResponse balancesPerDay;
-  @override
-  final int selectedIndex;
-  @override
-  final DateTime start;
-  @override
-  final DateTime end;
-  @override
-  final int? amountOfDays;
 
   @override
   String toString() {
-    return 'BalancesPerDayModel(balancesPerDay: $balancesPerDay, selectedIndex: $selectedIndex, start: $start, end: $end, amountOfDays: $amountOfDays)';
+    return 'BalancesPerDayModel(balancesPerDay: $balancesPerDay)';
   }
 
   @override
@@ -176,18 +109,11 @@ class _$BalancesPerDayModelImpl implements _BalancesPerDayModel {
         (other.runtimeType == runtimeType &&
             other is _$BalancesPerDayModelImpl &&
             (identical(other.balancesPerDay, balancesPerDay) ||
-                other.balancesPerDay == balancesPerDay) &&
-            (identical(other.selectedIndex, selectedIndex) ||
-                other.selectedIndex == selectedIndex) &&
-            (identical(other.start, start) || other.start == start) &&
-            (identical(other.end, end) || other.end == end) &&
-            (identical(other.amountOfDays, amountOfDays) ||
-                other.amountOfDays == amountOfDays));
+                other.balancesPerDay == balancesPerDay));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, balancesPerDay, selectedIndex, start, end, amountOfDays);
+  int get hashCode => Object.hash(runtimeType, balancesPerDay);
 
   @JsonKey(ignore: true)
   @override
@@ -199,22 +125,11 @@ class _$BalancesPerDayModelImpl implements _BalancesPerDayModel {
 
 abstract class _BalancesPerDayModel implements BalancesPerDayModel {
   factory _BalancesPerDayModel(
-      {required final GetBalancesPerDayResponse balancesPerDay,
-      required final int selectedIndex,
-      required final DateTime start,
-      required final DateTime end,
-      final int? amountOfDays}) = _$BalancesPerDayModelImpl;
+          {required final GetBalancesPerDayResponse balancesPerDay}) =
+      _$BalancesPerDayModelImpl;
 
   @override
   GetBalancesPerDayResponse get balancesPerDay;
-  @override
-  int get selectedIndex;
-  @override
-  DateTime get start;
-  @override
-  DateTime get end;
-  @override
-  int? get amountOfDays;
   @override
   @JsonKey(ignore: true)
   _$$BalancesPerDayModelImplCopyWith<_$BalancesPerDayModelImpl> get copyWith =>

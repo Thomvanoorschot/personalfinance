@@ -4,8 +4,10 @@ import 'package:frontend/generated/proto/banking.pb.dart';
 import 'package:frontend/src/clients/banking_client.dart';
 import 'package:frontend/src/providers/transactions.dart';
 import 'package:frontend/src/utils/date_utils.dart';
-import 'package:frontend/src/widgets/banking/balances_per_day.dart';
+import 'package:frontend/src/widgets/banking/balances_per_day_chart.dart';
 import 'package:frontend/src/widgets/banking/bank_accounts.dart';
+import 'package:frontend/src/widgets/banking/categorized_transactions_chart.dart';
+import 'package:frontend/src/widgets/banking/time_range_selector.dart';
 import 'package:frontend/src/widgets/budgeting/transaction_card.dart';
 import 'package:frontend/src/widgets/budgeting/transaction_card_shimmer.dart';
 import 'package:go_router/go_router.dart';
@@ -104,8 +106,17 @@ class TransactionsScreenState extends ConsumerState<TransactionsScreen> {
             SliverToBoxAdapter(
               child: SizedBox(
                 height: MediaQuery.sizeOf(context).height * 0.2,
-                child: const BalancesPerDay(),
+                child: const BalancesPerDayChart(),
               ),
+            ),
+            SliverToBoxAdapter(
+              child: SizedBox(
+                height: MediaQuery.sizeOf(context).height * 0.2,
+                child: const CategorizedTransactionsChart(),
+              ),
+            ),
+            SliverToBoxAdapter(
+              child: TimeRangeSelector(),
             ),
             SliverToBoxAdapter(
               child: OverflowBar(

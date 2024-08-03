@@ -3,6 +3,7 @@ package budgeting
 import (
 	"context"
 	"strings"
+	"time"
 
 	"personalfinance/generated/proto"
 
@@ -18,6 +19,8 @@ type Repository interface {
 	GetUncategorizedTransaction(ctx context.Context, userID uuid.UUID) (resp UncategorizedTransaction, err error)
 	GetAllTransactionCategoryGroups(ctx context.Context) (resp TransactionCategoryGroups, err error)
 	SetTransactionCategories(ctx context.Context, transactionIDs []uuid.UUID, categoryID uuid.UUID) error
+	GetClassifiedTransactions(ctx context.Context, userID uuid.UUID, start, end time.Time) (resp CategorizedTransactionResults, err error)
+	GetTransactionByID(ctx context.Context, userID uuid.UUID, transactionID uuid.UUID) (resp Transaction, err error)
 }
 
 type Service struct {
@@ -26,6 +29,15 @@ type Service struct {
 
 func NewService(repo Repository) *Service {
 	return &Service{repo: repo}
+}
+
+func (s *Service) GetTransactionByID(ctx context.Context, req *proto.GetTransactionByIdRequest) (*proto.TransactionResponse, error) {
+	tx, err := s.repo.GetTransactionByID(ctx, uuid.MustParse(userID), uuid.MustParse(req.TransactionId))
+	if err != nil {
+		return nil, err
+	}
+
+	return tx.ConvertToResponse(), nil
 }
 
 func (s *Service) GetTransactions(ctx context.Context, req *proto.GetTransactionsRequest) (*proto.GetTransactionsResponse, error) {
@@ -68,6 +80,14 @@ func (s *Service) GetTransactionCategoryGroups(ctx context.Context, _ *proto.Get
 		return nil, err
 	}
 	return transactionCategories.ConvertToResponse(), nil
+}
+
+func (s *Service) GetCategorizedTransactionResults(ctx context.Context, req *proto.GetCategorizedTransactionResultsRequest) (*proto.GetCategorizedTransactionResultsResponse, error) {
+	classifiedTransactions, err := s.repo.GetClassifiedTransactions(ctx, uuid.MustParse(userID), req.Start.AsTime(), req.End.AsTime())
+	if err != nil {
+		return nil, err
+	}
+	return classifiedTransactions.ConvertToResponse(), nil
 }
 
 func PreProcessTransaction(tx *UncategorizedTransaction) {

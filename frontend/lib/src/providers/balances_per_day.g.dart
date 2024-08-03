@@ -6,7 +6,7 @@ part of 'balances_per_day.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$balancesPerDayHash() => r'325dc0ec43f9a02241cd8ccec35cfc02f4c5d1d9';
+String _$balancesPerDayHash() => r'7bc4f5bb1e0ce171038d1b3501aff23cee0d79de';
 
 /// See also [BalancesPerDay].
 @ProviderFor(BalancesPerDay)

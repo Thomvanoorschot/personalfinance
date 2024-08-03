@@ -39,6 +39,7 @@ type Repository interface {
 	UpsertInstitutions(ctx context.Context, m []model.Institution) error
 	GetRequisitionByInstitutionIDForUser(ctx context.Context, institutionID string, userID uuid.UUID) (resp model.Requisition, err error)
 	GetBalancesPerDay(ctx context.Context, userID uuid.UUID, start, end time.Time) (resp BalancesPerDay, err error)
+	GetMostRecentTransaction(ctx context.Context, userID uuid.UUID, date time.Time) (resp BalancePerDay, err error)
 }
 
 type Service struct {
@@ -288,7 +289,15 @@ func (s *Service) GetBalancesPerDay(ctx context.Context, req *proto.GetBalancesP
 		return nil, err
 	}
 	if len(txBalancesPerDay) == 0 {
-		return &proto.GetBalancesPerDayResponse{}, nil
+		mostRecentBalance, err := s.repo.GetMostRecentTransaction(ctx, uuid.MustParse(userID), startTime)
+		if err != nil {
+			return nil, err
+		}
+		return &proto.GetBalancesPerDayResponse{
+			Balances: []*proto.BalancePerDay{
+				mostRecentBalance.ConvertToResponse(),
+			},
+		}, nil
 	}
 	amountOfDays := timeutils.AmountOfDays(startTime, endTime)
 	fullBalancesPerDay := make(BalancesPerDay, amountOfDays)

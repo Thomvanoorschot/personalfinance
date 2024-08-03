@@ -27,8 +27,10 @@ service UserService {
 }
 
 service BudgetingService {
+  rpc GetTransactionById(GetTransactionByIdRequest) returns (TransactionResponse);
   rpc GetTransactions(GetTransactionsRequest) returns (GetTransactionsResponse);
   rpc GetUncategorizedTransaction(GetUncategorizedTransactionRequest) returns (GetUncategorizedTransactionResponse);
   rpc CategorizeTransactionAndContinue(CategorizeTransactionAndContinueRequest) returns (GetUncategorizedTransactionResponse);
   rpc GetTransactionCategoryGroups(GetTransactionCategoryGroupsRequest) returns (GetTransactionCategoryGroupsResponse);
+  rpc GetCategorizedTransactionResults(GetCategorizedTransactionResultsRequest) returns (GetCategorizedTransactionResultsResponse);
 }

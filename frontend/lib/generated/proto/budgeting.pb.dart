@@ -935,6 +935,346 @@ class TransactionCategoryResponse extends $pb.GeneratedMessage {
   void clearLabel() => clearField(3);
 }
 
+class GetCategorizedTransactionResultsRequest extends $pb.GeneratedMessage {
+  factory GetCategorizedTransactionResultsRequest({
+    $5.Timestamp? start,
+    $5.Timestamp? end,
+  }) {
+    final $result = create();
+    if (start != null) {
+      $result.start = start;
+    }
+    if (end != null) {
+      $result.end = end;
+    }
+    return $result;
+  }
+  GetCategorizedTransactionResultsRequest._() : super();
+  factory GetCategorizedTransactionResultsRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory GetCategorizedTransactionResultsRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetCategorizedTransactionResultsRequest', createEmptyInstance: create)
+    ..aOM<$5.Timestamp>(1, _omitFieldNames ? '' : 'start', subBuilder: $5.Timestamp.create)
+    ..aOM<$5.Timestamp>(2, _omitFieldNames ? '' : 'end', subBuilder: $5.Timestamp.create)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  GetCategorizedTransactionResultsRequest clone() => GetCategorizedTransactionResultsRequest()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  GetCategorizedTransactionResultsRequest copyWith(void Function(GetCategorizedTransactionResultsRequest) updates) => super.copyWith((message) => updates(message as GetCategorizedTransactionResultsRequest)) as GetCategorizedTransactionResultsRequest;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static GetCategorizedTransactionResultsRequest create() => GetCategorizedTransactionResultsRequest._();
+  GetCategorizedTransactionResultsRequest createEmptyInstance() => create();
+  static $pb.PbList<GetCategorizedTransactionResultsRequest> createRepeated() => $pb.PbList<GetCategorizedTransactionResultsRequest>();
+  @$core.pragma('dart2js:noInline')
+  static GetCategorizedTransactionResultsRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetCategorizedTransactionResultsRequest>(create);
+  static GetCategorizedTransactionResultsRequest? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $5.Timestamp get start => $_getN(0);
+  @$pb.TagNumber(1)
+  set start($5.Timestamp v) { setField(1, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasStart() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearStart() => clearField(1);
+  @$pb.TagNumber(1)
+  $5.Timestamp ensureStart() => $_ensure(0);
+
+  @$pb.TagNumber(2)
+  $5.Timestamp get end => $_getN(1);
+  @$pb.TagNumber(2)
+  set end($5.Timestamp v) { setField(2, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasEnd() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearEnd() => clearField(2);
+  @$pb.TagNumber(2)
+  $5.Timestamp ensureEnd() => $_ensure(1);
+}
+
+class GetCategorizedTransactionResultsResponse extends $pb.GeneratedMessage {
+  factory GetCategorizedTransactionResultsResponse({
+    $core.Iterable<GetCategorizedTransactionResultResponse>? results,
+  }) {
+    final $result = create();
+    if (results != null) {
+      $result.results.addAll(results);
+    }
+    return $result;
+  }
+  GetCategorizedTransactionResultsResponse._() : super();
+  factory GetCategorizedTransactionResultsResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory GetCategorizedTransactionResultsResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetCategorizedTransactionResultsResponse', createEmptyInstance: create)
+    ..pc<GetCategorizedTransactionResultResponse>(1, _omitFieldNames ? '' : 'results', $pb.PbFieldType.PM, subBuilder: GetCategorizedTransactionResultResponse.create)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  GetCategorizedTransactionResultsResponse clone() => GetCategorizedTransactionResultsResponse()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  GetCategorizedTransactionResultsResponse copyWith(void Function(GetCategorizedTransactionResultsResponse) updates) => super.copyWith((message) => updates(message as GetCategorizedTransactionResultsResponse)) as GetCategorizedTransactionResultsResponse;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static GetCategorizedTransactionResultsResponse create() => GetCategorizedTransactionResultsResponse._();
+  GetCategorizedTransactionResultsResponse createEmptyInstance() => create();
+  static $pb.PbList<GetCategorizedTransactionResultsResponse> createRepeated() => $pb.PbList<GetCategorizedTransactionResultsResponse>();
+  @$core.pragma('dart2js:noInline')
+  static GetCategorizedTransactionResultsResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetCategorizedTransactionResultsResponse>(create);
+  static GetCategorizedTransactionResultsResponse? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.List<GetCategorizedTransactionResultResponse> get results => $_getList(0);
+}
+
+class GetCategorizedTransactionResultResponse extends $pb.GeneratedMessage {
+  factory GetCategorizedTransactionResultResponse({
+    $core.String? slug,
+    $fixnum.Int64? count,
+    $core.double? percentage,
+    $core.Iterable<GetCategorizedTransactionResult>? categories,
+  }) {
+    final $result = create();
+    if (slug != null) {
+      $result.slug = slug;
+    }
+    if (count != null) {
+      $result.count = count;
+    }
+    if (percentage != null) {
+      $result.percentage = percentage;
+    }
+    if (categories != null) {
+      $result.categories.addAll(categories);
+    }
+    return $result;
+  }
+  GetCategorizedTransactionResultResponse._() : super();
+  factory GetCategorizedTransactionResultResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory GetCategorizedTransactionResultResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetCategorizedTransactionResultResponse', createEmptyInstance: create)
+    ..aOS(1, _omitFieldNames ? '' : 'slug')
+    ..aInt64(2, _omitFieldNames ? '' : 'count')
+    ..a<$core.double>(3, _omitFieldNames ? '' : 'percentage', $pb.PbFieldType.OD)
+    ..pc<GetCategorizedTransactionResult>(4, _omitFieldNames ? '' : 'categories', $pb.PbFieldType.PM, subBuilder: GetCategorizedTransactionResult.create)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  GetCategorizedTransactionResultResponse clone() => GetCategorizedTransactionResultResponse()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  GetCategorizedTransactionResultResponse copyWith(void Function(GetCategorizedTransactionResultResponse) updates) => super.copyWith((message) => updates(message as GetCategorizedTransactionResultResponse)) as GetCategorizedTransactionResultResponse;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static GetCategorizedTransactionResultResponse create() => GetCategorizedTransactionResultResponse._();
+  GetCategorizedTransactionResultResponse createEmptyInstance() => create();
+  static $pb.PbList<GetCategorizedTransactionResultResponse> createRepeated() => $pb.PbList<GetCategorizedTransactionResultResponse>();
+  @$core.pragma('dart2js:noInline')
+  static GetCategorizedTransactionResultResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetCategorizedTransactionResultResponse>(create);
+  static GetCategorizedTransactionResultResponse? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get slug => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set slug($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasSlug() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearSlug() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $fixnum.Int64 get count => $_getI64(1);
+  @$pb.TagNumber(2)
+  set count($fixnum.Int64 v) { $_setInt64(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasCount() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearCount() => clearField(2);
+
+  @$pb.TagNumber(3)
+  $core.double get percentage => $_getN(2);
+  @$pb.TagNumber(3)
+  set percentage($core.double v) { $_setDouble(2, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasPercentage() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearPercentage() => clearField(3);
+
+  @$pb.TagNumber(4)
+  $core.List<GetCategorizedTransactionResult> get categories => $_getList(3);
+}
+
+class GetCategorizedTransactionResult extends $pb.GeneratedMessage {
+  factory GetCategorizedTransactionResult({
+    $core.String? slug,
+    $fixnum.Int64? count,
+    $core.double? percentage,
+  }) {
+    final $result = create();
+    if (slug != null) {
+      $result.slug = slug;
+    }
+    if (count != null) {
+      $result.count = count;
+    }
+    if (percentage != null) {
+      $result.percentage = percentage;
+    }
+    return $result;
+  }
+  GetCategorizedTransactionResult._() : super();
+  factory GetCategorizedTransactionResult.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory GetCategorizedTransactionResult.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetCategorizedTransactionResult', createEmptyInstance: create)
+    ..aOS(1, _omitFieldNames ? '' : 'slug')
+    ..aInt64(2, _omitFieldNames ? '' : 'count')
+    ..a<$core.double>(3, _omitFieldNames ? '' : 'percentage', $pb.PbFieldType.OD)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  GetCategorizedTransactionResult clone() => GetCategorizedTransactionResult()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  GetCategorizedTransactionResult copyWith(void Function(GetCategorizedTransactionResult) updates) => super.copyWith((message) => updates(message as GetCategorizedTransactionResult)) as GetCategorizedTransactionResult;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static GetCategorizedTransactionResult create() => GetCategorizedTransactionResult._();
+  GetCategorizedTransactionResult createEmptyInstance() => create();
+  static $pb.PbList<GetCategorizedTransactionResult> createRepeated() => $pb.PbList<GetCategorizedTransactionResult>();
+  @$core.pragma('dart2js:noInline')
+  static GetCategorizedTransactionResult getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetCategorizedTransactionResult>(create);
+  static GetCategorizedTransactionResult? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get slug => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set slug($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasSlug() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearSlug() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $fixnum.Int64 get count => $_getI64(1);
+  @$pb.TagNumber(2)
+  set count($fixnum.Int64 v) { $_setInt64(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasCount() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearCount() => clearField(2);
+
+  @$pb.TagNumber(3)
+  $core.double get percentage => $_getN(2);
+  @$pb.TagNumber(3)
+  set percentage($core.double v) { $_setDouble(2, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasPercentage() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearPercentage() => clearField(3);
+}
+
+class GetTransactionByIdRequest extends $pb.GeneratedMessage {
+  factory GetTransactionByIdRequest({
+    $core.String? userId,
+    $core.String? transactionId,
+  }) {
+    final $result = create();
+    if (userId != null) {
+      $result.userId = userId;
+    }
+    if (transactionId != null) {
+      $result.transactionId = transactionId;
+    }
+    return $result;
+  }
+  GetTransactionByIdRequest._() : super();
+  factory GetTransactionByIdRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory GetTransactionByIdRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetTransactionByIdRequest', createEmptyInstance: create)
+    ..aOS(1, _omitFieldNames ? '' : 'userId', protoName: 'userId')
+    ..aOS(2, _omitFieldNames ? '' : 'transactionId', protoName: 'transactionId')
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  GetTransactionByIdRequest clone() => GetTransactionByIdRequest()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  GetTransactionByIdRequest copyWith(void Function(GetTransactionByIdRequest) updates) => super.copyWith((message) => updates(message as GetTransactionByIdRequest)) as GetTransactionByIdRequest;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static GetTransactionByIdRequest create() => GetTransactionByIdRequest._();
+  GetTransactionByIdRequest createEmptyInstance() => create();
+  static $pb.PbList<GetTransactionByIdRequest> createRepeated() => $pb.PbList<GetTransactionByIdRequest>();
+  @$core.pragma('dart2js:noInline')
+  static GetTransactionByIdRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetTransactionByIdRequest>(create);
+  static GetTransactionByIdRequest? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get userId => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set userId($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasUserId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearUserId() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.String get transactionId => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set transactionId($core.String v) { $_setString(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasTransactionId() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearTransactionId() => clearField(2);
+}
+
 
 const _omitFieldNames = $core.bool.fromEnvironment('protobuf.omit_field_names');
 const _omitMessageNames = $core.bool.fromEnvironment('protobuf.omit_message_names');

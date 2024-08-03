@@ -6,7 +6,6 @@ import "google/protobuf/wrappers.proto";
 
 option go_package = "personalfinance/generated/proto";
 
-
 message GetTransactionsRequest {
   string userId = 1 [(buf.validate.field).string.uuid = true];
   int64 limit = 2;
@@ -74,4 +73,30 @@ message TransactionCategoryResponse {
   string id = 1;
   string slug = 2;
   string label = 3;
+}
+
+message GetCategorizedTransactionResultsRequest {
+  google.protobuf.Timestamp start = 1;
+  google.protobuf.Timestamp end = 2;
+
+}
+message GetCategorizedTransactionResultsResponse {
+  repeated GetCategorizedTransactionResultResponse results = 1;
+}
+message GetCategorizedTransactionResultResponse {
+  string slug = 1;
+  int64 count = 2;
+  double percentage = 3;
+  repeated GetCategorizedTransactionResult categories = 4;
+}
+
+message GetCategorizedTransactionResult {
+  string slug = 1;
+  int64 count = 2;
+  double percentage = 3;
+}
+
+message GetTransactionByIdRequest {
+  string userId = 1 [(buf.validate.field).string.uuid = true];
+  string transactionId = 2 [(buf.validate.field).string.uuid = true];
 }

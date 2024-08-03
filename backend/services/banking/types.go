@@ -17,9 +17,9 @@ type RequisitionWithMaxTransactionHistoryDays struct {
 type BankAccounts []BankAccount
 
 func (ba BankAccounts) ConvertToResponse() *proto.GetBankAccountsResponse {
-	bankAccounts := make([]*proto.BankAccountResponse, 0, len(ba))
-	for _, account := range ba {
-		bankAccounts = append(bankAccounts, account.ConvertToResponse())
+	bankAccounts := make([]*proto.BankAccountResponse, len(ba))
+	for i, account := range ba {
+		bankAccounts[i] = account.ConvertToResponse()
 	}
 	return &proto.GetBankAccountsResponse{
 		Accounts: bankAccounts,
@@ -45,9 +45,9 @@ func (ba BankAccount) ConvertToResponse() *proto.BankAccountResponse {
 type BalancesPerDay []BalancePerDay
 
 func (bpd BalancesPerDay) ConvertToResponse() *proto.GetBalancesPerDayResponse {
-	balancesPerDay := make([]*proto.BalancePerDay, 0, len(bpd))
-	for _, balancePerDay := range bpd {
-		balancesPerDay = append(balancesPerDay, balancePerDay.ConvertToResponse())
+	balancesPerDay := make([]*proto.BalancePerDay, len(bpd))
+	for i, balancePerDay := range bpd {
+		balancesPerDay[i] = balancePerDay.ConvertToResponse()
 	}
 	return &proto.GetBalancesPerDayResponse{
 		Balances: balancesPerDay,

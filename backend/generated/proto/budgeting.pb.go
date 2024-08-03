@@ -763,6 +763,297 @@ func (x *TransactionCategoryResponse) GetLabel() string {
 	return ""
 }
 
+type GetCategorizedTransactionResultsRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Start *timestamppb.Timestamp `protobuf:"bytes,1,opt,name=start,proto3" json:"start,omitempty"`
+	End   *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=end,proto3" json:"end,omitempty"`
+}
+
+func (x *GetCategorizedTransactionResultsRequest) Reset() {
+	*x = GetCategorizedTransactionResultsRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_budgeting_proto_msgTypes[11]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetCategorizedTransactionResultsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetCategorizedTransactionResultsRequest) ProtoMessage() {}
+
+func (x *GetCategorizedTransactionResultsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_budgeting_proto_msgTypes[11]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetCategorizedTransactionResultsRequest.ProtoReflect.Descriptor instead.
+func (*GetCategorizedTransactionResultsRequest) Descriptor() ([]byte, []int) {
+	return file_budgeting_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *GetCategorizedTransactionResultsRequest) GetStart() *timestamppb.Timestamp {
+	if x != nil {
+		return x.Start
+	}
+	return nil
+}
+
+func (x *GetCategorizedTransactionResultsRequest) GetEnd() *timestamppb.Timestamp {
+	if x != nil {
+		return x.End
+	}
+	return nil
+}
+
+type GetCategorizedTransactionResultsResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Results []*GetCategorizedTransactionResultResponse `protobuf:"bytes,1,rep,name=results,proto3" json:"results,omitempty"`
+}
+
+func (x *GetCategorizedTransactionResultsResponse) Reset() {
+	*x = GetCategorizedTransactionResultsResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_budgeting_proto_msgTypes[12]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetCategorizedTransactionResultsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetCategorizedTransactionResultsResponse) ProtoMessage() {}
+
+func (x *GetCategorizedTransactionResultsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_budgeting_proto_msgTypes[12]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetCategorizedTransactionResultsResponse.ProtoReflect.Descriptor instead.
+func (*GetCategorizedTransactionResultsResponse) Descriptor() ([]byte, []int) {
+	return file_budgeting_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *GetCategorizedTransactionResultsResponse) GetResults() []*GetCategorizedTransactionResultResponse {
+	if x != nil {
+		return x.Results
+	}
+	return nil
+}
+
+type GetCategorizedTransactionResultResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Slug       string                             `protobuf:"bytes,1,opt,name=slug,proto3" json:"slug,omitempty"`
+	Count      int64                              `protobuf:"varint,2,opt,name=count,proto3" json:"count,omitempty"`
+	Percentage float64                            `protobuf:"fixed64,3,opt,name=percentage,proto3" json:"percentage,omitempty"`
+	Categories []*GetCategorizedTransactionResult `protobuf:"bytes,4,rep,name=categories,proto3" json:"categories,omitempty"`
+}
+
+func (x *GetCategorizedTransactionResultResponse) Reset() {
+	*x = GetCategorizedTransactionResultResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_budgeting_proto_msgTypes[13]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetCategorizedTransactionResultResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetCategorizedTransactionResultResponse) ProtoMessage() {}
+
+func (x *GetCategorizedTransactionResultResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_budgeting_proto_msgTypes[13]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetCategorizedTransactionResultResponse.ProtoReflect.Descriptor instead.
+func (*GetCategorizedTransactionResultResponse) Descriptor() ([]byte, []int) {
+	return file_budgeting_proto_rawDescGZIP(), []int{13}
+}
+
+func (x *GetCategorizedTransactionResultResponse) GetSlug() string {
+	if x != nil {
+		return x.Slug
+	}
+	return ""
+}
+
+func (x *GetCategorizedTransactionResultResponse) GetCount() int64 {
+	if x != nil {
+		return x.Count
+	}
+	return 0
+}
+
+func (x *GetCategorizedTransactionResultResponse) GetPercentage() float64 {
+	if x != nil {
+		return x.Percentage
+	}
+	return 0
+}
+
+func (x *GetCategorizedTransactionResultResponse) GetCategories() []*GetCategorizedTransactionResult {
+	if x != nil {
+		return x.Categories
+	}
+	return nil
+}
+
+type GetCategorizedTransactionResult struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Slug       string  `protobuf:"bytes,1,opt,name=slug,proto3" json:"slug,omitempty"`
+	Count      int64   `protobuf:"varint,2,opt,name=count,proto3" json:"count,omitempty"`
+	Percentage float64 `protobuf:"fixed64,3,opt,name=percentage,proto3" json:"percentage,omitempty"`
+}
+
+func (x *GetCategorizedTransactionResult) Reset() {
+	*x = GetCategorizedTransactionResult{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_budgeting_proto_msgTypes[14]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetCategorizedTransactionResult) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetCategorizedTransactionResult) ProtoMessage() {}
+
+func (x *GetCategorizedTransactionResult) ProtoReflect() protoreflect.Message {
+	mi := &file_budgeting_proto_msgTypes[14]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetCategorizedTransactionResult.ProtoReflect.Descriptor instead.
+func (*GetCategorizedTransactionResult) Descriptor() ([]byte, []int) {
+	return file_budgeting_proto_rawDescGZIP(), []int{14}
+}
+
+func (x *GetCategorizedTransactionResult) GetSlug() string {
+	if x != nil {
+		return x.Slug
+	}
+	return ""
+}
+
+func (x *GetCategorizedTransactionResult) GetCount() int64 {
+	if x != nil {
+		return x.Count
+	}
+	return 0
+}
+
+func (x *GetCategorizedTransactionResult) GetPercentage() float64 {
+	if x != nil {
+		return x.Percentage
+	}
+	return 0
+}
+
+type GetTransactionByIdRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	UserId        string `protobuf:"bytes,1,opt,name=userId,proto3" json:"userId,omitempty"`
+	TransactionId string `protobuf:"bytes,2,opt,name=transactionId,proto3" json:"transactionId,omitempty"`
+}
+
+func (x *GetTransactionByIdRequest) Reset() {
+	*x = GetTransactionByIdRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_budgeting_proto_msgTypes[15]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetTransactionByIdRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetTransactionByIdRequest) ProtoMessage() {}
+
+func (x *GetTransactionByIdRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_budgeting_proto_msgTypes[15]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetTransactionByIdRequest.ProtoReflect.Descriptor instead.
+func (*GetTransactionByIdRequest) Descriptor() ([]byte, []int) {
+	return file_budgeting_proto_rawDescGZIP(), []int{15}
+}
+
+func (x *GetTransactionByIdRequest) GetUserId() string {
+	if x != nil {
+		return x.UserId
+	}
+	return ""
+}
+
+func (x *GetTransactionByIdRequest) GetTransactionId() string {
+	if x != nil {
+		return x.TransactionId
+	}
+	return ""
+}
+
 var File_budgeting_proto protoreflect.FileDescriptor
 
 var file_budgeting_proto_rawDesc = []byte{
@@ -891,7 +1182,48 @@ var file_budgeting_proto_rawDesc = []byte{
 	0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x69, 0x64, 0x12, 0x12, 0x0a, 0x04, 0x73, 0x6c, 0x75, 0x67,
 	0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x73, 0x6c, 0x75, 0x67, 0x12, 0x14, 0x0a, 0x05,
 	0x6c, 0x61, 0x62, 0x65, 0x6c, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x6c, 0x61, 0x62,
-	0x65, 0x6c, 0x42, 0x21, 0x5a, 0x1f, 0x70, 0x65, 0x72, 0x73, 0x6f, 0x6e, 0x61, 0x6c, 0x66, 0x69,
+	0x65, 0x6c, 0x22, 0x89, 0x01, 0x0a, 0x27, 0x47, 0x65, 0x74, 0x43, 0x61, 0x74, 0x65, 0x67, 0x6f,
+	0x72, 0x69, 0x7a, 0x65, 0x64, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e,
+	0x52, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x30,
+	0x0a, 0x05, 0x73, 0x74, 0x61, 0x72, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e,
+	0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e,
+	0x54, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x52, 0x05, 0x73, 0x74, 0x61, 0x72, 0x74,
+	0x12, 0x2c, 0x0a, 0x03, 0x65, 0x6e, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e,
+	0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e,
+	0x54, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x52, 0x03, 0x65, 0x6e, 0x64, 0x22, 0x6e,
+	0x0a, 0x28, 0x47, 0x65, 0x74, 0x43, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x69, 0x7a, 0x65, 0x64,
+	0x54, 0x72, 0x61, 0x6e, 0x73, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x75, 0x6c,
+	0x74, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x42, 0x0a, 0x07, 0x72, 0x65,
+	0x73, 0x75, 0x6c, 0x74, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x28, 0x2e, 0x47, 0x65,
+	0x74, 0x43, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x69, 0x7a, 0x65, 0x64, 0x54, 0x72, 0x61, 0x6e,
+	0x73, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x52, 0x65, 0x73,
+	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x52, 0x07, 0x72, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x73, 0x22, 0xb5,
+	0x01, 0x0a, 0x27, 0x47, 0x65, 0x74, 0x43, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x69, 0x7a, 0x65,
+	0x64, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x75,
+	0x6c, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x12, 0x0a, 0x04, 0x73, 0x6c,
+	0x75, 0x67, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x73, 0x6c, 0x75, 0x67, 0x12, 0x14,
+	0x0a, 0x05, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x18, 0x02, 0x20, 0x01, 0x28, 0x03, 0x52, 0x05, 0x63,
+	0x6f, 0x75, 0x6e, 0x74, 0x12, 0x1e, 0x0a, 0x0a, 0x70, 0x65, 0x72, 0x63, 0x65, 0x6e, 0x74, 0x61,
+	0x67, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x01, 0x52, 0x0a, 0x70, 0x65, 0x72, 0x63, 0x65, 0x6e,
+	0x74, 0x61, 0x67, 0x65, 0x12, 0x40, 0x0a, 0x0a, 0x63, 0x61, 0x74, 0x65, 0x67, 0x6f, 0x72, 0x69,
+	0x65, 0x73, 0x18, 0x04, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x20, 0x2e, 0x47, 0x65, 0x74, 0x43, 0x61,
+	0x74, 0x65, 0x67, 0x6f, 0x72, 0x69, 0x7a, 0x65, 0x64, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x61, 0x63,
+	0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x52, 0x0a, 0x63, 0x61, 0x74, 0x65,
+	0x67, 0x6f, 0x72, 0x69, 0x65, 0x73, 0x22, 0x6b, 0x0a, 0x1f, 0x47, 0x65, 0x74, 0x43, 0x61, 0x74,
+	0x65, 0x67, 0x6f, 0x72, 0x69, 0x7a, 0x65, 0x64, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x61, 0x63, 0x74,
+	0x69, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x12, 0x12, 0x0a, 0x04, 0x73, 0x6c, 0x75,
+	0x67, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x73, 0x6c, 0x75, 0x67, 0x12, 0x14, 0x0a,
+	0x05, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x18, 0x02, 0x20, 0x01, 0x28, 0x03, 0x52, 0x05, 0x63, 0x6f,
+	0x75, 0x6e, 0x74, 0x12, 0x1e, 0x0a, 0x0a, 0x70, 0x65, 0x72, 0x63, 0x65, 0x6e, 0x74, 0x61, 0x67,
+	0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x01, 0x52, 0x0a, 0x70, 0x65, 0x72, 0x63, 0x65, 0x6e, 0x74,
+	0x61, 0x67, 0x65, 0x22, 0x6d, 0x0a, 0x19, 0x47, 0x65, 0x74, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x61,
+	0x63, 0x74, 0x69, 0x6f, 0x6e, 0x42, 0x79, 0x49, 0x64, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
+	0x12, 0x20, 0x0a, 0x06, 0x75, 0x73, 0x65, 0x72, 0x49, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09,
+	0x42, 0x08, 0xba, 0x48, 0x05, 0x72, 0x03, 0xb0, 0x01, 0x01, 0x52, 0x06, 0x75, 0x73, 0x65, 0x72,
+	0x49, 0x64, 0x12, 0x2e, 0x0a, 0x0d, 0x74, 0x72, 0x61, 0x6e, 0x73, 0x61, 0x63, 0x74, 0x69, 0x6f,
+	0x6e, 0x49, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x42, 0x08, 0xba, 0x48, 0x05, 0x72, 0x03,
+	0xb0, 0x01, 0x01, 0x52, 0x0d, 0x74, 0x72, 0x61, 0x6e, 0x73, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e,
+	0x49, 0x64, 0x42, 0x21, 0x5a, 0x1f, 0x70, 0x65, 0x72, 0x73, 0x6f, 0x6e, 0x61, 0x6c, 0x66, 0x69,
 	0x6e, 0x61, 0x6e, 0x63, 0x65, 0x2f, 0x67, 0x65, 0x6e, 0x65, 0x72, 0x61, 0x74, 0x65, 0x64, 0x2f,
 	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
@@ -908,7 +1240,7 @@ func file_budgeting_proto_rawDescGZIP() []byte {
 	return file_budgeting_proto_rawDescData
 }
 
-var file_budgeting_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
+var file_budgeting_proto_msgTypes = make([]protoimpl.MessageInfo, 16)
 var file_budgeting_proto_goTypes = []any{
 	(*GetTransactionsRequest)(nil),                   // 0: GetTransactionsRequest
 	(*GetTransactionsResponse)(nil),                  // 1: GetTransactionsResponse
@@ -921,24 +1253,33 @@ var file_budgeting_proto_goTypes = []any{
 	(*GetTransactionCategoryGroupsResponse)(nil),     // 8: GetTransactionCategoryGroupsResponse
 	(*TransactionCategoryGroupResponse)(nil),         // 9: TransactionCategoryGroupResponse
 	(*TransactionCategoryResponse)(nil),              // 10: TransactionCategoryResponse
-	(*timestamppb.Timestamp)(nil),                    // 11: google.protobuf.Timestamp
-	(*wrapperspb.StringValue)(nil),                   // 12: google.protobuf.StringValue
+	(*GetCategorizedTransactionResultsRequest)(nil),  // 11: GetCategorizedTransactionResultsRequest
+	(*GetCategorizedTransactionResultsResponse)(nil), // 12: GetCategorizedTransactionResultsResponse
+	(*GetCategorizedTransactionResultResponse)(nil),  // 13: GetCategorizedTransactionResultResponse
+	(*GetCategorizedTransactionResult)(nil),          // 14: GetCategorizedTransactionResult
+	(*GetTransactionByIdRequest)(nil),                // 15: GetTransactionByIdRequest
+	(*timestamppb.Timestamp)(nil),                    // 16: google.protobuf.Timestamp
+	(*wrapperspb.StringValue)(nil),                   // 17: google.protobuf.StringValue
 }
 var file_budgeting_proto_depIdxs = []int32{
 	6,  // 0: GetTransactionsResponse.transactions:type_name -> TransactionResponse
-	11, // 1: GetUncategorizedTransactionResponse.date:type_name -> google.protobuf.Timestamp
+	16, // 1: GetUncategorizedTransactionResponse.date:type_name -> google.protobuf.Timestamp
 	4,  // 2: GetUncategorizedTransactionResponse.matchingTransactions:type_name -> MatchingUncategorizedTransactionResponse
-	11, // 3: MatchingUncategorizedTransactionResponse.date:type_name -> google.protobuf.Timestamp
-	11, // 4: TransactionResponse.date:type_name -> google.protobuf.Timestamp
-	12, // 5: TransactionResponse.transactionCategorySlug:type_name -> google.protobuf.StringValue
-	12, // 6: TransactionResponse.transactionCategoryGroupSlug:type_name -> google.protobuf.StringValue
+	16, // 3: MatchingUncategorizedTransactionResponse.date:type_name -> google.protobuf.Timestamp
+	16, // 4: TransactionResponse.date:type_name -> google.protobuf.Timestamp
+	17, // 5: TransactionResponse.transactionCategorySlug:type_name -> google.protobuf.StringValue
+	17, // 6: TransactionResponse.transactionCategoryGroupSlug:type_name -> google.protobuf.StringValue
 	9,  // 7: GetTransactionCategoryGroupsResponse.groups:type_name -> TransactionCategoryGroupResponse
 	10, // 8: TransactionCategoryGroupResponse.categories:type_name -> TransactionCategoryResponse
-	9,  // [9:9] is the sub-list for method output_type
-	9,  // [9:9] is the sub-list for method input_type
-	9,  // [9:9] is the sub-list for extension type_name
-	9,  // [9:9] is the sub-list for extension extendee
-	0,  // [0:9] is the sub-list for field type_name
+	16, // 9: GetCategorizedTransactionResultsRequest.start:type_name -> google.protobuf.Timestamp
+	16, // 10: GetCategorizedTransactionResultsRequest.end:type_name -> google.protobuf.Timestamp
+	13, // 11: GetCategorizedTransactionResultsResponse.results:type_name -> GetCategorizedTransactionResultResponse
+	14, // 12: GetCategorizedTransactionResultResponse.categories:type_name -> GetCategorizedTransactionResult
+	13, // [13:13] is the sub-list for method output_type
+	13, // [13:13] is the sub-list for method input_type
+	13, // [13:13] is the sub-list for extension type_name
+	13, // [13:13] is the sub-list for extension extendee
+	0,  // [0:13] is the sub-list for field type_name
 }
 
 func init() { file_budgeting_proto_init() }
@@ -1079,6 +1420,66 @@ func file_budgeting_proto_init() {
 				return nil
 			}
 		}
+		file_budgeting_proto_msgTypes[11].Exporter = func(v any, i int) any {
+			switch v := v.(*GetCategorizedTransactionResultsRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_budgeting_proto_msgTypes[12].Exporter = func(v any, i int) any {
+			switch v := v.(*GetCategorizedTransactionResultsResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_budgeting_proto_msgTypes[13].Exporter = func(v any, i int) any {
+			switch v := v.(*GetCategorizedTransactionResultResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_budgeting_proto_msgTypes[14].Exporter = func(v any, i int) any {
+			switch v := v.(*GetCategorizedTransactionResult); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_budgeting_proto_msgTypes[15].Exporter = func(v any, i int) any {
+			switch v := v.(*GetTransactionByIdRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -1086,7 +1487,7 @@ func file_budgeting_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_budgeting_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   11,
+			NumMessages:   16,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

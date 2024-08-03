@@ -70,6 +70,58 @@ func (r *Repository) GetTransactions(ctx context.Context, userID uuid.UUID, limi
 	return resp, totalCount, nil
 }
 
+func (r *Repository) GetTransactionByID(ctx context.Context, userID uuid.UUID, transactionID uuid.UUID) (resp budgeting.Transaction, err error) {
+	sql, args := SELECT(
+		Transaction.ID,
+		Transaction.AccountID,
+		Transaction.ValueDateTime,
+		Transaction.TransactionAmount,
+		Transaction.BalanceAfterTransaction,
+		Transaction.Currency,
+		Transaction.CreditorName,
+		Transaction.CreditorIban,
+		Transaction.DebtorName,
+		Transaction.DebtorIban,
+		Transaction.RemittanceInformation,
+		TransactionCategoryGroup.Slug,
+		TransactionCategory.Slug,
+	).
+		FROM(Transaction.
+			LEFT_JOIN(TransactionCategory, TransactionCategory.ID.EQ(Transaction.TransactionCategoryID)).
+			LEFT_JOIN(TransactionCategoryGroup, TransactionCategoryGroup.ID.EQ(TransactionCategory.TransactionCategoryGroupID)),
+		).
+		WHERE(Transaction.UserID.EQ(UUID(userID)).AND(Transaction.ID.EQ(UUID(transactionID)))).
+		Sql()
+
+	rows, err := r.conn().Query(ctx, sql, args...)
+	if err != nil {
+		return resp, err
+	}
+	for rows.Next() {
+		var tx budgeting.Transaction
+		err = rows.Scan(
+			&tx.ID,
+			&tx.AccountID,
+			&tx.ValueDateTime,
+			&tx.TransactionAmount,
+			&tx.BalanceAfterTransaction,
+			&tx.Currency,
+			&tx.CreditorName,
+			&tx.CreditorIBAN,
+			&tx.DebtorName,
+			&tx.DebtorIBAN,
+			&tx.Description,
+			&tx.TransactionCategoryGroupSlug,
+			&tx.TransactionCategorySlug,
+		)
+		if err != nil {
+			return resp, err
+		}
+		return tx, nil
+	}
+	return resp, err
+}
+
 func (r *Repository) GetUncategorizedTransaction(ctx context.Context, userID uuid.UUID) (resp budgeting.UncategorizedTransaction, err error) {
 	subQuery := SELECT(
 		Transaction.CreditorName,
@@ -207,6 +259,35 @@ func (r *Repository) GetBalancesPerDay(ctx context.Context, userID uuid.UUID, st
 			return resp, err
 		}
 		resp = append(resp, balancePerDay)
+	}
+	return resp, err
+}
+func (r *Repository) GetMostRecentTransaction(ctx context.Context, userID uuid.UUID, date time.Time) (resp banking.BalancePerDay, err error) {
+	sql, args := SELECT(
+		Transaction.ValueDate,
+		Transaction.BalanceAfterTransaction,
+	).
+		FROM(Transaction).
+		WHERE(
+			Transaction.UserID.EQ(UUID(userID)).
+				AND(Transaction.ValueDateTime.LT_EQ(TimestampT(date))),
+		).
+		ORDER_BY(Transaction.ValueDate.DESC()).
+		LIMIT(1).
+		Sql()
+
+	rows, err := r.conn().Query(ctx, sql, args...)
+	if err != nil {
+		return resp, err
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		err = rows.Scan(
+			&resp.Date,
+			&resp.Balance,
+		)
+		return resp, err
 	}
 	return resp, err
 }

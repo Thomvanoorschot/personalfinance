@@ -198,3 +198,78 @@ final $typed_data.Uint8List transactionCategoryResponseDescriptor = $convert.bas
     'ChtUcmFuc2FjdGlvbkNhdGVnb3J5UmVzcG9uc2USDgoCaWQYASABKAlSAmlkEhIKBHNsdWcYAi'
     'ABKAlSBHNsdWcSFAoFbGFiZWwYAyABKAlSBWxhYmVs');
 
+@$core.Deprecated('Use getCategorizedTransactionResultsRequestDescriptor instead')
+const GetCategorizedTransactionResultsRequest$json = {
+  '1': 'GetCategorizedTransactionResultsRequest',
+  '2': [
+    {'1': 'start', '3': 1, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'start'},
+    {'1': 'end', '3': 2, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'end'},
+  ],
+};
+
+/// Descriptor for `GetCategorizedTransactionResultsRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getCategorizedTransactionResultsRequestDescriptor = $convert.base64Decode(
+    'CidHZXRDYXRlZ29yaXplZFRyYW5zYWN0aW9uUmVzdWx0c1JlcXVlc3QSMAoFc3RhcnQYASABKA'
+    'syGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wUgVzdGFydBIsCgNlbmQYAiABKAsyGi5nb29n'
+    'bGUucHJvdG9idWYuVGltZXN0YW1wUgNlbmQ=');
+
+@$core.Deprecated('Use getCategorizedTransactionResultsResponseDescriptor instead')
+const GetCategorizedTransactionResultsResponse$json = {
+  '1': 'GetCategorizedTransactionResultsResponse',
+  '2': [
+    {'1': 'results', '3': 1, '4': 3, '5': 11, '6': '.GetCategorizedTransactionResultResponse', '10': 'results'},
+  ],
+};
+
+/// Descriptor for `GetCategorizedTransactionResultsResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getCategorizedTransactionResultsResponseDescriptor = $convert.base64Decode(
+    'CihHZXRDYXRlZ29yaXplZFRyYW5zYWN0aW9uUmVzdWx0c1Jlc3BvbnNlEkIKB3Jlc3VsdHMYAS'
+    'ADKAsyKC5HZXRDYXRlZ29yaXplZFRyYW5zYWN0aW9uUmVzdWx0UmVzcG9uc2VSB3Jlc3VsdHM=');
+
+@$core.Deprecated('Use getCategorizedTransactionResultResponseDescriptor instead')
+const GetCategorizedTransactionResultResponse$json = {
+  '1': 'GetCategorizedTransactionResultResponse',
+  '2': [
+    {'1': 'slug', '3': 1, '4': 1, '5': 9, '10': 'slug'},
+    {'1': 'count', '3': 2, '4': 1, '5': 3, '10': 'count'},
+    {'1': 'percentage', '3': 3, '4': 1, '5': 1, '10': 'percentage'},
+    {'1': 'categories', '3': 4, '4': 3, '5': 11, '6': '.GetCategorizedTransactionResult', '10': 'categories'},
+  ],
+};
+
+/// Descriptor for `GetCategorizedTransactionResultResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getCategorizedTransactionResultResponseDescriptor = $convert.base64Decode(
+    'CidHZXRDYXRlZ29yaXplZFRyYW5zYWN0aW9uUmVzdWx0UmVzcG9uc2USEgoEc2x1ZxgBIAEoCV'
+    'IEc2x1ZxIUCgVjb3VudBgCIAEoA1IFY291bnQSHgoKcGVyY2VudGFnZRgDIAEoAVIKcGVyY2Vu'
+    'dGFnZRJACgpjYXRlZ29yaWVzGAQgAygLMiAuR2V0Q2F0ZWdvcml6ZWRUcmFuc2FjdGlvblJlc3'
+    'VsdFIKY2F0ZWdvcmllcw==');
+
+@$core.Deprecated('Use getCategorizedTransactionResultDescriptor instead')
+const GetCategorizedTransactionResult$json = {
+  '1': 'GetCategorizedTransactionResult',
+  '2': [
+    {'1': 'slug', '3': 1, '4': 1, '5': 9, '10': 'slug'},
+    {'1': 'count', '3': 2, '4': 1, '5': 3, '10': 'count'},
+    {'1': 'percentage', '3': 3, '4': 1, '5': 1, '10': 'percentage'},
+  ],
+};
+
+/// Descriptor for `GetCategorizedTransactionResult`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getCategorizedTransactionResultDescriptor = $convert.base64Decode(
+    'Ch9HZXRDYXRlZ29yaXplZFRyYW5zYWN0aW9uUmVzdWx0EhIKBHNsdWcYASABKAlSBHNsdWcSFA'
+    'oFY291bnQYAiABKANSBWNvdW50Eh4KCnBlcmNlbnRhZ2UYAyABKAFSCnBlcmNlbnRhZ2U=');
+
+@$core.Deprecated('Use getTransactionByIdRequestDescriptor instead')
+const GetTransactionByIdRequest$json = {
+  '1': 'GetTransactionByIdRequest',
+  '2': [
+    {'1': 'userId', '3': 1, '4': 1, '5': 9, '8': {}, '10': 'userId'},
+    {'1': 'transactionId', '3': 2, '4': 1, '5': 9, '8': {}, '10': 'transactionId'},
+  ],
+};
+
+/// Descriptor for `GetTransactionByIdRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getTransactionByIdRequestDescriptor = $convert.base64Decode(
+    'ChlHZXRUcmFuc2FjdGlvbkJ5SWRSZXF1ZXN0EiAKBnVzZXJJZBgBIAEoCUIIukgFcgOwAQFSBn'
+    'VzZXJJZBIuCg10cmFuc2FjdGlvbklkGAIgASgJQgi6SAVyA7ABAVINdHJhbnNhY3Rpb25JZA==');
+
