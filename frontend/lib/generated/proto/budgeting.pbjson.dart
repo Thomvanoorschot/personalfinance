@@ -273,3 +273,60 @@ final $typed_data.Uint8List getTransactionByIdRequestDescriptor = $convert.base6
     'ChlHZXRUcmFuc2FjdGlvbkJ5SWRSZXF1ZXN0EiAKBnVzZXJJZBgBIAEoCUIIukgFcgOwAQFSBn'
     'VzZXJJZBIuCg10cmFuc2FjdGlvbklkGAIgASgJQgi6SAVyA7ABAVINdHJhbnNhY3Rpb25JZA==');
 
+@$core.Deprecated('Use getInAndOutgoingTransactionAmountsPerPeriodRequestDescriptor instead')
+const GetInAndOutgoingTransactionAmountsPerPeriodRequest$json = {
+  '1': 'GetInAndOutgoingTransactionAmountsPerPeriodRequest',
+  '2': [
+    {'1': 'period', '3': 1, '4': 1, '5': 14, '6': '.GetInAndOutgoingTransactionAmountsPerPeriodRequest.Period', '10': 'period'},
+  ],
+  '4': [GetInAndOutgoingTransactionAmountsPerPeriodRequest_Period$json],
+};
+
+@$core.Deprecated('Use getInAndOutgoingTransactionAmountsPerPeriodRequestDescriptor instead')
+const GetInAndOutgoingTransactionAmountsPerPeriodRequest_Period$json = {
+  '1': 'Period',
+  '2': [
+    {'1': 'day', '2': 0},
+    {'1': 'week', '2': 1},
+    {'1': 'month', '2': 2},
+  ],
+};
+
+/// Descriptor for `GetInAndOutgoingTransactionAmountsPerPeriodRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getInAndOutgoingTransactionAmountsPerPeriodRequestDescriptor = $convert.base64Decode(
+    'CjJHZXRJbkFuZE91dGdvaW5nVHJhbnNhY3Rpb25BbW91bnRzUGVyUGVyaW9kUmVxdWVzdBJSCg'
+    'ZwZXJpb2QYASABKA4yOi5HZXRJbkFuZE91dGdvaW5nVHJhbnNhY3Rpb25BbW91bnRzUGVyUGVy'
+    'aW9kUmVxdWVzdC5QZXJpb2RSBnBlcmlvZCImCgZQZXJpb2QSBwoDZGF5EAASCAoEd2VlaxABEg'
+    'kKBW1vbnRoEAI=');
+
+@$core.Deprecated('Use getInAndOutgoingTransactionAmountsPerPeriodResponseDescriptor instead')
+const GetInAndOutgoingTransactionAmountsPerPeriodResponse$json = {
+  '1': 'GetInAndOutgoingTransactionAmountsPerPeriodResponse',
+  '2': [
+    {'1': 'periods', '3': 1, '4': 3, '5': 11, '6': '.InAndOutgoingTransactionAmountPeriod', '10': 'periods'},
+  ],
+};
+
+/// Descriptor for `GetInAndOutgoingTransactionAmountsPerPeriodResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getInAndOutgoingTransactionAmountsPerPeriodResponseDescriptor = $convert.base64Decode(
+    'CjNHZXRJbkFuZE91dGdvaW5nVHJhbnNhY3Rpb25BbW91bnRzUGVyUGVyaW9kUmVzcG9uc2USPw'
+    'oHcGVyaW9kcxgBIAMoCzIlLkluQW5kT3V0Z29pbmdUcmFuc2FjdGlvbkFtb3VudFBlcmlvZFIH'
+    'cGVyaW9kcw==');
+
+@$core.Deprecated('Use inAndOutgoingTransactionAmountPeriodDescriptor instead')
+const InAndOutgoingTransactionAmountPeriod$json = {
+  '1': 'InAndOutgoingTransactionAmountPeriod',
+  '2': [
+    {'1': 'startOfPeriod', '3': 1, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'startOfPeriod'},
+    {'1': 'ingoingAmount', '3': 2, '4': 1, '5': 1, '10': 'ingoingAmount'},
+    {'1': 'outgoingAmount', '3': 3, '4': 1, '5': 1, '10': 'outgoingAmount'},
+  ],
+};
+
+/// Descriptor for `InAndOutgoingTransactionAmountPeriod`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List inAndOutgoingTransactionAmountPeriodDescriptor = $convert.base64Decode(
+    'CiRJbkFuZE91dGdvaW5nVHJhbnNhY3Rpb25BbW91bnRQZXJpb2QSQAoNc3RhcnRPZlBlcmlvZB'
+    'gBIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXBSDXN0YXJ0T2ZQZXJpb2QSJAoNaW5n'
+    'b2luZ0Ftb3VudBgCIAEoAVINaW5nb2luZ0Ftb3VudBImCg5vdXRnb2luZ0Ftb3VudBgDIAEoAV'
+    'IOb3V0Z29pbmdBbW91bnQ=');
+

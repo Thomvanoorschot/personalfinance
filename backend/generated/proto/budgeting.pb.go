@@ -23,6 +23,55 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type GetInAndOutgoingTransactionAmountsPerPeriodRequest_Period int32
+
+const (
+	GetInAndOutgoingTransactionAmountsPerPeriodRequest_day   GetInAndOutgoingTransactionAmountsPerPeriodRequest_Period = 0
+	GetInAndOutgoingTransactionAmountsPerPeriodRequest_week  GetInAndOutgoingTransactionAmountsPerPeriodRequest_Period = 1
+	GetInAndOutgoingTransactionAmountsPerPeriodRequest_month GetInAndOutgoingTransactionAmountsPerPeriodRequest_Period = 2
+)
+
+// Enum value maps for GetInAndOutgoingTransactionAmountsPerPeriodRequest_Period.
+var (
+	GetInAndOutgoingTransactionAmountsPerPeriodRequest_Period_name = map[int32]string{
+		0: "day",
+		1: "week",
+		2: "month",
+	}
+	GetInAndOutgoingTransactionAmountsPerPeriodRequest_Period_value = map[string]int32{
+		"day":   0,
+		"week":  1,
+		"month": 2,
+	}
+)
+
+func (x GetInAndOutgoingTransactionAmountsPerPeriodRequest_Period) Enum() *GetInAndOutgoingTransactionAmountsPerPeriodRequest_Period {
+	p := new(GetInAndOutgoingTransactionAmountsPerPeriodRequest_Period)
+	*p = x
+	return p
+}
+
+func (x GetInAndOutgoingTransactionAmountsPerPeriodRequest_Period) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (GetInAndOutgoingTransactionAmountsPerPeriodRequest_Period) Descriptor() protoreflect.EnumDescriptor {
+	return file_budgeting_proto_enumTypes[0].Descriptor()
+}
+
+func (GetInAndOutgoingTransactionAmountsPerPeriodRequest_Period) Type() protoreflect.EnumType {
+	return &file_budgeting_proto_enumTypes[0]
+}
+
+func (x GetInAndOutgoingTransactionAmountsPerPeriodRequest_Period) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use GetInAndOutgoingTransactionAmountsPerPeriodRequest_Period.Descriptor instead.
+func (GetInAndOutgoingTransactionAmountsPerPeriodRequest_Period) EnumDescriptor() ([]byte, []int) {
+	return file_budgeting_proto_rawDescGZIP(), []int{16, 0}
+}
+
 type GetTransactionsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1054,6 +1103,163 @@ func (x *GetTransactionByIdRequest) GetTransactionId() string {
 	return ""
 }
 
+type GetInAndOutgoingTransactionAmountsPerPeriodRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Period GetInAndOutgoingTransactionAmountsPerPeriodRequest_Period `protobuf:"varint,1,opt,name=period,proto3,enum=GetInAndOutgoingTransactionAmountsPerPeriodRequest_Period" json:"period,omitempty"`
+}
+
+func (x *GetInAndOutgoingTransactionAmountsPerPeriodRequest) Reset() {
+	*x = GetInAndOutgoingTransactionAmountsPerPeriodRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_budgeting_proto_msgTypes[16]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetInAndOutgoingTransactionAmountsPerPeriodRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetInAndOutgoingTransactionAmountsPerPeriodRequest) ProtoMessage() {}
+
+func (x *GetInAndOutgoingTransactionAmountsPerPeriodRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_budgeting_proto_msgTypes[16]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetInAndOutgoingTransactionAmountsPerPeriodRequest.ProtoReflect.Descriptor instead.
+func (*GetInAndOutgoingTransactionAmountsPerPeriodRequest) Descriptor() ([]byte, []int) {
+	return file_budgeting_proto_rawDescGZIP(), []int{16}
+}
+
+func (x *GetInAndOutgoingTransactionAmountsPerPeriodRequest) GetPeriod() GetInAndOutgoingTransactionAmountsPerPeriodRequest_Period {
+	if x != nil {
+		return x.Period
+	}
+	return GetInAndOutgoingTransactionAmountsPerPeriodRequest_day
+}
+
+type GetInAndOutgoingTransactionAmountsPerPeriodResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Periods []*InAndOutgoingTransactionAmountPeriod `protobuf:"bytes,1,rep,name=periods,proto3" json:"periods,omitempty"`
+}
+
+func (x *GetInAndOutgoingTransactionAmountsPerPeriodResponse) Reset() {
+	*x = GetInAndOutgoingTransactionAmountsPerPeriodResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_budgeting_proto_msgTypes[17]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetInAndOutgoingTransactionAmountsPerPeriodResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetInAndOutgoingTransactionAmountsPerPeriodResponse) ProtoMessage() {}
+
+func (x *GetInAndOutgoingTransactionAmountsPerPeriodResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_budgeting_proto_msgTypes[17]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetInAndOutgoingTransactionAmountsPerPeriodResponse.ProtoReflect.Descriptor instead.
+func (*GetInAndOutgoingTransactionAmountsPerPeriodResponse) Descriptor() ([]byte, []int) {
+	return file_budgeting_proto_rawDescGZIP(), []int{17}
+}
+
+func (x *GetInAndOutgoingTransactionAmountsPerPeriodResponse) GetPeriods() []*InAndOutgoingTransactionAmountPeriod {
+	if x != nil {
+		return x.Periods
+	}
+	return nil
+}
+
+type InAndOutgoingTransactionAmountPeriod struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	StartOfPeriod  *timestamppb.Timestamp `protobuf:"bytes,1,opt,name=startOfPeriod,proto3" json:"startOfPeriod,omitempty"`
+	IngoingAmount  float64                `protobuf:"fixed64,2,opt,name=ingoingAmount,proto3" json:"ingoingAmount,omitempty"`
+	OutgoingAmount float64                `protobuf:"fixed64,3,opt,name=outgoingAmount,proto3" json:"outgoingAmount,omitempty"`
+}
+
+func (x *InAndOutgoingTransactionAmountPeriod) Reset() {
+	*x = InAndOutgoingTransactionAmountPeriod{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_budgeting_proto_msgTypes[18]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *InAndOutgoingTransactionAmountPeriod) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*InAndOutgoingTransactionAmountPeriod) ProtoMessage() {}
+
+func (x *InAndOutgoingTransactionAmountPeriod) ProtoReflect() protoreflect.Message {
+	mi := &file_budgeting_proto_msgTypes[18]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use InAndOutgoingTransactionAmountPeriod.ProtoReflect.Descriptor instead.
+func (*InAndOutgoingTransactionAmountPeriod) Descriptor() ([]byte, []int) {
+	return file_budgeting_proto_rawDescGZIP(), []int{18}
+}
+
+func (x *InAndOutgoingTransactionAmountPeriod) GetStartOfPeriod() *timestamppb.Timestamp {
+	if x != nil {
+		return x.StartOfPeriod
+	}
+	return nil
+}
+
+func (x *InAndOutgoingTransactionAmountPeriod) GetIngoingAmount() float64 {
+	if x != nil {
+		return x.IngoingAmount
+	}
+	return 0
+}
+
+func (x *InAndOutgoingTransactionAmountPeriod) GetOutgoingAmount() float64 {
+	if x != nil {
+		return x.OutgoingAmount
+	}
+	return 0
+}
+
 var File_budgeting_proto protoreflect.FileDescriptor
 
 var file_budgeting_proto_rawDesc = []byte{
@@ -1223,9 +1429,40 @@ var file_budgeting_proto_rawDesc = []byte{
 	0x49, 0x64, 0x12, 0x2e, 0x0a, 0x0d, 0x74, 0x72, 0x61, 0x6e, 0x73, 0x61, 0x63, 0x74, 0x69, 0x6f,
 	0x6e, 0x49, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x42, 0x08, 0xba, 0x48, 0x05, 0x72, 0x03,
 	0xb0, 0x01, 0x01, 0x52, 0x0d, 0x74, 0x72, 0x61, 0x6e, 0x73, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e,
-	0x49, 0x64, 0x42, 0x21, 0x5a, 0x1f, 0x70, 0x65, 0x72, 0x73, 0x6f, 0x6e, 0x61, 0x6c, 0x66, 0x69,
-	0x6e, 0x61, 0x6e, 0x63, 0x65, 0x2f, 0x67, 0x65, 0x6e, 0x65, 0x72, 0x61, 0x74, 0x65, 0x64, 0x2f,
-	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x49, 0x64, 0x22, 0xb0, 0x01, 0x0a, 0x32, 0x47, 0x65, 0x74, 0x49, 0x6e, 0x41, 0x6e, 0x64, 0x4f,
+	0x75, 0x74, 0x67, 0x6f, 0x69, 0x6e, 0x67, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x61, 0x63, 0x74, 0x69,
+	0x6f, 0x6e, 0x41, 0x6d, 0x6f, 0x75, 0x6e, 0x74, 0x73, 0x50, 0x65, 0x72, 0x50, 0x65, 0x72, 0x69,
+	0x6f, 0x64, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x52, 0x0a, 0x06, 0x70, 0x65, 0x72,
+	0x69, 0x6f, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x3a, 0x2e, 0x47, 0x65, 0x74, 0x49,
+	0x6e, 0x41, 0x6e, 0x64, 0x4f, 0x75, 0x74, 0x67, 0x6f, 0x69, 0x6e, 0x67, 0x54, 0x72, 0x61, 0x6e,
+	0x73, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x41, 0x6d, 0x6f, 0x75, 0x6e, 0x74, 0x73, 0x50, 0x65,
+	0x72, 0x50, 0x65, 0x72, 0x69, 0x6f, 0x64, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x2e, 0x50,
+	0x65, 0x72, 0x69, 0x6f, 0x64, 0x52, 0x06, 0x70, 0x65, 0x72, 0x69, 0x6f, 0x64, 0x22, 0x26, 0x0a,
+	0x06, 0x50, 0x65, 0x72, 0x69, 0x6f, 0x64, 0x12, 0x07, 0x0a, 0x03, 0x64, 0x61, 0x79, 0x10, 0x00,
+	0x12, 0x08, 0x0a, 0x04, 0x77, 0x65, 0x65, 0x6b, 0x10, 0x01, 0x12, 0x09, 0x0a, 0x05, 0x6d, 0x6f,
+	0x6e, 0x74, 0x68, 0x10, 0x02, 0x22, 0x76, 0x0a, 0x33, 0x47, 0x65, 0x74, 0x49, 0x6e, 0x41, 0x6e,
+	0x64, 0x4f, 0x75, 0x74, 0x67, 0x6f, 0x69, 0x6e, 0x67, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x61, 0x63,
+	0x74, 0x69, 0x6f, 0x6e, 0x41, 0x6d, 0x6f, 0x75, 0x6e, 0x74, 0x73, 0x50, 0x65, 0x72, 0x50, 0x65,
+	0x72, 0x69, 0x6f, 0x64, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x3f, 0x0a, 0x07,
+	0x70, 0x65, 0x72, 0x69, 0x6f, 0x64, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x25, 0x2e,
+	0x49, 0x6e, 0x41, 0x6e, 0x64, 0x4f, 0x75, 0x74, 0x67, 0x6f, 0x69, 0x6e, 0x67, 0x54, 0x72, 0x61,
+	0x6e, 0x73, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x41, 0x6d, 0x6f, 0x75, 0x6e, 0x74, 0x50, 0x65,
+	0x72, 0x69, 0x6f, 0x64, 0x52, 0x07, 0x70, 0x65, 0x72, 0x69, 0x6f, 0x64, 0x73, 0x22, 0xb6, 0x01,
+	0x0a, 0x24, 0x49, 0x6e, 0x41, 0x6e, 0x64, 0x4f, 0x75, 0x74, 0x67, 0x6f, 0x69, 0x6e, 0x67, 0x54,
+	0x72, 0x61, 0x6e, 0x73, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x41, 0x6d, 0x6f, 0x75, 0x6e, 0x74,
+	0x50, 0x65, 0x72, 0x69, 0x6f, 0x64, 0x12, 0x40, 0x0a, 0x0d, 0x73, 0x74, 0x61, 0x72, 0x74, 0x4f,
+	0x66, 0x50, 0x65, 0x72, 0x69, 0x6f, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e,
+	0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e,
+	0x54, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x52, 0x0d, 0x73, 0x74, 0x61, 0x72, 0x74,
+	0x4f, 0x66, 0x50, 0x65, 0x72, 0x69, 0x6f, 0x64, 0x12, 0x24, 0x0a, 0x0d, 0x69, 0x6e, 0x67, 0x6f,
+	0x69, 0x6e, 0x67, 0x41, 0x6d, 0x6f, 0x75, 0x6e, 0x74, 0x18, 0x02, 0x20, 0x01, 0x28, 0x01, 0x52,
+	0x0d, 0x69, 0x6e, 0x67, 0x6f, 0x69, 0x6e, 0x67, 0x41, 0x6d, 0x6f, 0x75, 0x6e, 0x74, 0x12, 0x26,
+	0x0a, 0x0e, 0x6f, 0x75, 0x74, 0x67, 0x6f, 0x69, 0x6e, 0x67, 0x41, 0x6d, 0x6f, 0x75, 0x6e, 0x74,
+	0x18, 0x03, 0x20, 0x01, 0x28, 0x01, 0x52, 0x0e, 0x6f, 0x75, 0x74, 0x67, 0x6f, 0x69, 0x6e, 0x67,
+	0x41, 0x6d, 0x6f, 0x75, 0x6e, 0x74, 0x42, 0x21, 0x5a, 0x1f, 0x70, 0x65, 0x72, 0x73, 0x6f, 0x6e,
+	0x61, 0x6c, 0x66, 0x69, 0x6e, 0x61, 0x6e, 0x63, 0x65, 0x2f, 0x67, 0x65, 0x6e, 0x65, 0x72, 0x61,
+	0x74, 0x65, 0x64, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f,
+	0x33,
 }
 
 var (
@@ -1240,46 +1477,54 @@ func file_budgeting_proto_rawDescGZIP() []byte {
 	return file_budgeting_proto_rawDescData
 }
 
-var file_budgeting_proto_msgTypes = make([]protoimpl.MessageInfo, 16)
+var file_budgeting_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
+var file_budgeting_proto_msgTypes = make([]protoimpl.MessageInfo, 19)
 var file_budgeting_proto_goTypes = []any{
-	(*GetTransactionsRequest)(nil),                   // 0: GetTransactionsRequest
-	(*GetTransactionsResponse)(nil),                  // 1: GetTransactionsResponse
-	(*GetUncategorizedTransactionRequest)(nil),       // 2: GetUncategorizedTransactionRequest
-	(*GetUncategorizedTransactionResponse)(nil),      // 3: GetUncategorizedTransactionResponse
-	(*MatchingUncategorizedTransactionResponse)(nil), // 4: MatchingUncategorizedTransactionResponse
-	(*CategorizeTransactionAndContinueRequest)(nil),  // 5: CategorizeTransactionAndContinueRequest
-	(*TransactionResponse)(nil),                      // 6: TransactionResponse
-	(*GetTransactionCategoryGroupsRequest)(nil),      // 7: GetTransactionCategoryGroupsRequest
-	(*GetTransactionCategoryGroupsResponse)(nil),     // 8: GetTransactionCategoryGroupsResponse
-	(*TransactionCategoryGroupResponse)(nil),         // 9: TransactionCategoryGroupResponse
-	(*TransactionCategoryResponse)(nil),              // 10: TransactionCategoryResponse
-	(*GetCategorizedTransactionResultsRequest)(nil),  // 11: GetCategorizedTransactionResultsRequest
-	(*GetCategorizedTransactionResultsResponse)(nil), // 12: GetCategorizedTransactionResultsResponse
-	(*GetCategorizedTransactionResultResponse)(nil),  // 13: GetCategorizedTransactionResultResponse
-	(*GetCategorizedTransactionResult)(nil),          // 14: GetCategorizedTransactionResult
-	(*GetTransactionByIdRequest)(nil),                // 15: GetTransactionByIdRequest
-	(*timestamppb.Timestamp)(nil),                    // 16: google.protobuf.Timestamp
-	(*wrapperspb.StringValue)(nil),                   // 17: google.protobuf.StringValue
+	(GetInAndOutgoingTransactionAmountsPerPeriodRequest_Period)(0), // 0: GetInAndOutgoingTransactionAmountsPerPeriodRequest.Period
+	(*GetTransactionsRequest)(nil),                                 // 1: GetTransactionsRequest
+	(*GetTransactionsResponse)(nil),                                // 2: GetTransactionsResponse
+	(*GetUncategorizedTransactionRequest)(nil),                     // 3: GetUncategorizedTransactionRequest
+	(*GetUncategorizedTransactionResponse)(nil),                    // 4: GetUncategorizedTransactionResponse
+	(*MatchingUncategorizedTransactionResponse)(nil),               // 5: MatchingUncategorizedTransactionResponse
+	(*CategorizeTransactionAndContinueRequest)(nil),                // 6: CategorizeTransactionAndContinueRequest
+	(*TransactionResponse)(nil),                                    // 7: TransactionResponse
+	(*GetTransactionCategoryGroupsRequest)(nil),                    // 8: GetTransactionCategoryGroupsRequest
+	(*GetTransactionCategoryGroupsResponse)(nil),                   // 9: GetTransactionCategoryGroupsResponse
+	(*TransactionCategoryGroupResponse)(nil),                       // 10: TransactionCategoryGroupResponse
+	(*TransactionCategoryResponse)(nil),                            // 11: TransactionCategoryResponse
+	(*GetCategorizedTransactionResultsRequest)(nil),                // 12: GetCategorizedTransactionResultsRequest
+	(*GetCategorizedTransactionResultsResponse)(nil),               // 13: GetCategorizedTransactionResultsResponse
+	(*GetCategorizedTransactionResultResponse)(nil),                // 14: GetCategorizedTransactionResultResponse
+	(*GetCategorizedTransactionResult)(nil),                        // 15: GetCategorizedTransactionResult
+	(*GetTransactionByIdRequest)(nil),                              // 16: GetTransactionByIdRequest
+	(*GetInAndOutgoingTransactionAmountsPerPeriodRequest)(nil),     // 17: GetInAndOutgoingTransactionAmountsPerPeriodRequest
+	(*GetInAndOutgoingTransactionAmountsPerPeriodResponse)(nil),    // 18: GetInAndOutgoingTransactionAmountsPerPeriodResponse
+	(*InAndOutgoingTransactionAmountPeriod)(nil),                   // 19: InAndOutgoingTransactionAmountPeriod
+	(*timestamppb.Timestamp)(nil),                                  // 20: google.protobuf.Timestamp
+	(*wrapperspb.StringValue)(nil),                                 // 21: google.protobuf.StringValue
 }
 var file_budgeting_proto_depIdxs = []int32{
-	6,  // 0: GetTransactionsResponse.transactions:type_name -> TransactionResponse
-	16, // 1: GetUncategorizedTransactionResponse.date:type_name -> google.protobuf.Timestamp
-	4,  // 2: GetUncategorizedTransactionResponse.matchingTransactions:type_name -> MatchingUncategorizedTransactionResponse
-	16, // 3: MatchingUncategorizedTransactionResponse.date:type_name -> google.protobuf.Timestamp
-	16, // 4: TransactionResponse.date:type_name -> google.protobuf.Timestamp
-	17, // 5: TransactionResponse.transactionCategorySlug:type_name -> google.protobuf.StringValue
-	17, // 6: TransactionResponse.transactionCategoryGroupSlug:type_name -> google.protobuf.StringValue
-	9,  // 7: GetTransactionCategoryGroupsResponse.groups:type_name -> TransactionCategoryGroupResponse
-	10, // 8: TransactionCategoryGroupResponse.categories:type_name -> TransactionCategoryResponse
-	16, // 9: GetCategorizedTransactionResultsRequest.start:type_name -> google.protobuf.Timestamp
-	16, // 10: GetCategorizedTransactionResultsRequest.end:type_name -> google.protobuf.Timestamp
-	13, // 11: GetCategorizedTransactionResultsResponse.results:type_name -> GetCategorizedTransactionResultResponse
-	14, // 12: GetCategorizedTransactionResultResponse.categories:type_name -> GetCategorizedTransactionResult
-	13, // [13:13] is the sub-list for method output_type
-	13, // [13:13] is the sub-list for method input_type
-	13, // [13:13] is the sub-list for extension type_name
-	13, // [13:13] is the sub-list for extension extendee
-	0,  // [0:13] is the sub-list for field type_name
+	7,  // 0: GetTransactionsResponse.transactions:type_name -> TransactionResponse
+	20, // 1: GetUncategorizedTransactionResponse.date:type_name -> google.protobuf.Timestamp
+	5,  // 2: GetUncategorizedTransactionResponse.matchingTransactions:type_name -> MatchingUncategorizedTransactionResponse
+	20, // 3: MatchingUncategorizedTransactionResponse.date:type_name -> google.protobuf.Timestamp
+	20, // 4: TransactionResponse.date:type_name -> google.protobuf.Timestamp
+	21, // 5: TransactionResponse.transactionCategorySlug:type_name -> google.protobuf.StringValue
+	21, // 6: TransactionResponse.transactionCategoryGroupSlug:type_name -> google.protobuf.StringValue
+	10, // 7: GetTransactionCategoryGroupsResponse.groups:type_name -> TransactionCategoryGroupResponse
+	11, // 8: TransactionCategoryGroupResponse.categories:type_name -> TransactionCategoryResponse
+	20, // 9: GetCategorizedTransactionResultsRequest.start:type_name -> google.protobuf.Timestamp
+	20, // 10: GetCategorizedTransactionResultsRequest.end:type_name -> google.protobuf.Timestamp
+	14, // 11: GetCategorizedTransactionResultsResponse.results:type_name -> GetCategorizedTransactionResultResponse
+	15, // 12: GetCategorizedTransactionResultResponse.categories:type_name -> GetCategorizedTransactionResult
+	0,  // 13: GetInAndOutgoingTransactionAmountsPerPeriodRequest.period:type_name -> GetInAndOutgoingTransactionAmountsPerPeriodRequest.Period
+	19, // 14: GetInAndOutgoingTransactionAmountsPerPeriodResponse.periods:type_name -> InAndOutgoingTransactionAmountPeriod
+	20, // 15: InAndOutgoingTransactionAmountPeriod.startOfPeriod:type_name -> google.protobuf.Timestamp
+	16, // [16:16] is the sub-list for method output_type
+	16, // [16:16] is the sub-list for method input_type
+	16, // [16:16] is the sub-list for extension type_name
+	16, // [16:16] is the sub-list for extension extendee
+	0,  // [0:16] is the sub-list for field type_name
 }
 
 func init() { file_budgeting_proto_init() }
@@ -1480,19 +1725,56 @@ func file_budgeting_proto_init() {
 				return nil
 			}
 		}
+		file_budgeting_proto_msgTypes[16].Exporter = func(v any, i int) any {
+			switch v := v.(*GetInAndOutgoingTransactionAmountsPerPeriodRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_budgeting_proto_msgTypes[17].Exporter = func(v any, i int) any {
+			switch v := v.(*GetInAndOutgoingTransactionAmountsPerPeriodResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_budgeting_proto_msgTypes[18].Exporter = func(v any, i int) any {
+			switch v := v.(*InAndOutgoingTransactionAmountPeriod); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_budgeting_proto_rawDesc,
-			NumEnums:      0,
-			NumMessages:   16,
+			NumEnums:      1,
+			NumMessages:   19,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
 		GoTypes:           file_budgeting_proto_goTypes,
 		DependencyIndexes: file_budgeting_proto_depIdxs,
+		EnumInfos:         file_budgeting_proto_enumTypes,
 		MessageInfos:      file_budgeting_proto_msgTypes,
 	}.Build()
 	File_budgeting_proto = out.File

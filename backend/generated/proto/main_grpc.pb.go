@@ -391,12 +391,13 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 }
 
 const (
-	BudgetingService_GetTransactionById_FullMethodName               = "/BudgetingService/GetTransactionById"
-	BudgetingService_GetTransactions_FullMethodName                  = "/BudgetingService/GetTransactions"
-	BudgetingService_GetUncategorizedTransaction_FullMethodName      = "/BudgetingService/GetUncategorizedTransaction"
-	BudgetingService_CategorizeTransactionAndContinue_FullMethodName = "/BudgetingService/CategorizeTransactionAndContinue"
-	BudgetingService_GetTransactionCategoryGroups_FullMethodName     = "/BudgetingService/GetTransactionCategoryGroups"
-	BudgetingService_GetCategorizedTransactionResults_FullMethodName = "/BudgetingService/GetCategorizedTransactionResults"
+	BudgetingService_GetTransactionById_FullMethodName                          = "/BudgetingService/GetTransactionById"
+	BudgetingService_GetTransactions_FullMethodName                             = "/BudgetingService/GetTransactions"
+	BudgetingService_GetUncategorizedTransaction_FullMethodName                 = "/BudgetingService/GetUncategorizedTransaction"
+	BudgetingService_CategorizeTransactionAndContinue_FullMethodName            = "/BudgetingService/CategorizeTransactionAndContinue"
+	BudgetingService_GetTransactionCategoryGroups_FullMethodName                = "/BudgetingService/GetTransactionCategoryGroups"
+	BudgetingService_GetCategorizedTransactionResults_FullMethodName            = "/BudgetingService/GetCategorizedTransactionResults"
+	BudgetingService_GetInAndOutgoingTransactionAmountsPerPeriod_FullMethodName = "/BudgetingService/GetInAndOutgoingTransactionAmountsPerPeriod"
 )
 
 // BudgetingServiceClient is the client API for BudgetingService service.
@@ -409,6 +410,7 @@ type BudgetingServiceClient interface {
 	CategorizeTransactionAndContinue(ctx context.Context, in *CategorizeTransactionAndContinueRequest, opts ...grpc.CallOption) (*GetUncategorizedTransactionResponse, error)
 	GetTransactionCategoryGroups(ctx context.Context, in *GetTransactionCategoryGroupsRequest, opts ...grpc.CallOption) (*GetTransactionCategoryGroupsResponse, error)
 	GetCategorizedTransactionResults(ctx context.Context, in *GetCategorizedTransactionResultsRequest, opts ...grpc.CallOption) (*GetCategorizedTransactionResultsResponse, error)
+	GetInAndOutgoingTransactionAmountsPerPeriod(ctx context.Context, in *GetInAndOutgoingTransactionAmountsPerPeriodRequest, opts ...grpc.CallOption) (*GetInAndOutgoingTransactionAmountsPerPeriodResponse, error)
 }
 
 type budgetingServiceClient struct {
@@ -479,6 +481,16 @@ func (c *budgetingServiceClient) GetCategorizedTransactionResults(ctx context.Co
 	return out, nil
 }
 
+func (c *budgetingServiceClient) GetInAndOutgoingTransactionAmountsPerPeriod(ctx context.Context, in *GetInAndOutgoingTransactionAmountsPerPeriodRequest, opts ...grpc.CallOption) (*GetInAndOutgoingTransactionAmountsPerPeriodResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetInAndOutgoingTransactionAmountsPerPeriodResponse)
+	err := c.cc.Invoke(ctx, BudgetingService_GetInAndOutgoingTransactionAmountsPerPeriod_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // BudgetingServiceServer is the server API for BudgetingService service.
 // All implementations must embed UnimplementedBudgetingServiceServer
 // for forward compatibility
@@ -489,6 +501,7 @@ type BudgetingServiceServer interface {
 	CategorizeTransactionAndContinue(context.Context, *CategorizeTransactionAndContinueRequest) (*GetUncategorizedTransactionResponse, error)
 	GetTransactionCategoryGroups(context.Context, *GetTransactionCategoryGroupsRequest) (*GetTransactionCategoryGroupsResponse, error)
 	GetCategorizedTransactionResults(context.Context, *GetCategorizedTransactionResultsRequest) (*GetCategorizedTransactionResultsResponse, error)
+	GetInAndOutgoingTransactionAmountsPerPeriod(context.Context, *GetInAndOutgoingTransactionAmountsPerPeriodRequest) (*GetInAndOutgoingTransactionAmountsPerPeriodResponse, error)
 	mustEmbedUnimplementedBudgetingServiceServer()
 }
 
@@ -513,6 +526,9 @@ func (UnimplementedBudgetingServiceServer) GetTransactionCategoryGroups(context.
 }
 func (UnimplementedBudgetingServiceServer) GetCategorizedTransactionResults(context.Context, *GetCategorizedTransactionResultsRequest) (*GetCategorizedTransactionResultsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetCategorizedTransactionResults not implemented")
+}
+func (UnimplementedBudgetingServiceServer) GetInAndOutgoingTransactionAmountsPerPeriod(context.Context, *GetInAndOutgoingTransactionAmountsPerPeriodRequest) (*GetInAndOutgoingTransactionAmountsPerPeriodResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetInAndOutgoingTransactionAmountsPerPeriod not implemented")
 }
 func (UnimplementedBudgetingServiceServer) mustEmbedUnimplementedBudgetingServiceServer() {}
 
@@ -635,6 +651,24 @@ func _BudgetingService_GetCategorizedTransactionResults_Handler(srv interface{},
 	return interceptor(ctx, in, info, handler)
 }
 
+func _BudgetingService_GetInAndOutgoingTransactionAmountsPerPeriod_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetInAndOutgoingTransactionAmountsPerPeriodRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BudgetingServiceServer).GetInAndOutgoingTransactionAmountsPerPeriod(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: BudgetingService_GetInAndOutgoingTransactionAmountsPerPeriod_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BudgetingServiceServer).GetInAndOutgoingTransactionAmountsPerPeriod(ctx, req.(*GetInAndOutgoingTransactionAmountsPerPeriodRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // BudgetingService_ServiceDesc is the grpc.ServiceDesc for BudgetingService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -665,6 +699,10 @@ var BudgetingService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetCategorizedTransactionResults",
 			Handler:    _BudgetingService_GetCategorizedTransactionResults_Handler,
+		},
+		{
+			MethodName: "GetInAndOutgoingTransactionAmountsPerPeriod",
+			Handler:    _BudgetingService_GetInAndOutgoingTransactionAmountsPerPeriod_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

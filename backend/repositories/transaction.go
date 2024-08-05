@@ -2,6 +2,8 @@ package repositories
 
 import (
 	"context"
+	"errors"
+	"fmt"
 	"time"
 
 	"personalfinance/generated/jet_gen/postgres/public/model"
@@ -288,6 +290,63 @@ func (r *Repository) GetMostRecentTransaction(ctx context.Context, userID uuid.U
 			&resp.Balance,
 		)
 		return resp, err
+	}
+	return resp, err
+}
+func (r *Repository) GetInAndOutgoingTransactionAmountsPerPeriod(ctx context.Context, userID uuid.UUID, period string) (resp budgeting.InAndOutgoingTransactionAmountsPerPeriods, err error) {
+	// IMPORTANT NOTE: This is vulnerable for SQL injection. This is "safe" since the parameter is validated on a protobuf level.
+	// This should be changed to something less easy to fuck up whenever someone else joins the codebase.
+	// This check is just to be sure.
+	if period != "day" && period != "week" && period != "month" {
+		return resp, errors.New("invalid period")
+	}
+	sql, args := RawStatement(fmt.Sprintf(`WITH week_series AS (
+    SELECT 
+        generate_series(
+            date_trunc('%s', MIN(value_date)),
+            date_trunc('%s', NOW()),
+            '1 %s'::interval
+        ) AS week_start
+    FROM transaction
+	), weekly_sums AS (
+		SELECT 
+			DATE_TRUNC('%s', value_date) AS week_start,
+			SUM(CASE WHEN transaction_amount > 0 THEN transaction_amount ELSE 0 END) AS positive_sum,
+			SUM(CASE WHEN transaction_amount < 0 THEN transaction_amount ELSE 0 END) AS negative_sum
+		FROM 
+			transaction
+		GROUP BY 
+			DATE_TRUNC('%s', value_date)
+	)
+	SELECT 
+		ws.week_start,
+		COALESCE(wsum.positive_sum, 0) AS positive_sum,
+		COALESCE(wsum.negative_sum, 0) AS negative_sum
+	FROM 
+		week_series ws
+	LEFT JOIN 
+		weekly_sums wsum ON ws.week_start = wsum.week_start
+	ORDER BY 
+		ws.week_start;
+`, period, period, period, period, period)).Sql()
+
+	rows, err := r.conn().Query(ctx, sql, args...)
+	if err != nil {
+		return resp, err
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		inAndOutgoingTxPerPeriod := budgeting.InAndOutgoingTransactionAmountsPerPeriod{}
+		err = rows.Scan(
+			&inAndOutgoingTxPerPeriod.StartOfPeriod,
+			&inAndOutgoingTxPerPeriod.IngoingAmount,
+			&inAndOutgoingTxPerPeriod.OutgoingAmount,
+		)
+		if err != nil {
+			return resp, err
+		}
+		resp = append(resp, inAndOutgoingTxPerPeriod)
 	}
 	return resp, err
 }

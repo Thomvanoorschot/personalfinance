@@ -7,7 +7,7 @@ part of 'categorized_transactions.dart';
 // **************************************************************************
 
 String _$categorizedTransactionsHash() =>
-    r'5ac3a7531d67528dba2979fbf9806f374c633fe0';
+    r'd38853b5086329e593fde24343f4a8d6569c0d49';
 
 /// See also [CategorizedTransactions].
 @ProviderFor(CategorizedTransactions)

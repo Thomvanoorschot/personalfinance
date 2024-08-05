@@ -33,4 +33,5 @@ service BudgetingService {
   rpc CategorizeTransactionAndContinue(CategorizeTransactionAndContinueRequest) returns (GetUncategorizedTransactionResponse);
   rpc GetTransactionCategoryGroups(GetTransactionCategoryGroupsRequest) returns (GetTransactionCategoryGroupsResponse);
   rpc GetCategorizedTransactionResults(GetCategorizedTransactionResultsRequest) returns (GetCategorizedTransactionResultsResponse);
+  rpc GetInAndOutgoingTransactionAmountsPerPeriod(GetInAndOutgoingTransactionAmountsPerPeriodRequest) returns (GetInAndOutgoingTransactionAmountsPerPeriodResponse);
 }

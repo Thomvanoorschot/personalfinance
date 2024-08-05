@@ -20,6 +20,9 @@ mixin _$CategorizedTransactionsModel {
       throw _privateConstructorUsedError;
   String? get selectedTransactionCategoryGroupSlug =>
       throw _privateConstructorUsedError;
+  GetCategorizedTransactionResultResponse?
+      get selectedTransactionCategoryGroup =>
+          throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $CategorizedTransactionsModelCopyWith<CategorizedTransactionsModel>
@@ -36,7 +39,9 @@ abstract class $CategorizedTransactionsModelCopyWith<$Res> {
   @useResult
   $Res call(
       {GetCategorizedTransactionResultsResponse categorizedTransactions,
-      String? selectedTransactionCategoryGroupSlug});
+      String? selectedTransactionCategoryGroupSlug,
+      GetCategorizedTransactionResultResponse?
+          selectedTransactionCategoryGroup});
 }
 
 /// @nodoc
@@ -55,6 +60,7 @@ class _$CategorizedTransactionsModelCopyWithImpl<$Res,
   $Res call({
     Object? categorizedTransactions = null,
     Object? selectedTransactionCategoryGroupSlug = freezed,
+    Object? selectedTransactionCategoryGroup = freezed,
   }) {
     return _then(_value.copyWith(
       categorizedTransactions: null == categorizedTransactions
@@ -66,6 +72,11 @@ class _$CategorizedTransactionsModelCopyWithImpl<$Res,
           ? _value.selectedTransactionCategoryGroupSlug
           : selectedTransactionCategoryGroupSlug // ignore: cast_nullable_to_non_nullable
               as String?,
+      selectedTransactionCategoryGroup: freezed ==
+              selectedTransactionCategoryGroup
+          ? _value.selectedTransactionCategoryGroup
+          : selectedTransactionCategoryGroup // ignore: cast_nullable_to_non_nullable
+              as GetCategorizedTransactionResultResponse?,
     ) as $Val);
   }
 }
@@ -81,7 +92,9 @@ abstract class _$$CategorizedTransactionsModelImplCopyWith<$Res>
   @useResult
   $Res call(
       {GetCategorizedTransactionResultsResponse categorizedTransactions,
-      String? selectedTransactionCategoryGroupSlug});
+      String? selectedTransactionCategoryGroupSlug,
+      GetCategorizedTransactionResultResponse?
+          selectedTransactionCategoryGroup});
 }
 
 /// @nodoc
@@ -99,6 +112,7 @@ class __$$CategorizedTransactionsModelImplCopyWithImpl<$Res>
   $Res call({
     Object? categorizedTransactions = null,
     Object? selectedTransactionCategoryGroupSlug = freezed,
+    Object? selectedTransactionCategoryGroup = freezed,
   }) {
     return _then(_$CategorizedTransactionsModelImpl(
       categorizedTransactions: null == categorizedTransactions
@@ -110,6 +124,11 @@ class __$$CategorizedTransactionsModelImplCopyWithImpl<$Res>
           ? _value.selectedTransactionCategoryGroupSlug
           : selectedTransactionCategoryGroupSlug // ignore: cast_nullable_to_non_nullable
               as String?,
+      selectedTransactionCategoryGroup: freezed ==
+              selectedTransactionCategoryGroup
+          ? _value.selectedTransactionCategoryGroup
+          : selectedTransactionCategoryGroup // ignore: cast_nullable_to_non_nullable
+              as GetCategorizedTransactionResultResponse?,
     ));
   }
 }
@@ -120,16 +139,20 @@ class _$CategorizedTransactionsModelImpl
     implements _CategorizedTransactionsModel {
   _$CategorizedTransactionsModelImpl(
       {required this.categorizedTransactions,
-      this.selectedTransactionCategoryGroupSlug});
+      this.selectedTransactionCategoryGroupSlug,
+      this.selectedTransactionCategoryGroup});
 
   @override
   final GetCategorizedTransactionResultsResponse categorizedTransactions;
   @override
   final String? selectedTransactionCategoryGroupSlug;
+  @override
+  final GetCategorizedTransactionResultResponse?
+      selectedTransactionCategoryGroup;
 
   @override
   String toString() {
-    return 'CategorizedTransactionsModel(categorizedTransactions: $categorizedTransactions, selectedTransactionCategoryGroupSlug: $selectedTransactionCategoryGroupSlug)';
+    return 'CategorizedTransactionsModel(categorizedTransactions: $categorizedTransactions, selectedTransactionCategoryGroupSlug: $selectedTransactionCategoryGroupSlug, selectedTransactionCategoryGroup: $selectedTransactionCategoryGroup)';
   }
 
   @override
@@ -143,12 +166,16 @@ class _$CategorizedTransactionsModelImpl
             (identical(other.selectedTransactionCategoryGroupSlug,
                     selectedTransactionCategoryGroupSlug) ||
                 other.selectedTransactionCategoryGroupSlug ==
-                    selectedTransactionCategoryGroupSlug));
+                    selectedTransactionCategoryGroupSlug) &&
+            (identical(other.selectedTransactionCategoryGroup,
+                    selectedTransactionCategoryGroup) ||
+                other.selectedTransactionCategoryGroup ==
+                    selectedTransactionCategoryGroup));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, categorizedTransactions,
-      selectedTransactionCategoryGroupSlug);
+      selectedTransactionCategoryGroupSlug, selectedTransactionCategoryGroup);
 
   @JsonKey(ignore: true)
   @override
@@ -164,13 +191,17 @@ abstract class _CategorizedTransactionsModel
   factory _CategorizedTransactionsModel(
           {required final GetCategorizedTransactionResultsResponse
               categorizedTransactions,
-          final String? selectedTransactionCategoryGroupSlug}) =
+          final String? selectedTransactionCategoryGroupSlug,
+          final GetCategorizedTransactionResultResponse?
+              selectedTransactionCategoryGroup}) =
       _$CategorizedTransactionsModelImpl;
 
   @override
   GetCategorizedTransactionResultsResponse get categorizedTransactions;
   @override
   String? get selectedTransactionCategoryGroupSlug;
+  @override
+  GetCategorizedTransactionResultResponse? get selectedTransactionCategoryGroup;
   @override
   @JsonKey(ignore: true)
   _$$CategorizedTransactionsModelImplCopyWith<

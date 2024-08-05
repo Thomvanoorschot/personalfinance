@@ -13,6 +13,7 @@ type BudgetingService interface {
 	CategorizeTransactionAndContinue(ctx context.Context, req *proto.CategorizeTransactionAndContinueRequest) (*proto.GetUncategorizedTransactionResponse, error)
 	GetTransactionCategoryGroups(context.Context, *proto.GetTransactionCategoryGroupsRequest) (*proto.GetTransactionCategoryGroupsResponse, error)
 	GetCategorizedTransactionResults(context.Context, *proto.GetCategorizedTransactionResultsRequest) (*proto.GetCategorizedTransactionResultsResponse, error)
+	GetInAndOutgoingTransactionAmountsPerPeriod(context.Context, *proto.GetInAndOutgoingTransactionAmountsPerPeriodRequest) (*proto.GetInAndOutgoingTransactionAmountsPerPeriodResponse, error)
 }
 
 type BudgetingHandler struct {
@@ -71,6 +72,13 @@ func (h *BudgetingHandler) GetTransactionCategoryGroups(ctx context.Context, req
 
 func (h *BudgetingHandler) GetCategorizedTransactionResults(ctx context.Context, req *proto.GetCategorizedTransactionResultsRequest) (*proto.GetCategorizedTransactionResultsResponse, error) {
 	resp, err := h.service.GetCategorizedTransactionResults(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+	return resp, nil
+}
+func (h *BudgetingHandler) GetInAndOutgoingTransactionAmountsPerPeriod(ctx context.Context, req *proto.GetInAndOutgoingTransactionAmountsPerPeriodRequest) (*proto.GetInAndOutgoingTransactionAmountsPerPeriodResponse, error) {
+	resp, err := h.service.GetInAndOutgoingTransactionAmountsPerPeriod(ctx, req)
 	if err != nil {
 		return nil, err
 	}

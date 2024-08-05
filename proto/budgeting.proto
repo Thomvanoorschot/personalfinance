@@ -100,3 +100,21 @@ message GetTransactionByIdRequest {
   string userId = 1 [(buf.validate.field).string.uuid = true];
   string transactionId = 2 [(buf.validate.field).string.uuid = true];
 }
+
+message GetInAndOutgoingTransactionAmountsPerPeriodRequest {
+  enum Period {
+    day = 0;
+    week = 1;
+    month = 2;
+  }
+  Period period = 1;
+}
+
+message GetInAndOutgoingTransactionAmountsPerPeriodResponse {
+  repeated InAndOutgoingTransactionAmountPeriod periods = 1;
+}
+message InAndOutgoingTransactionAmountPeriod {
+  google.protobuf.Timestamp startOfPeriod = 1;
+  double ingoingAmount = 2;
+  double outgoingAmount = 3;
+}

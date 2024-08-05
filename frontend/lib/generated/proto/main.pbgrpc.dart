@@ -223,6 +223,10 @@ class BudgetingServiceClient extends $grpc.Client {
       '/BudgetingService/GetCategorizedTransactionResults',
       ($2.GetCategorizedTransactionResultsRequest value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $2.GetCategorizedTransactionResultsResponse.fromBuffer(value));
+  static final _$getInAndOutgoingTransactionAmountsPerPeriod = $grpc.ClientMethod<$2.GetInAndOutgoingTransactionAmountsPerPeriodRequest, $2.GetInAndOutgoingTransactionAmountsPerPeriodResponse>(
+      '/BudgetingService/GetInAndOutgoingTransactionAmountsPerPeriod',
+      ($2.GetInAndOutgoingTransactionAmountsPerPeriodRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $2.GetInAndOutgoingTransactionAmountsPerPeriodResponse.fromBuffer(value));
 
   BudgetingServiceClient($grpc.ClientChannel channel,
       {$grpc.CallOptions? options,
@@ -252,6 +256,10 @@ class BudgetingServiceClient extends $grpc.Client {
 
   $grpc.ResponseFuture<$2.GetCategorizedTransactionResultsResponse> getCategorizedTransactionResults($2.GetCategorizedTransactionResultsRequest request, {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$getCategorizedTransactionResults, request, options: options);
+  }
+
+  $grpc.ResponseFuture<$2.GetInAndOutgoingTransactionAmountsPerPeriodResponse> getInAndOutgoingTransactionAmountsPerPeriod($2.GetInAndOutgoingTransactionAmountsPerPeriodRequest request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$getInAndOutgoingTransactionAmountsPerPeriod, request, options: options);
   }
 }
 
@@ -302,6 +310,13 @@ abstract class BudgetingServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $2.GetCategorizedTransactionResultsRequest.fromBuffer(value),
         ($2.GetCategorizedTransactionResultsResponse value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$2.GetInAndOutgoingTransactionAmountsPerPeriodRequest, $2.GetInAndOutgoingTransactionAmountsPerPeriodResponse>(
+        'GetInAndOutgoingTransactionAmountsPerPeriod',
+        getInAndOutgoingTransactionAmountsPerPeriod_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $2.GetInAndOutgoingTransactionAmountsPerPeriodRequest.fromBuffer(value),
+        ($2.GetInAndOutgoingTransactionAmountsPerPeriodResponse value) => value.writeToBuffer()));
   }
 
   $async.Future<$2.TransactionResponse> getTransactionById_Pre($grpc.ServiceCall call, $async.Future<$2.GetTransactionByIdRequest> request) async {
@@ -328,10 +343,15 @@ abstract class BudgetingServiceBase extends $grpc.Service {
     return getCategorizedTransactionResults(call, await request);
   }
 
+  $async.Future<$2.GetInAndOutgoingTransactionAmountsPerPeriodResponse> getInAndOutgoingTransactionAmountsPerPeriod_Pre($grpc.ServiceCall call, $async.Future<$2.GetInAndOutgoingTransactionAmountsPerPeriodRequest> request) async {
+    return getInAndOutgoingTransactionAmountsPerPeriod(call, await request);
+  }
+
   $async.Future<$2.TransactionResponse> getTransactionById($grpc.ServiceCall call, $2.GetTransactionByIdRequest request);
   $async.Future<$2.GetTransactionsResponse> getTransactions($grpc.ServiceCall call, $2.GetTransactionsRequest request);
   $async.Future<$2.GetUncategorizedTransactionResponse> getUncategorizedTransaction($grpc.ServiceCall call, $2.GetUncategorizedTransactionRequest request);
   $async.Future<$2.GetUncategorizedTransactionResponse> categorizeTransactionAndContinue($grpc.ServiceCall call, $2.CategorizeTransactionAndContinueRequest request);
   $async.Future<$2.GetTransactionCategoryGroupsResponse> getTransactionCategoryGroups($grpc.ServiceCall call, $2.GetTransactionCategoryGroupsRequest request);
   $async.Future<$2.GetCategorizedTransactionResultsResponse> getCategorizedTransactionResults($grpc.ServiceCall call, $2.GetCategorizedTransactionResultsRequest request);
+  $async.Future<$2.GetInAndOutgoingTransactionAmountsPerPeriodResponse> getInAndOutgoingTransactionAmountsPerPeriod($grpc.ServiceCall call, $2.GetInAndOutgoingTransactionAmountsPerPeriodRequest request);
 }

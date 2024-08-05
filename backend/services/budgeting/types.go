@@ -239,3 +239,29 @@ func (ctr CategorizedCategoryOrGroup) ConvertToResponse() *proto.GetCategorizedT
 		Percentage: ctr.Percentage,
 	}
 }
+
+type InAndOutgoingTransactionAmountsPerPeriods []InAndOutgoingTransactionAmountsPerPeriod
+
+func (txpp InAndOutgoingTransactionAmountsPerPeriods) ConvertToResponse() *proto.GetInAndOutgoingTransactionAmountsPerPeriodResponse {
+	inAndOutgoingTransactionAmountPeriod := make([]*proto.InAndOutgoingTransactionAmountPeriod, len(txpp))
+	for i, txsPerPeriod := range txpp {
+		inAndOutgoingTransactionAmountPeriod[i] = txsPerPeriod.ConvertToResponse()
+	}
+	return &proto.GetInAndOutgoingTransactionAmountsPerPeriodResponse{
+		Periods: inAndOutgoingTransactionAmountPeriod,
+	}
+}
+
+type InAndOutgoingTransactionAmountsPerPeriod struct {
+	StartOfPeriod  time.Time
+	IngoingAmount  float64
+	OutgoingAmount float64
+}
+
+func (txpp InAndOutgoingTransactionAmountsPerPeriod) ConvertToResponse() *proto.InAndOutgoingTransactionAmountPeriod {
+	return &proto.InAndOutgoingTransactionAmountPeriod{
+		StartOfPeriod:  timestamppb.New(txpp.StartOfPeriod),
+		IngoingAmount:  txpp.IngoingAmount,
+		OutgoingAmount: txpp.OutgoingAmount,
+	}
+}

@@ -14,8 +14,11 @@ import 'dart:core' as $core;
 import 'package:fixnum/fixnum.dart' as $fixnum;
 import 'package:protobuf/protobuf.dart' as $pb;
 
+import 'budgeting.pbenum.dart';
 import 'google/protobuf/timestamp.pb.dart' as $5;
 import 'google/protobuf/wrappers.pb.dart' as $6;
+
+export 'budgeting.pbenum.dart';
 
 class GetTransactionsRequest extends $pb.GeneratedMessage {
   factory GetTransactionsRequest({
@@ -1273,6 +1276,180 @@ class GetTransactionByIdRequest extends $pb.GeneratedMessage {
   $core.bool hasTransactionId() => $_has(1);
   @$pb.TagNumber(2)
   void clearTransactionId() => clearField(2);
+}
+
+class GetInAndOutgoingTransactionAmountsPerPeriodRequest extends $pb.GeneratedMessage {
+  factory GetInAndOutgoingTransactionAmountsPerPeriodRequest({
+    GetInAndOutgoingTransactionAmountsPerPeriodRequest_Period? period,
+  }) {
+    final $result = create();
+    if (period != null) {
+      $result.period = period;
+    }
+    return $result;
+  }
+  GetInAndOutgoingTransactionAmountsPerPeriodRequest._() : super();
+  factory GetInAndOutgoingTransactionAmountsPerPeriodRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory GetInAndOutgoingTransactionAmountsPerPeriodRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetInAndOutgoingTransactionAmountsPerPeriodRequest', createEmptyInstance: create)
+    ..e<GetInAndOutgoingTransactionAmountsPerPeriodRequest_Period>(1, _omitFieldNames ? '' : 'period', $pb.PbFieldType.OE, defaultOrMaker: GetInAndOutgoingTransactionAmountsPerPeriodRequest_Period.day, valueOf: GetInAndOutgoingTransactionAmountsPerPeriodRequest_Period.valueOf, enumValues: GetInAndOutgoingTransactionAmountsPerPeriodRequest_Period.values)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  GetInAndOutgoingTransactionAmountsPerPeriodRequest clone() => GetInAndOutgoingTransactionAmountsPerPeriodRequest()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  GetInAndOutgoingTransactionAmountsPerPeriodRequest copyWith(void Function(GetInAndOutgoingTransactionAmountsPerPeriodRequest) updates) => super.copyWith((message) => updates(message as GetInAndOutgoingTransactionAmountsPerPeriodRequest)) as GetInAndOutgoingTransactionAmountsPerPeriodRequest;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static GetInAndOutgoingTransactionAmountsPerPeriodRequest create() => GetInAndOutgoingTransactionAmountsPerPeriodRequest._();
+  GetInAndOutgoingTransactionAmountsPerPeriodRequest createEmptyInstance() => create();
+  static $pb.PbList<GetInAndOutgoingTransactionAmountsPerPeriodRequest> createRepeated() => $pb.PbList<GetInAndOutgoingTransactionAmountsPerPeriodRequest>();
+  @$core.pragma('dart2js:noInline')
+  static GetInAndOutgoingTransactionAmountsPerPeriodRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetInAndOutgoingTransactionAmountsPerPeriodRequest>(create);
+  static GetInAndOutgoingTransactionAmountsPerPeriodRequest? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  GetInAndOutgoingTransactionAmountsPerPeriodRequest_Period get period => $_getN(0);
+  @$pb.TagNumber(1)
+  set period(GetInAndOutgoingTransactionAmountsPerPeriodRequest_Period v) { setField(1, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasPeriod() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearPeriod() => clearField(1);
+}
+
+class GetInAndOutgoingTransactionAmountsPerPeriodResponse extends $pb.GeneratedMessage {
+  factory GetInAndOutgoingTransactionAmountsPerPeriodResponse({
+    $core.Iterable<InAndOutgoingTransactionAmountPeriod>? periods,
+  }) {
+    final $result = create();
+    if (periods != null) {
+      $result.periods.addAll(periods);
+    }
+    return $result;
+  }
+  GetInAndOutgoingTransactionAmountsPerPeriodResponse._() : super();
+  factory GetInAndOutgoingTransactionAmountsPerPeriodResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory GetInAndOutgoingTransactionAmountsPerPeriodResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetInAndOutgoingTransactionAmountsPerPeriodResponse', createEmptyInstance: create)
+    ..pc<InAndOutgoingTransactionAmountPeriod>(1, _omitFieldNames ? '' : 'periods', $pb.PbFieldType.PM, subBuilder: InAndOutgoingTransactionAmountPeriod.create)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  GetInAndOutgoingTransactionAmountsPerPeriodResponse clone() => GetInAndOutgoingTransactionAmountsPerPeriodResponse()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  GetInAndOutgoingTransactionAmountsPerPeriodResponse copyWith(void Function(GetInAndOutgoingTransactionAmountsPerPeriodResponse) updates) => super.copyWith((message) => updates(message as GetInAndOutgoingTransactionAmountsPerPeriodResponse)) as GetInAndOutgoingTransactionAmountsPerPeriodResponse;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static GetInAndOutgoingTransactionAmountsPerPeriodResponse create() => GetInAndOutgoingTransactionAmountsPerPeriodResponse._();
+  GetInAndOutgoingTransactionAmountsPerPeriodResponse createEmptyInstance() => create();
+  static $pb.PbList<GetInAndOutgoingTransactionAmountsPerPeriodResponse> createRepeated() => $pb.PbList<GetInAndOutgoingTransactionAmountsPerPeriodResponse>();
+  @$core.pragma('dart2js:noInline')
+  static GetInAndOutgoingTransactionAmountsPerPeriodResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetInAndOutgoingTransactionAmountsPerPeriodResponse>(create);
+  static GetInAndOutgoingTransactionAmountsPerPeriodResponse? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.List<InAndOutgoingTransactionAmountPeriod> get periods => $_getList(0);
+}
+
+class InAndOutgoingTransactionAmountPeriod extends $pb.GeneratedMessage {
+  factory InAndOutgoingTransactionAmountPeriod({
+    $5.Timestamp? startOfPeriod,
+    $core.double? ingoingAmount,
+    $core.double? outgoingAmount,
+  }) {
+    final $result = create();
+    if (startOfPeriod != null) {
+      $result.startOfPeriod = startOfPeriod;
+    }
+    if (ingoingAmount != null) {
+      $result.ingoingAmount = ingoingAmount;
+    }
+    if (outgoingAmount != null) {
+      $result.outgoingAmount = outgoingAmount;
+    }
+    return $result;
+  }
+  InAndOutgoingTransactionAmountPeriod._() : super();
+  factory InAndOutgoingTransactionAmountPeriod.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory InAndOutgoingTransactionAmountPeriod.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'InAndOutgoingTransactionAmountPeriod', createEmptyInstance: create)
+    ..aOM<$5.Timestamp>(1, _omitFieldNames ? '' : 'startOfPeriod', protoName: 'startOfPeriod', subBuilder: $5.Timestamp.create)
+    ..a<$core.double>(2, _omitFieldNames ? '' : 'ingoingAmount', $pb.PbFieldType.OD, protoName: 'ingoingAmount')
+    ..a<$core.double>(3, _omitFieldNames ? '' : 'outgoingAmount', $pb.PbFieldType.OD, protoName: 'outgoingAmount')
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  InAndOutgoingTransactionAmountPeriod clone() => InAndOutgoingTransactionAmountPeriod()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  InAndOutgoingTransactionAmountPeriod copyWith(void Function(InAndOutgoingTransactionAmountPeriod) updates) => super.copyWith((message) => updates(message as InAndOutgoingTransactionAmountPeriod)) as InAndOutgoingTransactionAmountPeriod;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static InAndOutgoingTransactionAmountPeriod create() => InAndOutgoingTransactionAmountPeriod._();
+  InAndOutgoingTransactionAmountPeriod createEmptyInstance() => create();
+  static $pb.PbList<InAndOutgoingTransactionAmountPeriod> createRepeated() => $pb.PbList<InAndOutgoingTransactionAmountPeriod>();
+  @$core.pragma('dart2js:noInline')
+  static InAndOutgoingTransactionAmountPeriod getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<InAndOutgoingTransactionAmountPeriod>(create);
+  static InAndOutgoingTransactionAmountPeriod? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $5.Timestamp get startOfPeriod => $_getN(0);
+  @$pb.TagNumber(1)
+  set startOfPeriod($5.Timestamp v) { setField(1, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasStartOfPeriod() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearStartOfPeriod() => clearField(1);
+  @$pb.TagNumber(1)
+  $5.Timestamp ensureStartOfPeriod() => $_ensure(0);
+
+  @$pb.TagNumber(2)
+  $core.double get ingoingAmount => $_getN(1);
+  @$pb.TagNumber(2)
+  set ingoingAmount($core.double v) { $_setDouble(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasIngoingAmount() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearIngoingAmount() => clearField(2);
+
+  @$pb.TagNumber(3)
+  $core.double get outgoingAmount => $_getN(2);
+  @$pb.TagNumber(3)
+  set outgoingAmount($core.double v) { $_setDouble(2, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasOutgoingAmount() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearOutgoingAmount() => clearField(3);
 }
 
 

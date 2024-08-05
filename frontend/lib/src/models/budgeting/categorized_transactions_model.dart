@@ -9,7 +9,8 @@ part 'categorized_transactions_model.freezed.dart';
 class CategorizedTransactionsModel with _$CategorizedTransactionsModel {
   factory CategorizedTransactionsModel({
     required GetCategorizedTransactionResultsResponse categorizedTransactions,
-    String? selectedTransactionCategoryGroupSlug
+    String? selectedTransactionCategoryGroupSlug,
+    GetCategorizedTransactionResultResponse? selectedTransactionCategoryGroup
   }) = _CategorizedTransactionsModel;
 }
 
