@@ -1281,10 +1281,18 @@ class GetTransactionByIdRequest extends $pb.GeneratedMessage {
 class GetInAndOutgoingTransactionAmountsPerPeriodRequest extends $pb.GeneratedMessage {
   factory GetInAndOutgoingTransactionAmountsPerPeriodRequest({
     GetInAndOutgoingTransactionAmountsPerPeriodRequest_Period? period,
+    $fixnum.Int64? limit,
+    $fixnum.Int64? offset,
   }) {
     final $result = create();
     if (period != null) {
       $result.period = period;
+    }
+    if (limit != null) {
+      $result.limit = limit;
+    }
+    if (offset != null) {
+      $result.offset = offset;
     }
     return $result;
   }
@@ -1294,6 +1302,8 @@ class GetInAndOutgoingTransactionAmountsPerPeriodRequest extends $pb.GeneratedMe
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetInAndOutgoingTransactionAmountsPerPeriodRequest', createEmptyInstance: create)
     ..e<GetInAndOutgoingTransactionAmountsPerPeriodRequest_Period>(1, _omitFieldNames ? '' : 'period', $pb.PbFieldType.OE, defaultOrMaker: GetInAndOutgoingTransactionAmountsPerPeriodRequest_Period.day, valueOf: GetInAndOutgoingTransactionAmountsPerPeriodRequest_Period.valueOf, enumValues: GetInAndOutgoingTransactionAmountsPerPeriodRequest_Period.values)
+    ..aInt64(2, _omitFieldNames ? '' : 'limit')
+    ..aInt64(3, _omitFieldNames ? '' : 'offset')
     ..hasRequiredFields = false
   ;
 
@@ -1326,6 +1336,24 @@ class GetInAndOutgoingTransactionAmountsPerPeriodRequest extends $pb.GeneratedMe
   $core.bool hasPeriod() => $_has(0);
   @$pb.TagNumber(1)
   void clearPeriod() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $fixnum.Int64 get limit => $_getI64(1);
+  @$pb.TagNumber(2)
+  set limit($fixnum.Int64 v) { $_setInt64(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasLimit() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearLimit() => clearField(2);
+
+  @$pb.TagNumber(3)
+  $fixnum.Int64 get offset => $_getI64(2);
+  @$pb.TagNumber(3)
+  set offset($fixnum.Int64 v) { $_setInt64(2, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasOffset() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearOffset() => clearField(3);
 }
 
 class GetInAndOutgoingTransactionAmountsPerPeriodResponse extends $pb.GeneratedMessage {

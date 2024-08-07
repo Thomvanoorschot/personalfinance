@@ -278,6 +278,8 @@ const GetInAndOutgoingTransactionAmountsPerPeriodRequest$json = {
   '1': 'GetInAndOutgoingTransactionAmountsPerPeriodRequest',
   '2': [
     {'1': 'period', '3': 1, '4': 1, '5': 14, '6': '.GetInAndOutgoingTransactionAmountsPerPeriodRequest.Period', '10': 'period'},
+    {'1': 'limit', '3': 2, '4': 1, '5': 3, '10': 'limit'},
+    {'1': 'offset', '3': 3, '4': 1, '5': 3, '10': 'offset'},
   ],
   '4': [GetInAndOutgoingTransactionAmountsPerPeriodRequest_Period$json],
 };
@@ -296,8 +298,8 @@ const GetInAndOutgoingTransactionAmountsPerPeriodRequest_Period$json = {
 final $typed_data.Uint8List getInAndOutgoingTransactionAmountsPerPeriodRequestDescriptor = $convert.base64Decode(
     'CjJHZXRJbkFuZE91dGdvaW5nVHJhbnNhY3Rpb25BbW91bnRzUGVyUGVyaW9kUmVxdWVzdBJSCg'
     'ZwZXJpb2QYASABKA4yOi5HZXRJbkFuZE91dGdvaW5nVHJhbnNhY3Rpb25BbW91bnRzUGVyUGVy'
-    'aW9kUmVxdWVzdC5QZXJpb2RSBnBlcmlvZCImCgZQZXJpb2QSBwoDZGF5EAASCAoEd2VlaxABEg'
-    'kKBW1vbnRoEAI=');
+    'aW9kUmVxdWVzdC5QZXJpb2RSBnBlcmlvZBIUCgVsaW1pdBgCIAEoA1IFbGltaXQSFgoGb2Zmc2'
+    'V0GAMgASgDUgZvZmZzZXQiJgoGUGVyaW9kEgcKA2RheRAAEggKBHdlZWsQARIJCgVtb250aBAC');
 
 @$core.Deprecated('Use getInAndOutgoingTransactionAmountsPerPeriodResponseDescriptor instead')
 const GetInAndOutgoingTransactionAmountsPerPeriodResponse$json = {

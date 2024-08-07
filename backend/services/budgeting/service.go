@@ -21,7 +21,7 @@ type Repository interface {
 	SetTransactionCategories(ctx context.Context, transactionIDs []uuid.UUID, categoryID uuid.UUID) error
 	GetClassifiedTransactions(ctx context.Context, userID uuid.UUID, start, end time.Time) (resp CategorizedTransactionResults, err error)
 	GetTransactionByID(ctx context.Context, userID uuid.UUID, transactionID uuid.UUID) (resp Transaction, err error)
-	GetInAndOutgoingTransactionAmountsPerPeriod(ctx context.Context, userID uuid.UUID, period string) (resp InAndOutgoingTransactionAmountsPerPeriods, err error)
+	GetInAndOutgoingTransactionAmountsPerPeriod(ctx context.Context, userID uuid.UUID, period string, limit, offset int64) (resp InAndOutgoingTransactionAmountsPerPeriods, err error)
 }
 
 type Service struct {
@@ -92,7 +92,7 @@ func (s *Service) GetCategorizedTransactionResults(ctx context.Context, req *pro
 }
 
 func (s *Service) GetInAndOutgoingTransactionAmountsPerPeriod(ctx context.Context, req *proto.GetInAndOutgoingTransactionAmountsPerPeriodRequest) (*proto.GetInAndOutgoingTransactionAmountsPerPeriodResponse, error) {
-	inAndOutgoingTransactionAmountsPerPeriod, err := s.repo.GetInAndOutgoingTransactionAmountsPerPeriod(ctx, uuid.MustParse(userID), req.Period.String())
+	inAndOutgoingTransactionAmountsPerPeriod, err := s.repo.GetInAndOutgoingTransactionAmountsPerPeriod(ctx, uuid.MustParse(userID), req.Period.String(), req.Limit, req.Offset)
 	if err != nil {
 		return nil, err
 	}

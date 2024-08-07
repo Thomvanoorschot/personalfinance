@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 const double _kItemExtent = 32.0;
 
@@ -16,13 +17,10 @@ class CupertinoValueButton extends StatelessWidget {
       builder: (BuildContext context) => Container(
         height: 216,
         padding: const EdgeInsets.only(top: 6.0),
-        // The Bottom margin is provided to align the popup above the system navigation bar.
         margin: EdgeInsets.only(
           bottom: MediaQuery.of(context).viewInsets.bottom,
         ),
-        // Provide a background color for the popup.
         color: CupertinoColors.systemBackground.resolveFrom(context),
-        // Use a SafeArea widget to avoid system overlaps.
         child: SafeArea(
           top: false,
           child: child,
@@ -34,7 +32,8 @@ class CupertinoValueButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CupertinoButton(
-      padding: EdgeInsets.zero,
+      color: CupertinoColors.systemGrey5,
+      padding: const EdgeInsets.all(10),
       onPressed: () => _showDialog(
         context,
         CupertinoPicker(
@@ -51,10 +50,10 @@ class CupertinoValueButton extends StatelessWidget {
           }),
         ),
       ),
-      // This displays the selected fruit name.
       child: Text(
         values[selectedIndex],
-        style: const TextStyle(
+        style: TextStyle(
+          color: Theme.of(context).colorScheme.secondary,
           fontSize: 22.0,
         ),
       ),

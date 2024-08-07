@@ -79,6 +79,11 @@ class ScaffoldWithNavigationBar extends StatelessWidget {
             selectedIcon: Icon(Icons.location_city),
             label: 'Transactions',
           ),
+          const NavigationDestination(
+            icon: Icon(Icons.bar_chart_outlined),
+            selectedIcon: Icon(Icons.bar_chart),
+            label: 'Insights',
+          ),
         ],
         onDestinationSelected: onDestinationSelected,
       ),

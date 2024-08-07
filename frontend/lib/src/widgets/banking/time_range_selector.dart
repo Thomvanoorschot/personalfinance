@@ -11,7 +11,9 @@ class TimeRangeSelector extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final timeRange = ref.watch(timeRangeProvider);
     final timeRangeNotifier = ref.read(timeRangeProvider.notifier);
-    return Row(
+    return Wrap(
+      spacing: 10,
+      // mainAxisAlignment: MainAxisAlignment.center,
       children: [
         CupertinoValueButton(
           selectedIndex: timeRange.selectedIndex,

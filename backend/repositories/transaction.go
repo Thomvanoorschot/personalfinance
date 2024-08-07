@@ -293,7 +293,7 @@ func (r *Repository) GetMostRecentTransaction(ctx context.Context, userID uuid.U
 	}
 	return resp, err
 }
-func (r *Repository) GetInAndOutgoingTransactionAmountsPerPeriod(ctx context.Context, userID uuid.UUID, period string) (resp budgeting.InAndOutgoingTransactionAmountsPerPeriods, err error) {
+func (r *Repository) GetInAndOutgoingTransactionAmountsPerPeriod(ctx context.Context, userID uuid.UUID, period string, limit, offset int64) (resp budgeting.InAndOutgoingTransactionAmountsPerPeriods, err error) {
 	// IMPORTANT NOTE: This is vulnerable for SQL injection. This is "safe" since the parameter is validated on a protobuf level.
 	// This should be changed to something less easy to fuck up whenever someone else joins the codebase.
 	// This check is just to be sure.
@@ -315,6 +315,7 @@ func (r *Repository) GetInAndOutgoingTransactionAmountsPerPeriod(ctx context.Con
 			SUM(CASE WHEN transaction_amount < 0 THEN transaction_amount ELSE 0 END) AS negative_sum
 		FROM 
 			transaction
+		WHERE user_id = #userID
 		GROUP BY 
 			DATE_TRUNC('%s', value_date)
 	)
@@ -327,8 +328,14 @@ func (r *Repository) GetInAndOutgoingTransactionAmountsPerPeriod(ctx context.Con
 	LEFT JOIN 
 		weekly_sums wsum ON ws.week_start = wsum.week_start
 	ORDER BY 
-		ws.week_start;
-`, period, period, period, period, period)).Sql()
+		ws.week_start DESC
+	LIMIT #limit
+	OFFSET #offset;
+`, period, period, period, period, period), RawArgs{
+		"#userID": userID,
+		"#limit":  limit,
+		"#offset": offset,
+	}).Sql()
 
 	rows, err := r.conn().Query(ctx, sql, args...)
 	if err != nil {

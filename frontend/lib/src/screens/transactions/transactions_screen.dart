@@ -97,22 +97,6 @@ class TransactionsScreenState extends ConsumerState<TransactionsScreen> {
               ),
             ),
             SliverToBoxAdapter(
-              child: SizedBox(
-                height: SizeConfig.safeBlockVertical * 20,
-                child: const BalancesPerDayChart(),
-              ),
-            ),
-
-            SliverToBoxAdapter(
-              child: SizedBox(
-                height: SizeConfig.safeBlockVertical * 50,
-                child: const TransactionCategoryGroupChart(),
-              ),
-            ),
-            SliverToBoxAdapter(
-              child: TimeRangeSelector(),
-            ),
-            SliverToBoxAdapter(
               child: OverflowBar(
                 alignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[

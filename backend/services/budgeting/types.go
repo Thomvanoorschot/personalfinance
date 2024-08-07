@@ -245,7 +245,7 @@ type InAndOutgoingTransactionAmountsPerPeriods []InAndOutgoingTransactionAmounts
 func (txpp InAndOutgoingTransactionAmountsPerPeriods) ConvertToResponse() *proto.GetInAndOutgoingTransactionAmountsPerPeriodResponse {
 	inAndOutgoingTransactionAmountPeriod := make([]*proto.InAndOutgoingTransactionAmountPeriod, len(txpp))
 	for i, txsPerPeriod := range txpp {
-		inAndOutgoingTransactionAmountPeriod[i] = txsPerPeriod.ConvertToResponse()
+		inAndOutgoingTransactionAmountPeriod[len(txpp)-1-i] = txsPerPeriod.ConvertToResponse()
 	}
 	return &proto.GetInAndOutgoingTransactionAmountsPerPeriodResponse{
 		Periods: inAndOutgoingTransactionAmountPeriod,

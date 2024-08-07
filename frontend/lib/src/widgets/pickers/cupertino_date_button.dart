@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class CupertinoDateButton extends StatelessWidget {
   const CupertinoDateButton(
@@ -33,6 +34,8 @@ class CupertinoDateButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CupertinoButton(
+      color: CupertinoColors.systemGrey5,
+      padding: const EdgeInsets.all(10),
       onPressed: () => _showDialog(
         context,
         CupertinoDatePicker(
@@ -49,7 +52,8 @@ class CupertinoDateButton extends StatelessWidget {
       ),
       child: Text(
         '${value.day}-${value.month}-${value.year}',
-        style: const TextStyle(
+        style: TextStyle(
+          color: Theme.of(context).colorScheme.secondary,
           fontSize: 22.0,
         ),
       ),

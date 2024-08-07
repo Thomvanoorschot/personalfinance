@@ -18,8 +18,9 @@ class BalancesPerDayChart extends ConsumerWidget {
         final flSpots = resp.balancesPerDay.balances.map((x) {
           return FlSpot(x.date.seconds.toDouble(), x.balance.roundToDouble());
         }).toList(growable: true);
-        if(resp.balancesPerDay.balances.length == 1) {
-          flSpots.add(FlSpot(resp.balancesPerDay.balances[0].date.seconds.toDouble() + 86400, resp.balancesPerDay.balances[0].balance.roundToDouble()));
+        if (resp.balancesPerDay.balances.length == 1) {
+          flSpots.add(FlSpot(resp.balancesPerDay.balances[0].date.seconds.toDouble() + 86400,
+              resp.balancesPerDay.balances[0].balance.roundToDouble()));
         }
         return LineChart(
           LineChartData(
@@ -55,14 +56,10 @@ class BalancesPerDayChart extends ConsumerWidget {
                 sideTitles: SideTitles(showTitles: false),
               ),
             ),
-            gridData: const FlGridData(
-              show: true,
-              drawVerticalLine: false,
-              horizontalInterval: 1000
-            ),
+            gridData: const FlGridData(show: true, drawVerticalLine: false, horizontalInterval: 1000),
             lineBarsData: [
               LineChartBarData(
-                color: Colors.blue,
+                color: Theme.of(context).colorScheme.secondary,
                 spots: flSpots,
                 barWidth: 3,
                 belowBarData: BarAreaData(
