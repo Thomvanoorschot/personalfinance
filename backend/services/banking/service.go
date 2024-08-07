@@ -172,81 +172,11 @@ func (s *Service) HandleRequisition(ctx context.Context, req *proto.HandleRequis
 			InstitutionID: requisition.InstitutionId,
 			OwnerName:     account.OwnerName,
 		})
-
-		txs, err := s.gcls.GetTransactions(accountID, requisitionWithMaxTxDays.MaxTransactionHistoryDays)
+		txs, err := s.GetTransactions(accountID, requisitionWithMaxTxDays.MaxTransactionHistoryDays)
 		if err != nil {
 			return "", err
 		}
-		for _, bookedTx := range txs.Transactions.Booked {
-			bookingDate, _ := time.Parse(gocardless.DateFormat, bookedTx.BookingDate)
-			valueDate, _ := time.Parse(gocardless.DateFormat, bookedTx.ValueDate)
-			valueDateTime, _ := time.Parse(gocardless.DateTimeFormat, bookedTx.ValueDateTime)
-			txAmount, err := strconv.ParseFloat(bookedTx.TransactionAmount.Amount, 64)
-			if err != nil {
-				return "", err
-			}
-			balanceAmount, err := strconv.ParseFloat(bookedTx.BalanceAfterTransaction.BalanceAmount.Amount, 64)
-			if err != nil {
-				return "", err
-			}
-			externalID := bookedTx.TransactionId
-			if bookedTx.TransactionId == "" {
-				externalID = bookedTx.InternalTransactionId
-			}
-			remittanceInformation := gocardless.FormatRemittanceData(bookedTx.RemittanceInformationUnstructuredArray)
-
-			if bookedTx.CreditorAccount.Iban == "" && bookedTx.DebtorAccount.Iban == "" && len(bookedTx.RemittanceInformationUnstructuredArray) > 1 {
-				if strings.Contains(bookedTx.RemittanceInformationUnstructuredArray[0], "Apple Pay") {
-					bookedTx.CreditorName = bookedTx.RemittanceInformationUnstructuredArray[1]
-				} else if strings.Contains(bookedTx.RemittanceInformationUnstructuredArray[0], "ABN AMRO") {
-					bookedTx.CreditorName = bookedTx.RemittanceInformationUnstructuredArray[0]
-				} else {
-					if txAmount < 0 {
-						bookedTx.CreditorName = bookedTx.RemittanceInformationUnstructuredArray[0]
-					} else {
-						bookedTx.DebtorName = bookedTx.RemittanceInformationUnstructuredArray[0]
-					}
-				}
-			}
-
-			var creditorName *string
-			if bookedTx.CreditorName != "" {
-				creditorName = &bookedTx.CreditorName
-			}
-			var creditorIBAN *string
-			if bookedTx.CreditorAccount.Iban != "" {
-				creditorIBAN = &bookedTx.CreditorAccount.Iban
-			}
-			var debtorName *string
-			if bookedTx.DebtorName != "" {
-				debtorName = &bookedTx.DebtorName
-			}
-			var debtorIBAN *string
-			if bookedTx.DebtorAccount.Iban != "" {
-				debtorIBAN = &bookedTx.DebtorAccount.Iban
-			}
-
-			transactions = append(transactions, model.Transaction{
-				AccountID:                      accountID,
-				ExternalID:                     externalID,
-				UserID:                         uuid.MustParse(userID),
-				BookingDate:                    &bookingDate,
-				ValueDate:                      valueDate,
-				ValueDateTime:                  &valueDateTime,
-				TransactionAmount:              txAmount,
-				Currency:                       bookedTx.TransactionAmount.Currency,
-				CreditorName:                   creditorName,
-				CreditorIban:                   creditorIBAN,
-				DebtorName:                     debtorName,
-				DebtorIban:                     debtorIBAN,
-				RemittanceInformation:          &remittanceInformation,
-				ProprietaryBankTransactionCode: &bookedTx.ProprietaryBankTransactionCode,
-				BalanceCurrency:                &bookedTx.BalanceAfterTransaction.BalanceAmount.Currency,
-				BalanceType:                    &bookedTx.BalanceAfterTransaction.BalanceType,
-				BalanceAfterTransaction:        &balanceAmount,
-				InternalTransactionID:          &bookedTx.InternalTransactionId,
-			})
-		}
+		transactions = append(transactions, txs...)
 	}
 	err = s.repo.BankingTx(ctx, func(repo Repository) error {
 		txErr := repo.UpdateRequisitionStatus(ctx, requisitionWithMaxTxDays.RequisitionID, requisition.Status)
@@ -324,4 +254,82 @@ func (s *Service) GetBalancesPerDay(ctx context.Context, req *proto.GetBalancesP
 	}
 
 	return fullBalancesPerDay.ConvertToResponse(), nil
+}
+
+func (s *Service) GetTransactions(accountID uuid.UUID, transactionHistoryDays int16) (resp []model.Transaction, err error) {
+	txs, err := s.gcls.GetTransactions(accountID, transactionHistoryDays)
+	if err != nil {
+		return resp, err
+	}
+	for _, bookedTx := range txs.Transactions.Booked {
+		bookingDate, _ := time.Parse(gocardless.DateFormat, bookedTx.BookingDate)
+		valueDate, _ := time.Parse(gocardless.DateFormat, bookedTx.ValueDate)
+		valueDateTime, _ := time.Parse(gocardless.DateTimeFormat, bookedTx.ValueDateTime)
+		txAmount, err := strconv.ParseFloat(bookedTx.TransactionAmount.Amount, 64)
+		if err != nil {
+			return resp, err
+		}
+		balanceAmount, err := strconv.ParseFloat(bookedTx.BalanceAfterTransaction.BalanceAmount.Amount, 64)
+		if err != nil {
+			return resp, err
+		}
+		externalID := bookedTx.TransactionId
+		if bookedTx.TransactionId == "" {
+			externalID = bookedTx.InternalTransactionId
+		}
+		remittanceInformation := gocardless.FormatRemittanceData(bookedTx.RemittanceInformationUnstructuredArray)
+
+		if bookedTx.CreditorAccount.Iban == "" && bookedTx.DebtorAccount.Iban == "" && len(bookedTx.RemittanceInformationUnstructuredArray) > 1 {
+			if strings.Contains(bookedTx.RemittanceInformationUnstructuredArray[0], "Apple Pay") {
+				bookedTx.CreditorName = bookedTx.RemittanceInformationUnstructuredArray[1]
+			} else if strings.Contains(bookedTx.RemittanceInformationUnstructuredArray[0], "ABN AMRO") {
+				bookedTx.CreditorName = bookedTx.RemittanceInformationUnstructuredArray[0]
+			} else {
+				if txAmount < 0 {
+					bookedTx.CreditorName = bookedTx.RemittanceInformationUnstructuredArray[0]
+				} else {
+					bookedTx.DebtorName = bookedTx.RemittanceInformationUnstructuredArray[0]
+				}
+			}
+		}
+
+		var creditorName *string
+		if bookedTx.CreditorName != "" {
+			creditorName = &bookedTx.CreditorName
+		}
+		var creditorIBAN *string
+		if bookedTx.CreditorAccount.Iban != "" {
+			creditorIBAN = &bookedTx.CreditorAccount.Iban
+		}
+		var debtorName *string
+		if bookedTx.DebtorName != "" {
+			debtorName = &bookedTx.DebtorName
+		}
+		var debtorIBAN *string
+		if bookedTx.DebtorAccount.Iban != "" {
+			debtorIBAN = &bookedTx.DebtorAccount.Iban
+		}
+
+		resp = append(resp, model.Transaction{
+			AccountID:                      accountID,
+			ExternalID:                     externalID,
+			UserID:                         uuid.MustParse(userID),
+			BookingDate:                    &bookingDate,
+			ValueDate:                      valueDate,
+			ValueDateTime:                  &valueDateTime,
+			TransactionAmount:              txAmount,
+			Currency:                       bookedTx.TransactionAmount.Currency,
+			CreditorName:                   creditorName,
+			CreditorIban:                   creditorIBAN,
+			DebtorName:                     debtorName,
+			DebtorIban:                     debtorIBAN,
+			RemittanceInformation:          &remittanceInformation,
+			ProprietaryBankTransactionCode: &bookedTx.ProprietaryBankTransactionCode,
+			BalanceCurrency:                &bookedTx.BalanceAfterTransaction.BalanceAmount.Currency,
+			BalanceType:                    &bookedTx.BalanceAfterTransaction.BalanceType,
+			BalanceAfterTransaction:        &balanceAmount,
+			InternalTransactionID:          &bookedTx.InternalTransactionId,
+		})
+	}
+	return resp, nil
 }

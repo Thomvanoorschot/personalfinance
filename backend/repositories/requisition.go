@@ -120,3 +120,23 @@ func (r *Repository) GetRequisitions(ctx context.Context, userID uuid.UUID) (res
 	}
 	return resp, nil
 }
+
+func (r *Repository) GetAllRequisitions(ctx context.Context) (resp []uuid.UUID, err error) {
+	sql, args := SELECT(Requisition.ID).
+		FROM(Requisition).
+		Sql()
+
+	rows, err := r.conn().Query(ctx, sql, args...)
+	if err != nil {
+		return resp, err
+	}
+	for rows.Next() {
+		var requisitionID uuid.UUID
+		err = rows.Scan(&requisitionID)
+		if err != nil {
+			return resp, err
+		}
+		resp = append(resp, requisitionID)
+	}
+	return resp, nil
+}

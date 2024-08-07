@@ -50,3 +50,27 @@ func (r *Repository) GetAccounts(ctx context.Context, userID uuid.UUID) (resp ba
 	}
 	return resp, nil
 }
+func (r *Repository) GetAllAccounts(ctx context.Context) (resp banking.BankAccounts, err error) {
+	sql, args := SELECT(Account.ID, Account.Iban, Institution.Name, Institution.IconURL).
+		FROM(Account.INNER_JOIN(Institution, Institution.ID.EQ(Account.InstitutionID))).
+		Sql()
+
+	rows, err := r.conn().Query(ctx, sql, args...)
+	if err != nil {
+		return resp, err
+	}
+	for rows.Next() {
+		var bankAccount banking.BankAccount
+		err = rows.Scan(
+			&bankAccount.ID,
+			&bankAccount.IBAN,
+			&bankAccount.BankName,
+			&bankAccount.IconURL,
+		)
+		if err != nil {
+			return resp, err
+		}
+		resp = append(resp, bankAccount)
+	}
+	return resp, nil
+}

@@ -22,12 +22,6 @@ import (
 	proto2 "google.golang.org/protobuf/proto"
 )
 
-type ServiceNames []string
-
-func (s ServiceNames) Names() []string {
-	return s
-}
-
 func main() {
 	cfg := config.Load()
 	repo := repositories.NewRepository(cfg)
