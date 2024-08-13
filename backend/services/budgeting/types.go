@@ -92,7 +92,7 @@ type Transaction struct {
 }
 
 func (t Transaction) ConvertToResponse() *proto.TransactionResponse {
-	partyName, partyIBAN := t.getPartyNameAndIBAN(t.TransactionAmount)
+	partyName, partyIBAN := t.getPartyNameAndIBAN()
 	return &proto.TransactionResponse{
 		Id:                           t.ID.String(),
 		AccountId:                    t.AccountID.String(),
@@ -119,7 +119,7 @@ type UncategorizedTransaction struct {
 }
 
 func (ut UncategorizedTransaction) ConvertToResponse() *proto.GetUncategorizedTransactionResponse {
-	partyName, partyIBAN := ut.getPartyNameAndIBAN(ut.TransactionAmount)
+	partyName, partyIBAN := ut.getPartyNameAndIBAN()
 	return &proto.GetUncategorizedTransactionResponse{
 		Id:                   ut.ID.String(),
 		Date:                 timestamppb.New(ut.ValueDateTime),
@@ -163,7 +163,7 @@ type PaymentParty struct {
 	DebtorIBAN   *string
 }
 
-func (pp PaymentParty) getPartyNameAndIBAN(transactionAmount float64) (string, string) {
+func (pp PaymentParty) getPartyNameAndIBAN() (string, string) {
 	var partyName string
 	var partyIBAN string
 	if pp.CreditorName != nil {
@@ -263,5 +263,41 @@ func (txpp InAndOutgoingTransactionAmountsPerPeriod) ConvertToResponse() *proto.
 		StartOfPeriod:  timestamppb.New(txpp.StartOfPeriod),
 		IngoingAmount:  txpp.IngoingAmount,
 		OutgoingAmount: txpp.OutgoingAmount,
+	}
+}
+
+type BareTransactions []BareTransaction
+
+func (t BareTransactions) ConvertToResponse() *proto.GetMinusTransactionsAroundDateResponse {
+	txs := make([]*proto.BareTransaction, len(t))
+	for i, tx := range t {
+		txs[len(t)-1-i] = tx.ConvertToResponse()
+	}
+	return &proto.GetMinusTransactionsAroundDateResponse{
+		Transactions: txs,
+	}
+}
+
+type BareTransaction struct {
+	ID                uuid.UUID
+	AccountID         uuid.UUID
+	ValueDateTime     time.Time
+	TransactionAmount float64
+	Currency          string
+	Description       string
+	PaymentParty
+}
+
+func (t BareTransaction) ConvertToResponse() *proto.BareTransaction {
+	partyName, partyIBAN := t.getPartyNameAndIBAN()
+	return &proto.BareTransaction{
+		Id:                t.ID.String(),
+		AccountId:         t.AccountID.String(),
+		Date:              timestamppb.New(t.ValueDateTime),
+		TransactionAmount: t.TransactionAmount,
+		Currency:          t.Currency,
+		PartyName:         partyName,
+		PartyIban:         partyIBAN,
+		Description:       t.Description,
 	}
 }

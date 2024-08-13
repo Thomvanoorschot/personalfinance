@@ -231,6 +231,10 @@ class BudgetingServiceClient extends $grpc.Client {
       '/BudgetingService/AssociateTransaction',
       ($2.AssociateTransactionRequest value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $2.AssociateTransactionResponse.fromBuffer(value));
+  static final _$getMinusTransactionsAroundDate = $grpc.ClientMethod<$2.GetMinusTransactionsAroundDateRequest, $2.GetMinusTransactionsAroundDateResponse>(
+      '/BudgetingService/GetMinusTransactionsAroundDate',
+      ($2.GetMinusTransactionsAroundDateRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $2.GetMinusTransactionsAroundDateResponse.fromBuffer(value));
 
   BudgetingServiceClient($grpc.ClientChannel channel,
       {$grpc.CallOptions? options,
@@ -268,6 +272,10 @@ class BudgetingServiceClient extends $grpc.Client {
 
   $grpc.ResponseFuture<$2.AssociateTransactionResponse> associateTransaction($2.AssociateTransactionRequest request, {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$associateTransaction, request, options: options);
+  }
+
+  $grpc.ResponseFuture<$2.GetMinusTransactionsAroundDateResponse> getMinusTransactionsAroundDate($2.GetMinusTransactionsAroundDateRequest request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$getMinusTransactionsAroundDate, request, options: options);
   }
 }
 
@@ -332,6 +340,13 @@ abstract class BudgetingServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $2.AssociateTransactionRequest.fromBuffer(value),
         ($2.AssociateTransactionResponse value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$2.GetMinusTransactionsAroundDateRequest, $2.GetMinusTransactionsAroundDateResponse>(
+        'GetMinusTransactionsAroundDate',
+        getMinusTransactionsAroundDate_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $2.GetMinusTransactionsAroundDateRequest.fromBuffer(value),
+        ($2.GetMinusTransactionsAroundDateResponse value) => value.writeToBuffer()));
   }
 
   $async.Future<$2.TransactionResponse> getTransactionById_Pre($grpc.ServiceCall call, $async.Future<$2.GetTransactionByIdRequest> request) async {
@@ -366,6 +381,10 @@ abstract class BudgetingServiceBase extends $grpc.Service {
     return associateTransaction(call, await request);
   }
 
+  $async.Future<$2.GetMinusTransactionsAroundDateResponse> getMinusTransactionsAroundDate_Pre($grpc.ServiceCall call, $async.Future<$2.GetMinusTransactionsAroundDateRequest> request) async {
+    return getMinusTransactionsAroundDate(call, await request);
+  }
+
   $async.Future<$2.TransactionResponse> getTransactionById($grpc.ServiceCall call, $2.GetTransactionByIdRequest request);
   $async.Future<$2.GetTransactionsResponse> getTransactions($grpc.ServiceCall call, $2.GetTransactionsRequest request);
   $async.Future<$2.GetUncategorizedTransactionResponse> getUncategorizedTransaction($grpc.ServiceCall call, $2.GetUncategorizedTransactionRequest request);
@@ -374,4 +393,5 @@ abstract class BudgetingServiceBase extends $grpc.Service {
   $async.Future<$2.GetCategorizedTransactionResultsResponse> getCategorizedTransactionResults($grpc.ServiceCall call, $2.GetCategorizedTransactionResultsRequest request);
   $async.Future<$2.GetInAndOutgoingTransactionAmountsPerPeriodResponse> getInAndOutgoingTransactionAmountsPerPeriod($grpc.ServiceCall call, $2.GetInAndOutgoingTransactionAmountsPerPeriodRequest request);
   $async.Future<$2.AssociateTransactionResponse> associateTransaction($grpc.ServiceCall call, $2.AssociateTransactionRequest request);
+  $async.Future<$2.GetMinusTransactionsAroundDateResponse> getMinusTransactionsAroundDate($grpc.ServiceCall call, $2.GetMinusTransactionsAroundDateRequest request);
 }

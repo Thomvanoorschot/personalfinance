@@ -1576,6 +1576,294 @@ class AssociateTransactionResponse extends $pb.GeneratedMessage {
   static AssociateTransactionResponse? _defaultInstance;
 }
 
+class GetMinusTransactionsAroundDateRequest extends $pb.GeneratedMessage {
+  factory GetMinusTransactionsAroundDateRequest({
+    $core.String? userId,
+    $fixnum.Int64? nearestFutureLimit,
+    $fixnum.Int64? nearestPastLimit,
+    $5.Timestamp? date,
+  }) {
+    final $result = create();
+    if (userId != null) {
+      $result.userId = userId;
+    }
+    if (nearestFutureLimit != null) {
+      $result.nearestFutureLimit = nearestFutureLimit;
+    }
+    if (nearestPastLimit != null) {
+      $result.nearestPastLimit = nearestPastLimit;
+    }
+    if (date != null) {
+      $result.date = date;
+    }
+    return $result;
+  }
+  GetMinusTransactionsAroundDateRequest._() : super();
+  factory GetMinusTransactionsAroundDateRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory GetMinusTransactionsAroundDateRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetMinusTransactionsAroundDateRequest', createEmptyInstance: create)
+    ..aOS(1, _omitFieldNames ? '' : 'userId', protoName: 'userId')
+    ..aInt64(2, _omitFieldNames ? '' : 'nearestFutureLimit', protoName: 'nearestFutureLimit')
+    ..aInt64(3, _omitFieldNames ? '' : 'nearestPastLimit', protoName: 'nearestPastLimit')
+    ..aOM<$5.Timestamp>(4, _omitFieldNames ? '' : 'date', subBuilder: $5.Timestamp.create)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  GetMinusTransactionsAroundDateRequest clone() => GetMinusTransactionsAroundDateRequest()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  GetMinusTransactionsAroundDateRequest copyWith(void Function(GetMinusTransactionsAroundDateRequest) updates) => super.copyWith((message) => updates(message as GetMinusTransactionsAroundDateRequest)) as GetMinusTransactionsAroundDateRequest;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static GetMinusTransactionsAroundDateRequest create() => GetMinusTransactionsAroundDateRequest._();
+  GetMinusTransactionsAroundDateRequest createEmptyInstance() => create();
+  static $pb.PbList<GetMinusTransactionsAroundDateRequest> createRepeated() => $pb.PbList<GetMinusTransactionsAroundDateRequest>();
+  @$core.pragma('dart2js:noInline')
+  static GetMinusTransactionsAroundDateRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetMinusTransactionsAroundDateRequest>(create);
+  static GetMinusTransactionsAroundDateRequest? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get userId => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set userId($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasUserId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearUserId() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $fixnum.Int64 get nearestFutureLimit => $_getI64(1);
+  @$pb.TagNumber(2)
+  set nearestFutureLimit($fixnum.Int64 v) { $_setInt64(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasNearestFutureLimit() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearNearestFutureLimit() => clearField(2);
+
+  @$pb.TagNumber(3)
+  $fixnum.Int64 get nearestPastLimit => $_getI64(2);
+  @$pb.TagNumber(3)
+  set nearestPastLimit($fixnum.Int64 v) { $_setInt64(2, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasNearestPastLimit() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearNearestPastLimit() => clearField(3);
+
+  @$pb.TagNumber(4)
+  $5.Timestamp get date => $_getN(3);
+  @$pb.TagNumber(4)
+  set date($5.Timestamp v) { setField(4, v); }
+  @$pb.TagNumber(4)
+  $core.bool hasDate() => $_has(3);
+  @$pb.TagNumber(4)
+  void clearDate() => clearField(4);
+  @$pb.TagNumber(4)
+  $5.Timestamp ensureDate() => $_ensure(3);
+}
+
+class GetMinusTransactionsAroundDateResponse extends $pb.GeneratedMessage {
+  factory GetMinusTransactionsAroundDateResponse({
+    $core.Iterable<BareTransaction>? transactions,
+  }) {
+    final $result = create();
+    if (transactions != null) {
+      $result.transactions.addAll(transactions);
+    }
+    return $result;
+  }
+  GetMinusTransactionsAroundDateResponse._() : super();
+  factory GetMinusTransactionsAroundDateResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory GetMinusTransactionsAroundDateResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetMinusTransactionsAroundDateResponse', createEmptyInstance: create)
+    ..pc<BareTransaction>(1, _omitFieldNames ? '' : 'transactions', $pb.PbFieldType.PM, subBuilder: BareTransaction.create)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  GetMinusTransactionsAroundDateResponse clone() => GetMinusTransactionsAroundDateResponse()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  GetMinusTransactionsAroundDateResponse copyWith(void Function(GetMinusTransactionsAroundDateResponse) updates) => super.copyWith((message) => updates(message as GetMinusTransactionsAroundDateResponse)) as GetMinusTransactionsAroundDateResponse;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static GetMinusTransactionsAroundDateResponse create() => GetMinusTransactionsAroundDateResponse._();
+  GetMinusTransactionsAroundDateResponse createEmptyInstance() => create();
+  static $pb.PbList<GetMinusTransactionsAroundDateResponse> createRepeated() => $pb.PbList<GetMinusTransactionsAroundDateResponse>();
+  @$core.pragma('dart2js:noInline')
+  static GetMinusTransactionsAroundDateResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetMinusTransactionsAroundDateResponse>(create);
+  static GetMinusTransactionsAroundDateResponse? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.List<BareTransaction> get transactions => $_getList(0);
+}
+
+class BareTransaction extends $pb.GeneratedMessage {
+  factory BareTransaction({
+    $core.String? id,
+    $core.String? accountId,
+    $5.Timestamp? date,
+    $core.double? transactionAmount,
+    $core.String? currency,
+    $core.String? partyName,
+    $core.String? partyIban,
+    $core.String? description,
+  }) {
+    final $result = create();
+    if (id != null) {
+      $result.id = id;
+    }
+    if (accountId != null) {
+      $result.accountId = accountId;
+    }
+    if (date != null) {
+      $result.date = date;
+    }
+    if (transactionAmount != null) {
+      $result.transactionAmount = transactionAmount;
+    }
+    if (currency != null) {
+      $result.currency = currency;
+    }
+    if (partyName != null) {
+      $result.partyName = partyName;
+    }
+    if (partyIban != null) {
+      $result.partyIban = partyIban;
+    }
+    if (description != null) {
+      $result.description = description;
+    }
+    return $result;
+  }
+  BareTransaction._() : super();
+  factory BareTransaction.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory BareTransaction.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'BareTransaction', createEmptyInstance: create)
+    ..aOS(1, _omitFieldNames ? '' : 'id')
+    ..aOS(2, _omitFieldNames ? '' : 'accountId', protoName: 'accountId')
+    ..aOM<$5.Timestamp>(3, _omitFieldNames ? '' : 'date', subBuilder: $5.Timestamp.create)
+    ..a<$core.double>(4, _omitFieldNames ? '' : 'transactionAmount', $pb.PbFieldType.OD, protoName: 'transactionAmount')
+    ..aOS(5, _omitFieldNames ? '' : 'currency')
+    ..aOS(6, _omitFieldNames ? '' : 'partyName', protoName: 'partyName')
+    ..aOS(7, _omitFieldNames ? '' : 'partyIban', protoName: 'partyIban')
+    ..aOS(8, _omitFieldNames ? '' : 'description')
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  BareTransaction clone() => BareTransaction()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  BareTransaction copyWith(void Function(BareTransaction) updates) => super.copyWith((message) => updates(message as BareTransaction)) as BareTransaction;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static BareTransaction create() => BareTransaction._();
+  BareTransaction createEmptyInstance() => create();
+  static $pb.PbList<BareTransaction> createRepeated() => $pb.PbList<BareTransaction>();
+  @$core.pragma('dart2js:noInline')
+  static BareTransaction getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<BareTransaction>(create);
+  static BareTransaction? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get id => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set id($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearId() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.String get accountId => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set accountId($core.String v) { $_setString(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasAccountId() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearAccountId() => clearField(2);
+
+  @$pb.TagNumber(3)
+  $5.Timestamp get date => $_getN(2);
+  @$pb.TagNumber(3)
+  set date($5.Timestamp v) { setField(3, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasDate() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearDate() => clearField(3);
+  @$pb.TagNumber(3)
+  $5.Timestamp ensureDate() => $_ensure(2);
+
+  @$pb.TagNumber(4)
+  $core.double get transactionAmount => $_getN(3);
+  @$pb.TagNumber(4)
+  set transactionAmount($core.double v) { $_setDouble(3, v); }
+  @$pb.TagNumber(4)
+  $core.bool hasTransactionAmount() => $_has(3);
+  @$pb.TagNumber(4)
+  void clearTransactionAmount() => clearField(4);
+
+  @$pb.TagNumber(5)
+  $core.String get currency => $_getSZ(4);
+  @$pb.TagNumber(5)
+  set currency($core.String v) { $_setString(4, v); }
+  @$pb.TagNumber(5)
+  $core.bool hasCurrency() => $_has(4);
+  @$pb.TagNumber(5)
+  void clearCurrency() => clearField(5);
+
+  @$pb.TagNumber(6)
+  $core.String get partyName => $_getSZ(5);
+  @$pb.TagNumber(6)
+  set partyName($core.String v) { $_setString(5, v); }
+  @$pb.TagNumber(6)
+  $core.bool hasPartyName() => $_has(5);
+  @$pb.TagNumber(6)
+  void clearPartyName() => clearField(6);
+
+  @$pb.TagNumber(7)
+  $core.String get partyIban => $_getSZ(6);
+  @$pb.TagNumber(7)
+  set partyIban($core.String v) { $_setString(6, v); }
+  @$pb.TagNumber(7)
+  $core.bool hasPartyIban() => $_has(6);
+  @$pb.TagNumber(7)
+  void clearPartyIban() => clearField(7);
+
+  @$pb.TagNumber(8)
+  $core.String get description => $_getSZ(7);
+  @$pb.TagNumber(8)
+  set description($core.String v) { $_setString(7, v); }
+  @$pb.TagNumber(8)
+  $core.bool hasDescription() => $_has(7);
+  @$pb.TagNumber(8)
+  void clearDescription() => clearField(8);
+}
+
 
 const _omitFieldNames = $core.bool.fromEnvironment('protobuf.omit_field_names');
 const _omitMessageNames = $core.bool.fromEnvironment('protobuf.omit_message_names');

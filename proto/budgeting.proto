@@ -125,3 +125,23 @@ message AssociateTransactionRequest {
 }
 
 message AssociateTransactionResponse {}
+
+message GetMinusTransactionsAroundDateRequest {
+  string userId = 1 [(buf.validate.field).string.uuid = true];
+  int64 nearestFutureLimit = 2;
+  int64 nearestPastLimit = 3;
+  google.protobuf.Timestamp date = 4;
+}
+message GetMinusTransactionsAroundDateResponse {
+  repeated BareTransaction transactions = 1;
+}
+message BareTransaction {
+  string id = 1;
+  string accountId = 2;
+  google.protobuf.Timestamp date = 3;
+  double transactionAmount = 4;
+  string currency = 5;
+  string partyName = 6;
+  string partyIban = 7;
+  string description = 8;
+}

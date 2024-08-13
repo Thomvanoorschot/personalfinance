@@ -23,6 +23,7 @@ type Repository interface {
 	GetTransactionByID(ctx context.Context, userID uuid.UUID, transactionID uuid.UUID) (resp Transaction, err error)
 	GetInAndOutgoingTransactionAmountsPerPeriod(ctx context.Context, userID uuid.UUID, period string, limit, offset int64) (resp InAndOutgoingTransactionAmountsPerPeriods, err error)
 	AssociateTransaction(ctx context.Context, userID, transactionID, associatedTransactionID uuid.UUID) error
+	GetMinusTransactionsAroundDate(ctx context.Context, userID uuid.UUID, date time.Time, nearestFutureLimit, nearestPastLimit int64) (BareTransactions, error)
 }
 
 type Service struct {
@@ -106,6 +107,14 @@ func (s *Service) AssociateTransaction(ctx context.Context, req *proto.Associate
 		return nil, err
 	}
 	return &proto.AssociateTransactionResponse{}, nil
+}
+
+func (s *Service) GetMinusTransactionsAroundDate(ctx context.Context, req *proto.GetMinusTransactionsAroundDateRequest) (*proto.GetMinusTransactionsAroundDateResponse, error) {
+	txs, err := s.repo.GetMinusTransactionsAroundDate(ctx, uuid.MustParse(userID), req.Date.AsTime(), req.NearestFutureLimit, req.NearestPastLimit)
+	if err != nil {
+		return nil, err
+	}
+	return txs.ConvertToResponse(), nil
 }
 
 func PreProcessTransaction(tx *UncategorizedTransaction) {

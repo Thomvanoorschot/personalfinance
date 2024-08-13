@@ -399,6 +399,7 @@ const (
 	BudgetingService_GetCategorizedTransactionResults_FullMethodName            = "/BudgetingService/GetCategorizedTransactionResults"
 	BudgetingService_GetInAndOutgoingTransactionAmountsPerPeriod_FullMethodName = "/BudgetingService/GetInAndOutgoingTransactionAmountsPerPeriod"
 	BudgetingService_AssociateTransaction_FullMethodName                        = "/BudgetingService/AssociateTransaction"
+	BudgetingService_GetMinusTransactionsAroundDate_FullMethodName              = "/BudgetingService/GetMinusTransactionsAroundDate"
 )
 
 // BudgetingServiceClient is the client API for BudgetingService service.
@@ -413,6 +414,7 @@ type BudgetingServiceClient interface {
 	GetCategorizedTransactionResults(ctx context.Context, in *GetCategorizedTransactionResultsRequest, opts ...grpc.CallOption) (*GetCategorizedTransactionResultsResponse, error)
 	GetInAndOutgoingTransactionAmountsPerPeriod(ctx context.Context, in *GetInAndOutgoingTransactionAmountsPerPeriodRequest, opts ...grpc.CallOption) (*GetInAndOutgoingTransactionAmountsPerPeriodResponse, error)
 	AssociateTransaction(ctx context.Context, in *AssociateTransactionRequest, opts ...grpc.CallOption) (*AssociateTransactionResponse, error)
+	GetMinusTransactionsAroundDate(ctx context.Context, in *GetMinusTransactionsAroundDateRequest, opts ...grpc.CallOption) (*GetMinusTransactionsAroundDateResponse, error)
 }
 
 type budgetingServiceClient struct {
@@ -503,6 +505,16 @@ func (c *budgetingServiceClient) AssociateTransaction(ctx context.Context, in *A
 	return out, nil
 }
 
+func (c *budgetingServiceClient) GetMinusTransactionsAroundDate(ctx context.Context, in *GetMinusTransactionsAroundDateRequest, opts ...grpc.CallOption) (*GetMinusTransactionsAroundDateResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetMinusTransactionsAroundDateResponse)
+	err := c.cc.Invoke(ctx, BudgetingService_GetMinusTransactionsAroundDate_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // BudgetingServiceServer is the server API for BudgetingService service.
 // All implementations must embed UnimplementedBudgetingServiceServer
 // for forward compatibility
@@ -515,6 +527,7 @@ type BudgetingServiceServer interface {
 	GetCategorizedTransactionResults(context.Context, *GetCategorizedTransactionResultsRequest) (*GetCategorizedTransactionResultsResponse, error)
 	GetInAndOutgoingTransactionAmountsPerPeriod(context.Context, *GetInAndOutgoingTransactionAmountsPerPeriodRequest) (*GetInAndOutgoingTransactionAmountsPerPeriodResponse, error)
 	AssociateTransaction(context.Context, *AssociateTransactionRequest) (*AssociateTransactionResponse, error)
+	GetMinusTransactionsAroundDate(context.Context, *GetMinusTransactionsAroundDateRequest) (*GetMinusTransactionsAroundDateResponse, error)
 	mustEmbedUnimplementedBudgetingServiceServer()
 }
 
@@ -545,6 +558,9 @@ func (UnimplementedBudgetingServiceServer) GetInAndOutgoingTransactionAmountsPer
 }
 func (UnimplementedBudgetingServiceServer) AssociateTransaction(context.Context, *AssociateTransactionRequest) (*AssociateTransactionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AssociateTransaction not implemented")
+}
+func (UnimplementedBudgetingServiceServer) GetMinusTransactionsAroundDate(context.Context, *GetMinusTransactionsAroundDateRequest) (*GetMinusTransactionsAroundDateResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetMinusTransactionsAroundDate not implemented")
 }
 func (UnimplementedBudgetingServiceServer) mustEmbedUnimplementedBudgetingServiceServer() {}
 
@@ -703,6 +719,24 @@ func _BudgetingService_AssociateTransaction_Handler(srv interface{}, ctx context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _BudgetingService_GetMinusTransactionsAroundDate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetMinusTransactionsAroundDateRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BudgetingServiceServer).GetMinusTransactionsAroundDate(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: BudgetingService_GetMinusTransactionsAroundDate_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BudgetingServiceServer).GetMinusTransactionsAroundDate(ctx, req.(*GetMinusTransactionsAroundDateRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // BudgetingService_ServiceDesc is the grpc.ServiceDesc for BudgetingService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -741,6 +775,10 @@ var BudgetingService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "AssociateTransaction",
 			Handler:    _BudgetingService_AssociateTransaction_Handler,
+		},
+		{
+			MethodName: "GetMinusTransactionsAroundDate",
+			Handler:    _BudgetingService_GetMinusTransactionsAroundDate_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

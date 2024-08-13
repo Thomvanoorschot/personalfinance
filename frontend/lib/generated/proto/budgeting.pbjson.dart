@@ -356,3 +356,58 @@ const AssociateTransactionResponse$json = {
 final $typed_data.Uint8List associateTransactionResponseDescriptor = $convert.base64Decode(
     'ChxBc3NvY2lhdGVUcmFuc2FjdGlvblJlc3BvbnNl');
 
+@$core.Deprecated('Use getMinusTransactionsAroundDateRequestDescriptor instead')
+const GetMinusTransactionsAroundDateRequest$json = {
+  '1': 'GetMinusTransactionsAroundDateRequest',
+  '2': [
+    {'1': 'userId', '3': 1, '4': 1, '5': 9, '8': {}, '10': 'userId'},
+    {'1': 'nearestFutureLimit', '3': 2, '4': 1, '5': 3, '10': 'nearestFutureLimit'},
+    {'1': 'nearestPastLimit', '3': 3, '4': 1, '5': 3, '10': 'nearestPastLimit'},
+    {'1': 'date', '3': 4, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'date'},
+  ],
+};
+
+/// Descriptor for `GetMinusTransactionsAroundDateRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getMinusTransactionsAroundDateRequestDescriptor = $convert.base64Decode(
+    'CiVHZXRNaW51c1RyYW5zYWN0aW9uc0Fyb3VuZERhdGVSZXF1ZXN0EiAKBnVzZXJJZBgBIAEoCU'
+    'IIukgFcgOwAQFSBnVzZXJJZBIuChJuZWFyZXN0RnV0dXJlTGltaXQYAiABKANSEm5lYXJlc3RG'
+    'dXR1cmVMaW1pdBIqChBuZWFyZXN0UGFzdExpbWl0GAMgASgDUhBuZWFyZXN0UGFzdExpbWl0Ei'
+    '4KBGRhdGUYBCABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wUgRkYXRl');
+
+@$core.Deprecated('Use getMinusTransactionsAroundDateResponseDescriptor instead')
+const GetMinusTransactionsAroundDateResponse$json = {
+  '1': 'GetMinusTransactionsAroundDateResponse',
+  '2': [
+    {'1': 'transactions', '3': 1, '4': 3, '5': 11, '6': '.BareTransaction', '10': 'transactions'},
+  ],
+};
+
+/// Descriptor for `GetMinusTransactionsAroundDateResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List getMinusTransactionsAroundDateResponseDescriptor = $convert.base64Decode(
+    'CiZHZXRNaW51c1RyYW5zYWN0aW9uc0Fyb3VuZERhdGVSZXNwb25zZRI0Cgx0cmFuc2FjdGlvbn'
+    'MYASADKAsyEC5CYXJlVHJhbnNhY3Rpb25SDHRyYW5zYWN0aW9ucw==');
+
+@$core.Deprecated('Use bareTransactionDescriptor instead')
+const BareTransaction$json = {
+  '1': 'BareTransaction',
+  '2': [
+    {'1': 'id', '3': 1, '4': 1, '5': 9, '10': 'id'},
+    {'1': 'accountId', '3': 2, '4': 1, '5': 9, '10': 'accountId'},
+    {'1': 'date', '3': 3, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'date'},
+    {'1': 'transactionAmount', '3': 4, '4': 1, '5': 1, '10': 'transactionAmount'},
+    {'1': 'currency', '3': 5, '4': 1, '5': 9, '10': 'currency'},
+    {'1': 'partyName', '3': 6, '4': 1, '5': 9, '10': 'partyName'},
+    {'1': 'partyIban', '3': 7, '4': 1, '5': 9, '10': 'partyIban'},
+    {'1': 'description', '3': 8, '4': 1, '5': 9, '10': 'description'},
+  ],
+};
+
+/// Descriptor for `BareTransaction`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List bareTransactionDescriptor = $convert.base64Decode(
+    'Cg9CYXJlVHJhbnNhY3Rpb24SDgoCaWQYASABKAlSAmlkEhwKCWFjY291bnRJZBgCIAEoCVIJYW'
+    'Njb3VudElkEi4KBGRhdGUYAyABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wUgRkYXRl'
+    'EiwKEXRyYW5zYWN0aW9uQW1vdW50GAQgASgBUhF0cmFuc2FjdGlvbkFtb3VudBIaCghjdXJyZW'
+    '5jeRgFIAEoCVIIY3VycmVuY3kSHAoJcGFydHlOYW1lGAYgASgJUglwYXJ0eU5hbWUSHAoJcGFy'
+    'dHlJYmFuGAcgASgJUglwYXJ0eUliYW4SIAoLZGVzY3JpcHRpb24YCCABKAlSC2Rlc2NyaXB0aW'
+    '9u');
+

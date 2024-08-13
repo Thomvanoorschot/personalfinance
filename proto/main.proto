@@ -35,4 +35,5 @@ service BudgetingService {
   rpc GetCategorizedTransactionResults(GetCategorizedTransactionResultsRequest) returns (GetCategorizedTransactionResultsResponse);
   rpc GetInAndOutgoingTransactionAmountsPerPeriod(GetInAndOutgoingTransactionAmountsPerPeriodRequest) returns (GetInAndOutgoingTransactionAmountsPerPeriodResponse);
   rpc AssociateTransaction(AssociateTransactionRequest) returns (AssociateTransactionResponse);
+  rpc GetMinusTransactionsAroundDate(GetMinusTransactionsAroundDateRequest) returns (GetMinusTransactionsAroundDateResponse);
 }

@@ -15,6 +15,7 @@ type BudgetingService interface {
 	GetCategorizedTransactionResults(context.Context, *proto.GetCategorizedTransactionResultsRequest) (*proto.GetCategorizedTransactionResultsResponse, error)
 	GetInAndOutgoingTransactionAmountsPerPeriod(context.Context, *proto.GetInAndOutgoingTransactionAmountsPerPeriodRequest) (*proto.GetInAndOutgoingTransactionAmountsPerPeriodResponse, error)
 	AssociateTransaction(context.Context, *proto.AssociateTransactionRequest) (*proto.AssociateTransactionResponse, error)
+	GetMinusTransactionsAroundDate(ctx context.Context, req *proto.GetMinusTransactionsAroundDateRequest) (*proto.GetMinusTransactionsAroundDateResponse, error)
 }
 
 type BudgetingHandler struct {
@@ -87,6 +88,13 @@ func (h *BudgetingHandler) GetInAndOutgoingTransactionAmountsPerPeriod(ctx conte
 }
 func (h *BudgetingHandler) AssociateTransaction(ctx context.Context, req *proto.AssociateTransactionRequest) (*proto.AssociateTransactionResponse, error) {
 	resp, err := h.service.AssociateTransaction(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+	return resp, nil
+}
+func (h *BudgetingHandler) GetMinusTransactionsAroundDate(ctx context.Context, req *proto.GetMinusTransactionsAroundDateRequest) (*proto.GetMinusTransactionsAroundDateResponse, error) {
+	resp, err := h.service.GetMinusTransactionsAroundDate(ctx, req)
 	if err != nil {
 		return nil, err
 	}

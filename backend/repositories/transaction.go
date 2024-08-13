@@ -388,3 +388,83 @@ func (r *Repository) AssociateTransaction(ctx context.Context, userID, transacti
 	}
 	return nil
 }
+func (r *Repository) GetMinusTransactionsAroundDate(ctx context.Context,
+	userID uuid.UUID,
+	date time.Time,
+	nearestFutureLimit,
+	nearestPastLimit int64,
+) (resp budgeting.BareTransactions, err error) {
+	futureTransactions := SELECT(
+		Transaction.ID,
+		Transaction.AccountID,
+		Transaction.ValueDateTime,
+		Transaction.TransactionAmount,
+		Transaction.Currency,
+		Transaction.RemittanceInformation,
+		Transaction.CreditorName,
+		Transaction.CreditorIban,
+		Transaction.DebtorName,
+		Transaction.DebtorIban,
+	).
+		FROM(Transaction).
+		WHERE(
+			Transaction.UserID.EQ(UUID(userID)).
+				AND(Transaction.ValueDateTime.GT(TimestampT(date)).
+					AND(Transaction.TransactionAmount.LT(Float(0)))),
+		).
+		ORDER_BY(Transaction.ValueDateTime.ASC()).
+		LIMIT(nearestFutureLimit)
+
+	pastTransactions := SELECT(
+		Transaction.ID,
+		Transaction.AccountID,
+		Transaction.ValueDateTime,
+		Transaction.TransactionAmount,
+		Transaction.Currency,
+		Transaction.RemittanceInformation,
+		Transaction.CreditorName,
+		Transaction.CreditorIban,
+		Transaction.DebtorName,
+		Transaction.DebtorIban,
+	).
+		FROM(Transaction).
+		WHERE(
+			Transaction.UserID.EQ(UUID(userID)).
+				AND(Transaction.ValueDateTime.LT_EQ(TimestampT(date)).
+					AND(Transaction.TransactionAmount.LT(Float(0)))),
+		).
+		ORDER_BY(Transaction.ValueDateTime.DESC()).
+		LIMIT(nearestPastLimit)
+
+	sql, args := futureTransactions.
+		UNION_ALL(pastTransactions).
+		ORDER_BY(Transaction.ValueDateTime.DESC()).
+		Sql()
+
+	rows, err := r.conn().Query(ctx, sql, args...)
+	if err != nil {
+		return resp, err
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var bareTx budgeting.BareTransaction
+		err = rows.Scan(
+			&bareTx.ID,
+			&bareTx.AccountID,
+			&bareTx.ValueDateTime,
+			&bareTx.TransactionAmount,
+			&bareTx.Currency,
+			&bareTx.Description,
+			&bareTx.CreditorName,
+			&bareTx.CreditorIBAN,
+			&bareTx.DebtorName,
+			&bareTx.DebtorIBAN,
+		)
+		if err != nil {
+			return resp, err
+		}
+		resp = append(resp, bareTx)
+	}
+	return resp, nil
+}
