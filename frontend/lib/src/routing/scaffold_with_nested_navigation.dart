@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:frontend/src/utils/size_config.dart';
 import 'package:go_router/go_router.dart';
 
 // Stateful navigation based on:
@@ -58,6 +59,7 @@ class ScaffoldWithNavigationBar extends StatelessWidget {
       body: body,
       bottomNavigationBar: NavigationBar(
         selectedIndex: currentIndex,
+        height: SizeConfig.safeBlockVertical * 8,
         destinations: [
           NavigationDestination(
             icon: SvgPicture.asset(

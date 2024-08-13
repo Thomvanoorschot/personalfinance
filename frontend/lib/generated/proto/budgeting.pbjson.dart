@@ -332,3 +332,27 @@ final $typed_data.Uint8List inAndOutgoingTransactionAmountPeriodDescriptor = $co
     'b2luZ0Ftb3VudBgCIAEoAVINaW5nb2luZ0Ftb3VudBImCg5vdXRnb2luZ0Ftb3VudBgDIAEoAV'
     'IOb3V0Z29pbmdBbW91bnQ=');
 
+@$core.Deprecated('Use associateTransactionRequestDescriptor instead')
+const AssociateTransactionRequest$json = {
+  '1': 'AssociateTransactionRequest',
+  '2': [
+    {'1': 'transactionId', '3': 1, '4': 1, '5': 9, '8': {}, '10': 'transactionId'},
+    {'1': 'associatedTransactionId', '3': 2, '4': 1, '5': 9, '8': {}, '10': 'associatedTransactionId'},
+  ],
+};
+
+/// Descriptor for `AssociateTransactionRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List associateTransactionRequestDescriptor = $convert.base64Decode(
+    'ChtBc3NvY2lhdGVUcmFuc2FjdGlvblJlcXVlc3QSLgoNdHJhbnNhY3Rpb25JZBgBIAEoCUIIuk'
+    'gFcgOwAQFSDXRyYW5zYWN0aW9uSWQSQgoXYXNzb2NpYXRlZFRyYW5zYWN0aW9uSWQYAiABKAlC'
+    'CLpIBXIDsAEBUhdhc3NvY2lhdGVkVHJhbnNhY3Rpb25JZA==');
+
+@$core.Deprecated('Use associateTransactionResponseDescriptor instead')
+const AssociateTransactionResponse$json = {
+  '1': 'AssociateTransactionResponse',
+};
+
+/// Descriptor for `AssociateTransactionResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List associateTransactionResponseDescriptor = $convert.base64Decode(
+    'ChxBc3NvY2lhdGVUcmFuc2FjdGlvblJlc3BvbnNl');
+

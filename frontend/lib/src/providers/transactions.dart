@@ -22,7 +22,16 @@ class Transactions extends _$Transactions {
 
   @override
   FutureOr<GetTransactionsResponse> build() async {
-    final resp = GetTransactionsResponse();
+    final getTransactionsResponse = await ref.read(budgetingServiceProvider).getTransactions(GetTransactionsRequest(
+          userId: "",
+          limit: fixnum.Int64(_pageSize),
+          offset: fixnum.Int64(_page * _pageSize),
+        ));
+
+    final resp = GetTransactionsResponse(
+      transactions: getTransactionsResponse.transactions,
+      totalCount: getTransactionsResponse.totalCount,
+    );
     resp.freeze();
     return resp;
   }

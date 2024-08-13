@@ -103,7 +103,7 @@ var file_main_proto_rawDesc = []byte{
 	0x73, 0x65, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x2f, 0x0a, 0x08, 0x4c,
 	0x69, 0x6e, 0x6b, 0x55, 0x73, 0x65, 0x72, 0x12, 0x10, 0x2e, 0x4c, 0x69, 0x6e, 0x6b, 0x55, 0x73,
 	0x65, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x11, 0x2e, 0x4c, 0x69, 0x6e, 0x6b,
-	0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x32, 0xff, 0x05, 0x0a,
+	0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x32, 0xd4, 0x06, 0x0a,
 	0x10, 0x42, 0x75, 0x64, 0x67, 0x65, 0x74, 0x69, 0x6e, 0x67, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63,
 	0x65, 0x12, 0x46, 0x0a, 0x12, 0x47, 0x65, 0x74, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x61, 0x63, 0x74,
 	0x69, 0x6f, 0x6e, 0x42, 0x79, 0x49, 0x64, 0x12, 0x1a, 0x2e, 0x47, 0x65, 0x74, 0x54, 0x72, 0x61,
@@ -151,10 +151,15 @@ var file_main_proto_rawDesc = []byte{
 	0x64, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x34, 0x2e, 0x47, 0x65, 0x74, 0x49, 0x6e,
 	0x41, 0x6e, 0x64, 0x4f, 0x75, 0x74, 0x67, 0x6f, 0x69, 0x6e, 0x67, 0x54, 0x72, 0x61, 0x6e, 0x73,
 	0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x41, 0x6d, 0x6f, 0x75, 0x6e, 0x74, 0x73, 0x50, 0x65, 0x72,
-	0x50, 0x65, 0x72, 0x69, 0x6f, 0x64, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x42, 0x21,
-	0x5a, 0x1f, 0x70, 0x65, 0x72, 0x73, 0x6f, 0x6e, 0x61, 0x6c, 0x66, 0x69, 0x6e, 0x61, 0x6e, 0x63,
-	0x65, 0x2f, 0x67, 0x65, 0x6e, 0x65, 0x72, 0x61, 0x74, 0x65, 0x64, 0x2f, 0x70, 0x72, 0x6f, 0x74,
-	0x6f, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x50, 0x65, 0x72, 0x69, 0x6f, 0x64, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x53,
+	0x0a, 0x14, 0x41, 0x73, 0x73, 0x6f, 0x63, 0x69, 0x61, 0x74, 0x65, 0x54, 0x72, 0x61, 0x6e, 0x73,
+	0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x1c, 0x2e, 0x41, 0x73, 0x73, 0x6f, 0x63, 0x69, 0x61,
+	0x74, 0x65, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x71,
+	0x75, 0x65, 0x73, 0x74, 0x1a, 0x1d, 0x2e, 0x41, 0x73, 0x73, 0x6f, 0x63, 0x69, 0x61, 0x74, 0x65,
+	0x54, 0x72, 0x61, 0x6e, 0x73, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f,
+	0x6e, 0x73, 0x65, 0x42, 0x21, 0x5a, 0x1f, 0x70, 0x65, 0x72, 0x73, 0x6f, 0x6e, 0x61, 0x6c, 0x66,
+	0x69, 0x6e, 0x61, 0x6e, 0x63, 0x65, 0x2f, 0x67, 0x65, 0x6e, 0x65, 0x72, 0x61, 0x74, 0x65, 0x64,
+	0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -186,19 +191,21 @@ var file_main_proto_goTypes = []any{
 	(*GetTransactionCategoryGroupsRequest)(nil),                 // 12: GetTransactionCategoryGroupsRequest
 	(*GetCategorizedTransactionResultsRequest)(nil),             // 13: GetCategorizedTransactionResultsRequest
 	(*GetInAndOutgoingTransactionAmountsPerPeriodRequest)(nil),  // 14: GetInAndOutgoingTransactionAmountsPerPeriodRequest
-	(*GetBanksResponse)(nil),                                    // 15: GetBanksResponse
-	(*CreateRequisitionResponse)(nil),                           // 16: CreateRequisitionResponse
-	(*GetBankAccountsResponse)(nil),                             // 17: GetBankAccountsResponse
-	(*GetBalancesPerDayResponse)(nil),                           // 18: GetBalancesPerDayResponse
-	(*HandleRequisitionResponse)(nil),                           // 19: HandleRequisitionResponse
-	(*RegisterUnverifiedUserResponse)(nil),                      // 20: RegisterUnverifiedUserResponse
-	(*LinkUserResponse)(nil),                                    // 21: LinkUserResponse
-	(*TransactionResponse)(nil),                                 // 22: TransactionResponse
-	(*GetTransactionsResponse)(nil),                             // 23: GetTransactionsResponse
-	(*GetUncategorizedTransactionResponse)(nil),                 // 24: GetUncategorizedTransactionResponse
-	(*GetTransactionCategoryGroupsResponse)(nil),                // 25: GetTransactionCategoryGroupsResponse
-	(*GetCategorizedTransactionResultsResponse)(nil),            // 26: GetCategorizedTransactionResultsResponse
-	(*GetInAndOutgoingTransactionAmountsPerPeriodResponse)(nil), // 27: GetInAndOutgoingTransactionAmountsPerPeriodResponse
+	(*AssociateTransactionRequest)(nil),                         // 15: AssociateTransactionRequest
+	(*GetBanksResponse)(nil),                                    // 16: GetBanksResponse
+	(*CreateRequisitionResponse)(nil),                           // 17: CreateRequisitionResponse
+	(*GetBankAccountsResponse)(nil),                             // 18: GetBankAccountsResponse
+	(*GetBalancesPerDayResponse)(nil),                           // 19: GetBalancesPerDayResponse
+	(*HandleRequisitionResponse)(nil),                           // 20: HandleRequisitionResponse
+	(*RegisterUnverifiedUserResponse)(nil),                      // 21: RegisterUnverifiedUserResponse
+	(*LinkUserResponse)(nil),                                    // 22: LinkUserResponse
+	(*TransactionResponse)(nil),                                 // 23: TransactionResponse
+	(*GetTransactionsResponse)(nil),                             // 24: GetTransactionsResponse
+	(*GetUncategorizedTransactionResponse)(nil),                 // 25: GetUncategorizedTransactionResponse
+	(*GetTransactionCategoryGroupsResponse)(nil),                // 26: GetTransactionCategoryGroupsResponse
+	(*GetCategorizedTransactionResultsResponse)(nil),            // 27: GetCategorizedTransactionResultsResponse
+	(*GetInAndOutgoingTransactionAmountsPerPeriodResponse)(nil), // 28: GetInAndOutgoingTransactionAmountsPerPeriodResponse
+	(*AssociateTransactionResponse)(nil),                        // 29: AssociateTransactionResponse
 }
 var file_main_proto_depIdxs = []int32{
 	1,  // 0: BankingService.GetBanks:input_type -> GetBanksRequest
@@ -215,22 +222,24 @@ var file_main_proto_depIdxs = []int32{
 	12, // 11: BudgetingService.GetTransactionCategoryGroups:input_type -> GetTransactionCategoryGroupsRequest
 	13, // 12: BudgetingService.GetCategorizedTransactionResults:input_type -> GetCategorizedTransactionResultsRequest
 	14, // 13: BudgetingService.GetInAndOutgoingTransactionAmountsPerPeriod:input_type -> GetInAndOutgoingTransactionAmountsPerPeriodRequest
-	15, // 14: BankingService.GetBanks:output_type -> GetBanksResponse
-	16, // 15: BankingService.CreateRequisition:output_type -> CreateRequisitionResponse
-	17, // 16: BankingService.GetBankAccounts:output_type -> GetBankAccountsResponse
-	18, // 17: BankingService.GetBalancesPerDay:output_type -> GetBalancesPerDayResponse
-	19, // 18: BankingService.HandleRequisition:output_type -> HandleRequisitionResponse
-	20, // 19: UserService.RegisterUnverifiedUser:output_type -> RegisterUnverifiedUserResponse
-	21, // 20: UserService.LinkUser:output_type -> LinkUserResponse
-	22, // 21: BudgetingService.GetTransactionById:output_type -> TransactionResponse
-	23, // 22: BudgetingService.GetTransactions:output_type -> GetTransactionsResponse
-	24, // 23: BudgetingService.GetUncategorizedTransaction:output_type -> GetUncategorizedTransactionResponse
-	24, // 24: BudgetingService.CategorizeTransactionAndContinue:output_type -> GetUncategorizedTransactionResponse
-	25, // 25: BudgetingService.GetTransactionCategoryGroups:output_type -> GetTransactionCategoryGroupsResponse
-	26, // 26: BudgetingService.GetCategorizedTransactionResults:output_type -> GetCategorizedTransactionResultsResponse
-	27, // 27: BudgetingService.GetInAndOutgoingTransactionAmountsPerPeriod:output_type -> GetInAndOutgoingTransactionAmountsPerPeriodResponse
-	14, // [14:28] is the sub-list for method output_type
-	0,  // [0:14] is the sub-list for method input_type
+	15, // 14: BudgetingService.AssociateTransaction:input_type -> AssociateTransactionRequest
+	16, // 15: BankingService.GetBanks:output_type -> GetBanksResponse
+	17, // 16: BankingService.CreateRequisition:output_type -> CreateRequisitionResponse
+	18, // 17: BankingService.GetBankAccounts:output_type -> GetBankAccountsResponse
+	19, // 18: BankingService.GetBalancesPerDay:output_type -> GetBalancesPerDayResponse
+	20, // 19: BankingService.HandleRequisition:output_type -> HandleRequisitionResponse
+	21, // 20: UserService.RegisterUnverifiedUser:output_type -> RegisterUnverifiedUserResponse
+	22, // 21: UserService.LinkUser:output_type -> LinkUserResponse
+	23, // 22: BudgetingService.GetTransactionById:output_type -> TransactionResponse
+	24, // 23: BudgetingService.GetTransactions:output_type -> GetTransactionsResponse
+	25, // 24: BudgetingService.GetUncategorizedTransaction:output_type -> GetUncategorizedTransactionResponse
+	25, // 25: BudgetingService.CategorizeTransactionAndContinue:output_type -> GetUncategorizedTransactionResponse
+	26, // 26: BudgetingService.GetTransactionCategoryGroups:output_type -> GetTransactionCategoryGroupsResponse
+	27, // 27: BudgetingService.GetCategorizedTransactionResults:output_type -> GetCategorizedTransactionResultsResponse
+	28, // 28: BudgetingService.GetInAndOutgoingTransactionAmountsPerPeriod:output_type -> GetInAndOutgoingTransactionAmountsPerPeriodResponse
+	29, // 29: BudgetingService.AssociateTransaction:output_type -> AssociateTransactionResponse
+	15, // [15:30] is the sub-list for method output_type
+	0,  // [0:15] is the sub-list for method input_type
 	0,  // [0:0] is the sub-list for extension type_name
 	0,  // [0:0] is the sub-list for extension extendee
 	0,  // [0:0] is the sub-list for field type_name

@@ -14,6 +14,7 @@ type BudgetingService interface {
 	GetTransactionCategoryGroups(context.Context, *proto.GetTransactionCategoryGroupsRequest) (*proto.GetTransactionCategoryGroupsResponse, error)
 	GetCategorizedTransactionResults(context.Context, *proto.GetCategorizedTransactionResultsRequest) (*proto.GetCategorizedTransactionResultsResponse, error)
 	GetInAndOutgoingTransactionAmountsPerPeriod(context.Context, *proto.GetInAndOutgoingTransactionAmountsPerPeriodRequest) (*proto.GetInAndOutgoingTransactionAmountsPerPeriodResponse, error)
+	AssociateTransaction(context.Context, *proto.AssociateTransactionRequest) (*proto.AssociateTransactionResponse, error)
 }
 
 type BudgetingHandler struct {
@@ -79,6 +80,13 @@ func (h *BudgetingHandler) GetCategorizedTransactionResults(ctx context.Context,
 }
 func (h *BudgetingHandler) GetInAndOutgoingTransactionAmountsPerPeriod(ctx context.Context, req *proto.GetInAndOutgoingTransactionAmountsPerPeriodRequest) (*proto.GetInAndOutgoingTransactionAmountsPerPeriodResponse, error) {
 	resp, err := h.service.GetInAndOutgoingTransactionAmountsPerPeriod(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+	return resp, nil
+}
+func (h *BudgetingHandler) AssociateTransaction(ctx context.Context, req *proto.AssociateTransactionRequest) (*proto.AssociateTransactionResponse, error) {
+	resp, err := h.service.AssociateTransaction(ctx, req)
 	if err != nil {
 		return nil, err
 	}

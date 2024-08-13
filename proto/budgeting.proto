@@ -39,7 +39,7 @@ message MatchingUncategorizedTransactionResponse {
 message CategorizeTransactionAndContinueRequest {
   string userId = 1 [(buf.validate.field).string.uuid = true];
   repeated string transactionIds = 2;
-  string categoryId = 3  [(buf.validate.field).string.uuid = true];
+  string categoryId = 3 [(buf.validate.field).string.uuid = true];
 }
 
 message TransactionResponse {
@@ -56,8 +56,7 @@ message TransactionResponse {
   double balanceAfterTransaction = 11;
 }
 
-message GetTransactionCategoryGroupsRequest {
-}
+message GetTransactionCategoryGroupsRequest {}
 
 message GetTransactionCategoryGroupsResponse {
   repeated TransactionCategoryGroupResponse groups = 1;
@@ -66,7 +65,7 @@ message TransactionCategoryGroupResponse {
   string id = 1;
   string slug = 2;
   string label = 3;
-  repeated TransactionCategoryResponse categories= 4;
+  repeated TransactionCategoryResponse categories = 4;
 }
 
 message TransactionCategoryResponse {
@@ -78,7 +77,6 @@ message TransactionCategoryResponse {
 message GetCategorizedTransactionResultsRequest {
   google.protobuf.Timestamp start = 1;
   google.protobuf.Timestamp end = 2;
-
 }
 message GetCategorizedTransactionResultsResponse {
   repeated GetCategorizedTransactionResultResponse results = 1;
@@ -108,7 +106,7 @@ message GetInAndOutgoingTransactionAmountsPerPeriodRequest {
     month = 2;
   }
   Period period = 1;
-  int64  limit = 2;
+  int64 limit = 2;
   int64 offset = 3;
 }
 
@@ -120,3 +118,10 @@ message InAndOutgoingTransactionAmountPeriod {
   double ingoingAmount = 2;
   double outgoingAmount = 3;
 }
+
+message AssociateTransactionRequest {
+  string transactionId = 1 [(buf.validate.field).string.uuid = true];
+  string associatedTransactionId = 2 [(buf.validate.field).string.uuid = true];
+}
+
+message AssociateTransactionResponse {}

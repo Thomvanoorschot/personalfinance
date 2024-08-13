@@ -2,7 +2,9 @@ import "dart:async";
 
 import "package:flutter/material.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
+import "package:frontend/src/clients/banking_client.dart";
 import "package:frontend/src/clients/budgeting_client.dart";
+import "package:frontend/src/providers/transactions.dart";
 import "package:frontend/src/routing/scaffold_with_nested_navigation.dart";
 import "package:frontend/src/screens/home/home_screen.dart";
 import "package:frontend/src/screens/insights/insights_screen.dart";
@@ -79,10 +81,17 @@ final goRouterProvider = Provider<GoRouter>(
                       state.scrollToTop();
                     }
                   },
-                  pageBuilder: (context, state) => NoTransitionPage(
-                    key: state.pageKey,
-                    child: TransactionsScreen(),
-                  ),
+                  pageBuilder: (context, state) {
+                    if (state.uri.queryParameters.isNotEmpty && state.uri.queryParameters.containsKey("reload")) {
+                      ref.read(transactionsProvider.notifier).getTransactions(reset: true);
+                      ref.invalidate(getBankAccountsProvider);
+                    }
+
+                    return NoTransitionPage(
+                      key: state.pageKey,
+                      child: TransactionsScreen(),
+                    );
+                  },
                   routes: [
                     GoRoute(
                       path: "getBanks",
@@ -100,10 +109,6 @@ final goRouterProvider = Provider<GoRouter>(
                                 bankId: bankId,
                               ),
                             );
-                          },
-                          onExit: (context, state) {
-                            ref.invalidate(getTransactionsProvider);
-                            return true;
                           },
                         ),
                       ],

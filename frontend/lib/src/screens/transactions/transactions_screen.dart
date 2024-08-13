@@ -25,7 +25,6 @@ class TransactionsScreen extends ConsumerStatefulWidget {
 class TransactionsScreenState extends ConsumerState<TransactionsScreen> {
   final ScrollController _scrollController = ScrollController();
 
-
   @override
   void dispose() {
     _scrollController.dispose();
@@ -44,7 +43,6 @@ class TransactionsScreenState extends ConsumerState<TransactionsScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     final transactionsResponse = ref.watch(transactionsProvider);
 
     return Scaffold(
@@ -114,15 +112,22 @@ class TransactionsScreenState extends ConsumerState<TransactionsScreen> {
                 ],
               ),
             ),
-            SliverList.builder(
-              itemCount: ((transactionsResponse.value?.totalCount.toInt() ?? 0) == 0
-                  ? 20
-                  : transactionsResponse.value!.totalCount.toInt()),
-              itemBuilder: (context, index) {
-                return transactionsResponse.when(
-                  error: (err, stack) => Text(err.toString()),
-                  loading: () => const TransactionCardShimmer(),
-                  data: (resp) {
+            transactionsResponse.when(
+              error: (err, stack) => Text(err.toString()),
+              loading: () => SliverList.builder(
+                itemCount: 10,
+                itemBuilder: (context, index) {
+                  return const TransactionCardShimmer();
+                },
+              ),
+              data: (resp) {
+                if (resp.transactions.isEmpty) {
+                  return const SliverToBoxAdapter(child: Text("TEMP NO TX FOUND"));
+                }
+                // TODO Fix
+                return SliverList.builder(
+                  itemCount: transactionsResponse.value?.totalCount.toInt(),
+                  itemBuilder: (context, index) {
                     if (index < resp.transactions.length) {
                       final transaction = resp.transactions[index];
 
@@ -139,7 +144,7 @@ class TransactionsScreenState extends ConsumerState<TransactionsScreen> {
                   },
                 );
               },
-            )
+            ),
           ],
         ),
       ),

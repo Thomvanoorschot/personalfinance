@@ -35,4 +35,5 @@ type Transaction struct {
 	CreatedAt                      *time.Time
 	UpdatedAt                      *time.Time
 	TransactionCategoryID          *uuid.UUID
+	AssociatedTransactionID        *uuid.UUID
 }

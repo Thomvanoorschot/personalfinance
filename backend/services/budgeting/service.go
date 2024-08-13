@@ -22,6 +22,7 @@ type Repository interface {
 	GetClassifiedTransactions(ctx context.Context, userID uuid.UUID, start, end time.Time) (resp CategorizedTransactionResults, err error)
 	GetTransactionByID(ctx context.Context, userID uuid.UUID, transactionID uuid.UUID) (resp Transaction, err error)
 	GetInAndOutgoingTransactionAmountsPerPeriod(ctx context.Context, userID uuid.UUID, period string, limit, offset int64) (resp InAndOutgoingTransactionAmountsPerPeriods, err error)
+	AssociateTransaction(ctx context.Context, userID, transactionID, associatedTransactionID uuid.UUID) error
 }
 
 type Service struct {
@@ -97,6 +98,14 @@ func (s *Service) GetInAndOutgoingTransactionAmountsPerPeriod(ctx context.Contex
 		return nil, err
 	}
 	return inAndOutgoingTransactionAmountsPerPeriod.ConvertToResponse(), nil
+}
+
+func (s *Service) AssociateTransaction(ctx context.Context, req *proto.AssociateTransactionRequest) (*proto.AssociateTransactionResponse, error) {
+	err := s.repo.AssociateTransaction(ctx, uuid.MustParse(userID), uuid.MustParse(req.TransactionId), uuid.MustParse(req.AssociatedTransactionId))
+	if err != nil {
+		return nil, err
+	}
+	return &proto.AssociateTransactionResponse{}, nil
 }
 
 func PreProcessTransaction(tx *UncategorizedTransaction) {

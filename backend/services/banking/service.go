@@ -19,7 +19,7 @@ import (
 
 const (
 	userID          = "c1900cc8-0265-4060-9b24-4e14f62048fb"
-	tempRedirectURL = "personalfinance://personalfinance/transactions"
+	tempRedirectURL = "personalfinance://personalfinance/transactions?reload=true"
 )
 
 type Repository interface {

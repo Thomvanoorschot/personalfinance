@@ -300,7 +300,9 @@ func (r *Repository) GetInAndOutgoingTransactionAmountsPerPeriod(ctx context.Con
 	if period != "day" && period != "week" && period != "month" {
 		return resp, errors.New("invalid period")
 	}
-	sql, args := RawStatement(fmt.Sprintf(`WITH week_series AS (
+	sql, args := RawStatement(fmt.Sprintf(
+		`
+WITH week_series AS (
     SELECT 
         generate_series(
             date_trunc('%s', MIN(value_date)),
@@ -308,30 +310,45 @@ func (r *Repository) GetInAndOutgoingTransactionAmountsPerPeriod(ctx context.Con
             '1 %s'::interval
         ) AS week_start
     FROM transaction
-	), weekly_sums AS (
-		SELECT 
-			DATE_TRUNC('%s', value_date) AS week_start,
-			SUM(CASE WHEN transaction_amount > 0 THEN transaction_amount ELSE 0 END) AS positive_sum,
-			SUM(CASE WHEN transaction_amount < 0 THEN transaction_amount ELSE 0 END) AS negative_sum
-		FROM 
-			transaction
-		WHERE user_id = #userID
-		GROUP BY 
-			DATE_TRUNC('%s', value_date)
-	)
+), transaction_sums AS (
 	SELECT 
-		ws.week_start,
-		COALESCE(wsum.positive_sum, 0) AS positive_sum,
-		COALESCE(wsum.negative_sum, 0) AS negative_sum
-	FROM 
-		week_series ws
+       DATE_TRUNC('%s', t.value_date) AS week_start,
+        CASE 
+            WHEN nat.transaction_amount IS NOT NULL THEN SUM(nat.transaction_amount) + t.transaction_amount
+            WHEN t.associated_transaction_id IS NULL THEN t.transaction_amount
+            ELSE 0.0 
+        END as total_amount
+       	FROM 
+    	transaction t
 	LEFT JOIN 
-		weekly_sums wsum ON ws.week_start = wsum.week_start
-	ORDER BY 
-		ws.week_start DESC
-	LIMIT #limit
-	OFFSET #offset;
-`, period, period, period, period, period), RawArgs{
+	    transaction att ON t.associated_transaction_id = att.id
+	LEFT JOIN 
+		transaction nat ON t.id = nat.associated_transaction_id
+	where t.user_id = #userID
+	GROUP BY t.id, att.transaction_amount, nat.transaction_amount
+), weekly_sums AS (
+    SELECT
+        week_start,
+        SUM(CASE WHEN total_amount > 0 THEN total_amount ELSE 0 END) AS positive_sum,
+        SUM(CASE WHEN total_amount < 0 THEN total_amount ELSE 0 END) AS negative_sum
+    FROM 
+        transaction_sums
+    GROUP BY 
+        week_start
+)
+SELECT 
+    ws.week_start,
+    COALESCE(wsum.positive_sum, 0) AS positive_sum,
+    COALESCE(wsum.negative_sum, 0) AS negative_sum
+FROM 
+    week_series ws
+LEFT JOIN 
+    weekly_sums wsum ON ws.week_start = wsum.week_start
+ORDER BY 
+    ws.week_start DESC
+LIMIT #limit
+OFFSET #offset
+`, period, period, period, period), RawArgs{
 		"#userID": userID,
 		"#limit":  limit,
 		"#offset": offset,
@@ -356,4 +373,18 @@ func (r *Repository) GetInAndOutgoingTransactionAmountsPerPeriod(ctx context.Con
 		resp = append(resp, inAndOutgoingTxPerPeriod)
 	}
 	return resp, err
+}
+
+func (r *Repository) AssociateTransaction(ctx context.Context, userID, transactionID, associatedTransactionID uuid.UUID) error {
+	sql, args := Transaction.
+		UPDATE(Transaction.AssociatedTransactionID).
+		SET(UUID(associatedTransactionID)).
+		WHERE(Transaction.ID.EQ(UUID(transactionID)).AND(Transaction.UserID.EQ(UUID(userID)))).
+		Sql()
+
+	_, err := r.conn().Exec(ctx, sql, args...)
+	if err != nil {
+		return err
+	}
+	return nil
 }

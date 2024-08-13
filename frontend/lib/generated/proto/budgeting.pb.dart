@@ -1480,6 +1480,102 @@ class InAndOutgoingTransactionAmountPeriod extends $pb.GeneratedMessage {
   void clearOutgoingAmount() => clearField(3);
 }
 
+class AssociateTransactionRequest extends $pb.GeneratedMessage {
+  factory AssociateTransactionRequest({
+    $core.String? transactionId,
+    $core.String? associatedTransactionId,
+  }) {
+    final $result = create();
+    if (transactionId != null) {
+      $result.transactionId = transactionId;
+    }
+    if (associatedTransactionId != null) {
+      $result.associatedTransactionId = associatedTransactionId;
+    }
+    return $result;
+  }
+  AssociateTransactionRequest._() : super();
+  factory AssociateTransactionRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory AssociateTransactionRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'AssociateTransactionRequest', createEmptyInstance: create)
+    ..aOS(1, _omitFieldNames ? '' : 'transactionId', protoName: 'transactionId')
+    ..aOS(2, _omitFieldNames ? '' : 'associatedTransactionId', protoName: 'associatedTransactionId')
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  AssociateTransactionRequest clone() => AssociateTransactionRequest()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  AssociateTransactionRequest copyWith(void Function(AssociateTransactionRequest) updates) => super.copyWith((message) => updates(message as AssociateTransactionRequest)) as AssociateTransactionRequest;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static AssociateTransactionRequest create() => AssociateTransactionRequest._();
+  AssociateTransactionRequest createEmptyInstance() => create();
+  static $pb.PbList<AssociateTransactionRequest> createRepeated() => $pb.PbList<AssociateTransactionRequest>();
+  @$core.pragma('dart2js:noInline')
+  static AssociateTransactionRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<AssociateTransactionRequest>(create);
+  static AssociateTransactionRequest? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get transactionId => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set transactionId($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasTransactionId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearTransactionId() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.String get associatedTransactionId => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set associatedTransactionId($core.String v) { $_setString(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasAssociatedTransactionId() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearAssociatedTransactionId() => clearField(2);
+}
+
+class AssociateTransactionResponse extends $pb.GeneratedMessage {
+  factory AssociateTransactionResponse() => create();
+  AssociateTransactionResponse._() : super();
+  factory AssociateTransactionResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory AssociateTransactionResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'AssociateTransactionResponse', createEmptyInstance: create)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  AssociateTransactionResponse clone() => AssociateTransactionResponse()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  AssociateTransactionResponse copyWith(void Function(AssociateTransactionResponse) updates) => super.copyWith((message) => updates(message as AssociateTransactionResponse)) as AssociateTransactionResponse;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static AssociateTransactionResponse create() => AssociateTransactionResponse._();
+  AssociateTransactionResponse createEmptyInstance() => create();
+  static $pb.PbList<AssociateTransactionResponse> createRepeated() => $pb.PbList<AssociateTransactionResponse>();
+  @$core.pragma('dart2js:noInline')
+  static AssociateTransactionResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<AssociateTransactionResponse>(create);
+  static AssociateTransactionResponse? _defaultInstance;
+}
+
 
 const _omitFieldNames = $core.bool.fromEnvironment('protobuf.omit_field_names');
 const _omitMessageNames = $core.bool.fromEnvironment('protobuf.omit_message_names');

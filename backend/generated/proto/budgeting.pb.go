@@ -1276,6 +1276,99 @@ func (x *InAndOutgoingTransactionAmountPeriod) GetOutgoingAmount() float64 {
 	return 0
 }
 
+type AssociateTransactionRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	TransactionId           string `protobuf:"bytes,1,opt,name=transactionId,proto3" json:"transactionId,omitempty"`
+	AssociatedTransactionId string `protobuf:"bytes,2,opt,name=associatedTransactionId,proto3" json:"associatedTransactionId,omitempty"`
+}
+
+func (x *AssociateTransactionRequest) Reset() {
+	*x = AssociateTransactionRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_budgeting_proto_msgTypes[19]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *AssociateTransactionRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AssociateTransactionRequest) ProtoMessage() {}
+
+func (x *AssociateTransactionRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_budgeting_proto_msgTypes[19]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AssociateTransactionRequest.ProtoReflect.Descriptor instead.
+func (*AssociateTransactionRequest) Descriptor() ([]byte, []int) {
+	return file_budgeting_proto_rawDescGZIP(), []int{19}
+}
+
+func (x *AssociateTransactionRequest) GetTransactionId() string {
+	if x != nil {
+		return x.TransactionId
+	}
+	return ""
+}
+
+func (x *AssociateTransactionRequest) GetAssociatedTransactionId() string {
+	if x != nil {
+		return x.AssociatedTransactionId
+	}
+	return ""
+}
+
+type AssociateTransactionResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *AssociateTransactionResponse) Reset() {
+	*x = AssociateTransactionResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_budgeting_proto_msgTypes[20]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *AssociateTransactionResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AssociateTransactionResponse) ProtoMessage() {}
+
+func (x *AssociateTransactionResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_budgeting_proto_msgTypes[20]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AssociateTransactionResponse.ProtoReflect.Descriptor instead.
+func (*AssociateTransactionResponse) Descriptor() ([]byte, []int) {
+	return file_budgeting_proto_rawDescGZIP(), []int{20}
+}
+
 var File_budgeting_proto protoreflect.FileDescriptor
 
 var file_budgeting_proto_rawDesc = []byte{
@@ -1478,9 +1571,21 @@ var file_budgeting_proto_rawDesc = []byte{
 	0x6e, 0x67, 0x6f, 0x69, 0x6e, 0x67, 0x41, 0x6d, 0x6f, 0x75, 0x6e, 0x74, 0x12, 0x26, 0x0a, 0x0e,
 	0x6f, 0x75, 0x74, 0x67, 0x6f, 0x69, 0x6e, 0x67, 0x41, 0x6d, 0x6f, 0x75, 0x6e, 0x74, 0x18, 0x03,
 	0x20, 0x01, 0x28, 0x01, 0x52, 0x0e, 0x6f, 0x75, 0x74, 0x67, 0x6f, 0x69, 0x6e, 0x67, 0x41, 0x6d,
-	0x6f, 0x75, 0x6e, 0x74, 0x42, 0x21, 0x5a, 0x1f, 0x70, 0x65, 0x72, 0x73, 0x6f, 0x6e, 0x61, 0x6c,
-	0x66, 0x69, 0x6e, 0x61, 0x6e, 0x63, 0x65, 0x2f, 0x67, 0x65, 0x6e, 0x65, 0x72, 0x61, 0x74, 0x65,
-	0x64, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x6f, 0x75, 0x6e, 0x74, 0x22, 0x91, 0x01, 0x0a, 0x1b, 0x41, 0x73, 0x73, 0x6f, 0x63, 0x69, 0x61,
+	0x74, 0x65, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x71,
+	0x75, 0x65, 0x73, 0x74, 0x12, 0x2e, 0x0a, 0x0d, 0x74, 0x72, 0x61, 0x6e, 0x73, 0x61, 0x63, 0x74,
+	0x69, 0x6f, 0x6e, 0x49, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x42, 0x08, 0xba, 0x48, 0x05,
+	0x72, 0x03, 0xb0, 0x01, 0x01, 0x52, 0x0d, 0x74, 0x72, 0x61, 0x6e, 0x73, 0x61, 0x63, 0x74, 0x69,
+	0x6f, 0x6e, 0x49, 0x64, 0x12, 0x42, 0x0a, 0x17, 0x61, 0x73, 0x73, 0x6f, 0x63, 0x69, 0x61, 0x74,
+	0x65, 0x64, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x49, 0x64, 0x18,
+	0x02, 0x20, 0x01, 0x28, 0x09, 0x42, 0x08, 0xba, 0x48, 0x05, 0x72, 0x03, 0xb0, 0x01, 0x01, 0x52,
+	0x17, 0x61, 0x73, 0x73, 0x6f, 0x63, 0x69, 0x61, 0x74, 0x65, 0x64, 0x54, 0x72, 0x61, 0x6e, 0x73,
+	0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x49, 0x64, 0x22, 0x1e, 0x0a, 0x1c, 0x41, 0x73, 0x73, 0x6f,
+	0x63, 0x69, 0x61, 0x74, 0x65, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e,
+	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x42, 0x21, 0x5a, 0x1f, 0x70, 0x65, 0x72, 0x73,
+	0x6f, 0x6e, 0x61, 0x6c, 0x66, 0x69, 0x6e, 0x61, 0x6e, 0x63, 0x65, 0x2f, 0x67, 0x65, 0x6e, 0x65,
+	0x72, 0x61, 0x74, 0x65, 0x64, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x06, 0x70, 0x72, 0x6f,
+	0x74, 0x6f, 0x33,
 }
 
 var (
@@ -1496,7 +1601,7 @@ func file_budgeting_proto_rawDescGZIP() []byte {
 }
 
 var file_budgeting_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_budgeting_proto_msgTypes = make([]protoimpl.MessageInfo, 19)
+var file_budgeting_proto_msgTypes = make([]protoimpl.MessageInfo, 21)
 var file_budgeting_proto_goTypes = []any{
 	(GetInAndOutgoingTransactionAmountsPerPeriodRequest_Period)(0), // 0: GetInAndOutgoingTransactionAmountsPerPeriodRequest.Period
 	(*GetTransactionsRequest)(nil),                                 // 1: GetTransactionsRequest
@@ -1518,26 +1623,28 @@ var file_budgeting_proto_goTypes = []any{
 	(*GetInAndOutgoingTransactionAmountsPerPeriodRequest)(nil),     // 17: GetInAndOutgoingTransactionAmountsPerPeriodRequest
 	(*GetInAndOutgoingTransactionAmountsPerPeriodResponse)(nil),    // 18: GetInAndOutgoingTransactionAmountsPerPeriodResponse
 	(*InAndOutgoingTransactionAmountPeriod)(nil),                   // 19: InAndOutgoingTransactionAmountPeriod
-	(*timestamppb.Timestamp)(nil),                                  // 20: google.protobuf.Timestamp
-	(*wrapperspb.StringValue)(nil),                                 // 21: google.protobuf.StringValue
+	(*AssociateTransactionRequest)(nil),                            // 20: AssociateTransactionRequest
+	(*AssociateTransactionResponse)(nil),                           // 21: AssociateTransactionResponse
+	(*timestamppb.Timestamp)(nil),                                  // 22: google.protobuf.Timestamp
+	(*wrapperspb.StringValue)(nil),                                 // 23: google.protobuf.StringValue
 }
 var file_budgeting_proto_depIdxs = []int32{
 	7,  // 0: GetTransactionsResponse.transactions:type_name -> TransactionResponse
-	20, // 1: GetUncategorizedTransactionResponse.date:type_name -> google.protobuf.Timestamp
+	22, // 1: GetUncategorizedTransactionResponse.date:type_name -> google.protobuf.Timestamp
 	5,  // 2: GetUncategorizedTransactionResponse.matchingTransactions:type_name -> MatchingUncategorizedTransactionResponse
-	20, // 3: MatchingUncategorizedTransactionResponse.date:type_name -> google.protobuf.Timestamp
-	20, // 4: TransactionResponse.date:type_name -> google.protobuf.Timestamp
-	21, // 5: TransactionResponse.transactionCategorySlug:type_name -> google.protobuf.StringValue
-	21, // 6: TransactionResponse.transactionCategoryGroupSlug:type_name -> google.protobuf.StringValue
+	22, // 3: MatchingUncategorizedTransactionResponse.date:type_name -> google.protobuf.Timestamp
+	22, // 4: TransactionResponse.date:type_name -> google.protobuf.Timestamp
+	23, // 5: TransactionResponse.transactionCategorySlug:type_name -> google.protobuf.StringValue
+	23, // 6: TransactionResponse.transactionCategoryGroupSlug:type_name -> google.protobuf.StringValue
 	10, // 7: GetTransactionCategoryGroupsResponse.groups:type_name -> TransactionCategoryGroupResponse
 	11, // 8: TransactionCategoryGroupResponse.categories:type_name -> TransactionCategoryResponse
-	20, // 9: GetCategorizedTransactionResultsRequest.start:type_name -> google.protobuf.Timestamp
-	20, // 10: GetCategorizedTransactionResultsRequest.end:type_name -> google.protobuf.Timestamp
+	22, // 9: GetCategorizedTransactionResultsRequest.start:type_name -> google.protobuf.Timestamp
+	22, // 10: GetCategorizedTransactionResultsRequest.end:type_name -> google.protobuf.Timestamp
 	14, // 11: GetCategorizedTransactionResultsResponse.results:type_name -> GetCategorizedTransactionResultResponse
 	15, // 12: GetCategorizedTransactionResultResponse.categories:type_name -> GetCategorizedTransactionResult
 	0,  // 13: GetInAndOutgoingTransactionAmountsPerPeriodRequest.period:type_name -> GetInAndOutgoingTransactionAmountsPerPeriodRequest.Period
 	19, // 14: GetInAndOutgoingTransactionAmountsPerPeriodResponse.periods:type_name -> InAndOutgoingTransactionAmountPeriod
-	20, // 15: InAndOutgoingTransactionAmountPeriod.startOfPeriod:type_name -> google.protobuf.Timestamp
+	22, // 15: InAndOutgoingTransactionAmountPeriod.startOfPeriod:type_name -> google.protobuf.Timestamp
 	16, // [16:16] is the sub-list for method output_type
 	16, // [16:16] is the sub-list for method input_type
 	16, // [16:16] is the sub-list for extension type_name
@@ -1779,6 +1886,30 @@ func file_budgeting_proto_init() {
 				return nil
 			}
 		}
+		file_budgeting_proto_msgTypes[19].Exporter = func(v any, i int) any {
+			switch v := v.(*AssociateTransactionRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_budgeting_proto_msgTypes[20].Exporter = func(v any, i int) any {
+			switch v := v.(*AssociateTransactionResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -1786,7 +1917,7 @@ func file_budgeting_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_budgeting_proto_rawDesc,
 			NumEnums:      1,
-			NumMessages:   19,
+			NumMessages:   21,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
