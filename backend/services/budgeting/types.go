@@ -271,7 +271,7 @@ type BareTransactions []BareTransaction
 func (t BareTransactions) ConvertToResponse() *proto.GetMinusTransactionsAroundDateResponse {
 	txs := make([]*proto.BareTransaction, len(t))
 	for i, tx := range t {
-		txs[len(t)-1-i] = tx.ConvertToResponse()
+		txs[i] = tx.ConvertToResponse()
 	}
 	return &proto.GetMinusTransactionsAroundDateResponse{
 		Transactions: txs,

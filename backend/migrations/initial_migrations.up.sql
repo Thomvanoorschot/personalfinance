@@ -187,7 +187,8 @@ VALUES ('edd41b15-33b1-410b-9c5a-dabf2fa2e10d', 'saving-and-investments', 'Savin
        ('c0aa2699-4953-4bf9-9913-b0b6ace6d2d4', 'personal-care', 'Personal Care', 'Persoonlijke verzorging'),
        ('99ac960c-7cce-4938-8806-b532ff2455ba', 'education', 'Education', 'Onderwijs'),
        ('51634522-b1ba-4c2c-829f-5cbacae23cbd', 'childcare-education', 'Childcare & Education', 'Kinderopvoeding'),
-       ('2f2b4ef6-4c0b-4f9c-a7b6-17bc7a8722a3', 'pet-care', 'Pet Care', 'Huisdieren');
+       ('2f2b4ef6-4c0b-4f9c-a7b6-17bc7a8722a3', 'pet-care', 'Pet Care', 'Huisdieren'),
+       ('1d0b65bc-2b3f-4fd5-89b9-456773777986', 'repayments', 'Repayments', 'Terugbetalingen');
 
 -- saving-and-investments
 INSERT INTO transaction_category ("transaction_category_group_id", "slug", "label_en", "label_nl")
@@ -312,3 +313,7 @@ VALUES ('2f2b4ef6-4c0b-4f9c-a7b6-17bc7a8722a3', 'pet-food', 'Food', 'Dierenvoer'
        ('2f2b4ef6-4c0b-4f9c-a7b6-17bc7a8722a3', 'grooming', 'Grooming', 'Verzorging'),
        ('2f2b4ef6-4c0b-4f9c-a7b6-17bc7a8722a3', 'toys-accessories', 'Toys/Accessories', 'Speelgoed/Accessoires'),
        ('2f2b4ef6-4c0b-4f9c-a7b6-17bc7a8722a3', 'other-pet-care', 'Other', 'Overig');
+
+-- repayments
+INSERT INTO transaction_category ("transaction_category_group_id", "slug", "label_en", "label_nl")
+VALUES ('1d0b65bc-2b3f-4fd5-89b9-456773777986', 'repayments', 'Repayments', 'Terugbetalingen');

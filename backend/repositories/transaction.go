@@ -140,7 +140,6 @@ func (r *Repository) GetUncategorizedTransaction(ctx context.Context, userID uui
 
 	t2CreditorName := Transaction.CreditorName.From(subQuery)
 	t2DebtorName := Transaction.DebtorName.From(subQuery)
-	t2TransactionAmount := Transaction.TransactionAmount.From(subQuery)
 
 	sql, args := SELECT(
 		Transaction.ID,
@@ -154,11 +153,10 @@ func (r *Repository) GetUncategorizedTransaction(ctx context.Context, userID uui
 		Transaction.RemittanceInformation,
 	).FROM(subQuery.INNER_JOIN(
 		Transaction,
-		((t2TransactionAmount.GT(Float(0))).OR(Transaction.TransactionAmount.EQ(t2TransactionAmount))).
-			AND(
-				(Transaction.CreditorName.EQ(t2CreditorName)).
-					OR(Transaction.DebtorName.EQ(t2DebtorName)),
-			),
+		AND(
+			(Transaction.CreditorName.EQ(t2CreditorName)).
+				OR(Transaction.DebtorName.EQ(t2DebtorName)),
+		).AND(Transaction.TransactionCategoryID.IS_NULL()),
 	)).WHERE(Transaction.TransactionCategoryID.IS_NULL()).
 		ORDER_BY(Transaction.ValueDateTime.DESC()).
 		Sql()

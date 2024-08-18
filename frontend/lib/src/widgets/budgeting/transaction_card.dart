@@ -13,13 +13,10 @@ class TransactionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final formattedDate = epochToDateString(transaction.date);
     return Hero(
       tag: transaction.id,
       child: CustomCard(
-        colorOverride: transaction.transactionAmount > 0
-            ? Theme.of(context).colorScheme.secondaryContainer
-            : Theme.of(context).colorScheme.primaryContainer,
+        colorOverride: Theme.of(context).colorScheme.primary,
         onTap: () {
           context.go("/transactions/detail/${transaction.id}");
         },
@@ -28,29 +25,32 @@ class TransactionCard extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.only(right: 10),
-              child: transaction.transactionCategoryGroupSlug.hasValue() ? SvgPicture.asset(
-                width: 48,
-                height: 48,
-                "assets/${transaction.transactionCategoryGroupSlug.value}/${transaction.transactionCategorySlug.value}.svg",
-              ) :  SvgPicture.asset(
-                width: 48,
-                height: 48,
-                "assets/unknown_category.svg",
-              ),
+              child: transaction.transactionCategoryGroupSlug.hasValue()
+                  ? SvgPicture.asset(
+                      width: 48,
+                      height: 48,
+                      "assets/${transaction.transactionCategoryGroupSlug.value}/${transaction.transactionCategorySlug.value}.svg",
+                    )
+                  : SvgPicture.asset(
+                      width: 48,
+                      height: 48,
+                      "assets/unknown_category.svg",
+                    ),
             ),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(transaction.partyName),
-                  Text(formattedDate),
+                  Text(
+                    transaction.partyName,
+                    style: const TextStyle(color: Colors.white),
+                  ),
                 ],
               ),
             ),
             Text(
-              transaction.transactionAmount > 0
-                  ? "€${transaction.transactionAmount.toStringAsFixed(2)}"
-                  : "€${transaction.transactionAmount.toStringAsFixed(2)}",
+              "€${transaction.transactionAmount.toStringAsFixed(2)}",
+              style: const TextStyle(color: Colors.white),
             ),
           ],
         ),

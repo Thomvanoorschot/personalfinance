@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 part 'banking_client.g.dart';
 
+// TODO Remove these
 @riverpod
 Future<GetBanksResponse> getBanks(GetBanksRef ref,
     {required GetBanksRequest req}) async {

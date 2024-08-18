@@ -8,6 +8,7 @@ import (
 
 	"personalfinance/config"
 	"personalfinance/services/banking"
+	"personalfinance/services/budgeting"
 
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgconn"
@@ -45,6 +46,23 @@ func (r *Repository) conn() Queryer {
 		return *r.tx
 	}
 	return r.connectionPool
+}
+
+func (r *Repository) BudgetingTx(ctx context.Context, fn func(budgeting.Repository) error) (err error) {
+	tx, err := r.connectionPool.Begin(ctx)
+	if err != nil {
+		return err
+	}
+
+	defer func(r *Repository, tx pgx.Tx, ctx context.Context) {
+		err = r.rollBack(tx, ctx)
+	}(r, tx, ctx)
+
+	err = fn(&Repository{tx: &tx})
+	if err != nil {
+		return err
+	}
+	return tx.Commit(ctx)
 }
 
 func (r *Repository) BankingTx(ctx context.Context, fn func(banking.Repository) error) (err error) {

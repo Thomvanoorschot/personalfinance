@@ -13,13 +13,13 @@ class CustomCard extends StatelessWidget {
       clipBehavior: Clip.hardEdge,
       color: colorOverride ?? Theme.of(context).colorScheme.primaryContainer,
       child: InkWell(
-          splashColor:
-              colorOverride?.withAlpha(30) ?? Theme.of(context).colorScheme.primaryContainer.withAlpha(30),
-          onTap: onTap,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: body,
-          )),
+        splashColor: colorOverride?.withAlpha(30) ?? Theme.of(context).colorScheme.primaryContainer.withAlpha(30),
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.only( left: 8.0, right: 8.0),
+          child: body,
+        ),
+      ),
     );
   }
 }

@@ -65,6 +65,7 @@ class CategorizedTransactions extends _$CategorizedTransactions {
     'saving-and-investments': 0xFFFFC0CB,   // Pink
     'housing': 0xFFAFEEEE,                  // Pale Turquoise
     'unknown_category': 0xFFB0E0E6,         // Powder Blue
+    'repayments': 0xFFF0E68C,       // Honeydew
   });
 
   final Map<String, int> categoryColorMap = Map.from({
@@ -145,6 +146,7 @@ class CategorizedTransactions extends _$CategorizedTransactions {
     'tuition-fees': 0xFFFFEFD5,         // Papaya whip
     'other-childcare-education': 0xFFFFDAB9,// Peach puff
     'pet-insurance': 0xFFF5F5DC,        // Beige
+    'repayments': 0xFFF0E68C,       // Khaki
   });
 
 }

@@ -2,6 +2,7 @@ package repositories
 
 import (
 	"context"
+	"errors"
 
 	"personalfinance/generated/jet_gen/postgres/public/model"
 	. "personalfinance/generated/jet_gen/postgres/public/table"
@@ -82,6 +83,27 @@ func (r *Repository) GetAllTransactionCategories(ctx context.Context) (resp budg
 		resp = append(resp, transactionCategory)
 	}
 	return resp, nil
+}
+
+func (r *Repository) GetRepaymentsCategory(ctx context.Context) (resp uuid.UUID, err error) {
+	sql, args := SELECT(
+		TransactionCategory.ID,
+	).
+		FROM(TransactionCategory).
+		WHERE(TransactionCategory.Slug.EQ(String("repayments"))).
+		Sql()
+
+	rows, err := r.conn().Query(ctx, sql, args...)
+	if err != nil {
+		return resp, err
+	}
+	for rows.Next() {
+		err = rows.Scan(
+			&resp,
+		)
+		return resp, err
+	}
+	return resp, errors.New("repayments category not found")
 }
 
 func transactionCategoryLabelCol(ctx context.Context) ColumnString {

@@ -14,7 +14,6 @@ class InsightsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.surface,
         title: const Text("Insights"),
       ),
       body: SingleChildScrollView(

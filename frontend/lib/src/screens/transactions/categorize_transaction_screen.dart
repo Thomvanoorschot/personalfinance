@@ -1,17 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:frontend/generated/proto/banking.pb.dart';
-import 'package:frontend/generated/proto/budgeting.pb.dart';
-import 'package:frontend/src/clients/budgeting_client.dart';
 import 'package:frontend/src/providers/categorize_transaction.dart';
-import 'package:frontend/src/utils/date_utils.dart';
+import 'package:frontend/src/providers/repayment.dart' as rpp;
+import 'package:frontend/src/widgets/budgeting/categorize_transaction_info.dart';
+import 'package:frontend/src/widgets/budgeting/repayment.dart';
+import 'package:frontend/src/widgets/budgeting/similar_transactions.dart';
 import 'package:frontend/src/widgets/budgeting/transaction_categories_overview.dart';
-import 'package:frontend/src/widgets/card/custom_card.dart';
-import 'package:go_router/go_router.dart';
 import 'package:haptic_feedback/haptic_feedback.dart';
-import 'package:intl/intl.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class CategorizeTransactionScreen extends ConsumerWidget {
   const CategorizeTransactionScreen({super.key});
@@ -20,12 +15,13 @@ class CategorizeTransactionScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final getUncategorizedTransactionResponse = ref.watch(categorizeTransactionProvider);
     final categorizeTransaction = ref.watch(categorizeTransactionProvider);
+    final repayment = ref.watch(rpp.repaymentProvider);
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 32, 16, 16),
       child: Material(
         borderRadius: BorderRadius.circular(16),
-        color: Theme.of(context).colorScheme.primaryContainer,
+        color: Theme.of(context).colorScheme.primary,
         child: getUncategorizedTransactionResponse.when(
           loading: () => const SizedBox(
             child: Center(
@@ -46,61 +42,20 @@ class CategorizeTransactionScreen extends ConsumerWidget {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      resp.uncategorizedTransaction.partyName,
-                                      style: const TextStyle(fontWeight: FontWeight.bold),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                    Padding(
-                                        padding: const EdgeInsets.only(left: 8),
-                                        child: Tooltip(
-                                          triggerMode: TooltipTriggerMode.tap,
-                                          showDuration: const Duration(milliseconds: 5000),
-                                          message: resp.uncategorizedTransaction.description,
-                                          child: const Icon(
-                                            Icons.info,
-                                          ),
-                                        ))
-                                  ],
+                                CategorizeTransactionInfo(
+                                  partyName: resp.uncategorizedTransaction.partyName,
+                                  description: resp.uncategorizedTransaction.description,
+                                  transactionAmount: resp.uncategorizedTransaction.transactionAmount,
                                 ),
-                                Text(
-                                  resp.uncategorizedTransaction.transactionAmount.toStringAsFixed(2),
-                                  style: const TextStyle(fontStyle: FontStyle.italic),
-                                  textAlign: TextAlign.center,
-                                ),
-                                const TransactionCategoriesOverview(),
-                                if (resp.uncategorizedTransaction.matchingTransactions.length > 1)
-                                  const Text("We found similar transactions, are these in the same category?"),
+                                const Repayment(),
+                                if (!repayment.isRepayment) const TransactionCategoriesOverview(),
                               ],
                             ),
                           ),
-                          SliverList(
-                            delegate: SliverChildBuilderDelegate(
-                              childCount: resp.uncategorizedTransaction.matchingTransactions.length,
-                              (context, index) {
-                                return CheckboxListTile(
-                                  visualDensity: VisualDensity.compact,
-                                  contentPadding: EdgeInsets.zero,
-                                  value: resp.toBeCategorizedTransactionIds.any(
-                                    (x) => x == resp.uncategorizedTransaction.matchingTransactions[index].id,
-                                  ),
-                                  onChanged: (bool? value) {
-                                    ref.read(categorizeTransactionProvider.notifier).toggle(
-                                          resp.uncategorizedTransaction.matchingTransactions[index].id,
-                                        );
-                                  },
-                                  title: Text(resp.uncategorizedTransaction.matchingTransactions[index].transactionAmount
-                                      .toStringAsFixed(2)),
-                                  subtitle: Text(
-                                    epochToDateString(resp.uncategorizedTransaction.matchingTransactions[index].date),
-                                  ),
-                                );
-                              },
-                            ),
-                          ),
+                          if (!repayment.isRepayment)
+                            SimilarTransactions(
+                              model: resp,
+                            )
                         ],
                       ),
                     ),
@@ -123,7 +78,8 @@ class CategorizeTransactionScreen extends ConsumerWidget {
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: ElevatedButton(
-                            onPressed: categorizeTransaction.value?.selectedTransactionCategory != null
+                            onPressed: categorizeTransaction.value?.selectedTransactionCategory != null ||
+                                    repayment.selectedTransactionId != null
                                 ? () async {
                                     await ref
                                         .read(categorizeTransactionProvider.notifier)

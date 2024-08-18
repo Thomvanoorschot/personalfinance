@@ -433,18 +433,26 @@ class MatchingUncategorizedTransactionResponse extends $pb.GeneratedMessage {
 class CategorizeTransactionAndContinueRequest extends $pb.GeneratedMessage {
   factory CategorizeTransactionAndContinueRequest({
     $core.String? userId,
+    $core.String? primaryTransactionId,
     $core.Iterable<$core.String>? transactionIds,
     $core.String? categoryId,
+    $core.String? associatedTransactionId,
   }) {
     final $result = create();
     if (userId != null) {
       $result.userId = userId;
+    }
+    if (primaryTransactionId != null) {
+      $result.primaryTransactionId = primaryTransactionId;
     }
     if (transactionIds != null) {
       $result.transactionIds.addAll(transactionIds);
     }
     if (categoryId != null) {
       $result.categoryId = categoryId;
+    }
+    if (associatedTransactionId != null) {
+      $result.associatedTransactionId = associatedTransactionId;
     }
     return $result;
   }
@@ -454,8 +462,10 @@ class CategorizeTransactionAndContinueRequest extends $pb.GeneratedMessage {
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'CategorizeTransactionAndContinueRequest', createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'userId', protoName: 'userId')
-    ..pPS(2, _omitFieldNames ? '' : 'transactionIds', protoName: 'transactionIds')
-    ..aOS(3, _omitFieldNames ? '' : 'categoryId', protoName: 'categoryId')
+    ..aOS(2, _omitFieldNames ? '' : 'primaryTransactionId', protoName: 'primaryTransactionId')
+    ..pPS(3, _omitFieldNames ? '' : 'transactionIds', protoName: 'transactionIds')
+    ..aOS(4, _omitFieldNames ? '' : 'categoryId', protoName: 'categoryId')
+    ..aOS(5, _omitFieldNames ? '' : 'associatedTransactionId', protoName: 'associatedTransactionId')
     ..hasRequiredFields = false
   ;
 
@@ -490,16 +500,34 @@ class CategorizeTransactionAndContinueRequest extends $pb.GeneratedMessage {
   void clearUserId() => clearField(1);
 
   @$pb.TagNumber(2)
-  $core.List<$core.String> get transactionIds => $_getList(1);
+  $core.String get primaryTransactionId => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set primaryTransactionId($core.String v) { $_setString(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasPrimaryTransactionId() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearPrimaryTransactionId() => clearField(2);
 
   @$pb.TagNumber(3)
-  $core.String get categoryId => $_getSZ(2);
-  @$pb.TagNumber(3)
-  set categoryId($core.String v) { $_setString(2, v); }
-  @$pb.TagNumber(3)
-  $core.bool hasCategoryId() => $_has(2);
-  @$pb.TagNumber(3)
-  void clearCategoryId() => clearField(3);
+  $core.List<$core.String> get transactionIds => $_getList(2);
+
+  @$pb.TagNumber(4)
+  $core.String get categoryId => $_getSZ(3);
+  @$pb.TagNumber(4)
+  set categoryId($core.String v) { $_setString(3, v); }
+  @$pb.TagNumber(4)
+  $core.bool hasCategoryId() => $_has(3);
+  @$pb.TagNumber(4)
+  void clearCategoryId() => clearField(4);
+
+  @$pb.TagNumber(5)
+  $core.String get associatedTransactionId => $_getSZ(4);
+  @$pb.TagNumber(5)
+  set associatedTransactionId($core.String v) { $_setString(4, v); }
+  @$pb.TagNumber(5)
+  $core.bool hasAssociatedTransactionId() => $_has(4);
+  @$pb.TagNumber(5)
+  void clearAssociatedTransactionId() => clearField(5);
 }
 
 class TransactionResponse extends $pb.GeneratedMessage {

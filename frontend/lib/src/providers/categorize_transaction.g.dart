@@ -7,7 +7,7 @@ part of 'categorize_transaction.dart';
 // **************************************************************************
 
 String _$categorizeTransactionHash() =>
-    r'0069a5cb81923339ad5d0b37a6651cc5065bd19b';
+    r'f895e1ad8b75e6ad5adb2000bf18eabb5f80cad4';
 
 /// See also [CategorizeTransaction].
 @ProviderFor(CategorizeTransaction)

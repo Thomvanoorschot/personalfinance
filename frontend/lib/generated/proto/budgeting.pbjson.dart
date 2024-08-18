@@ -102,16 +102,21 @@ const CategorizeTransactionAndContinueRequest$json = {
   '1': 'CategorizeTransactionAndContinueRequest',
   '2': [
     {'1': 'userId', '3': 1, '4': 1, '5': 9, '8': {}, '10': 'userId'},
-    {'1': 'transactionIds', '3': 2, '4': 3, '5': 9, '10': 'transactionIds'},
-    {'1': 'categoryId', '3': 3, '4': 1, '5': 9, '8': {}, '10': 'categoryId'},
+    {'1': 'primaryTransactionId', '3': 2, '4': 1, '5': 9, '8': {}, '10': 'primaryTransactionId'},
+    {'1': 'transactionIds', '3': 3, '4': 3, '5': 9, '10': 'transactionIds'},
+    {'1': 'categoryId', '3': 4, '4': 1, '5': 9, '8': {}, '10': 'categoryId'},
+    {'1': 'associatedTransactionId', '3': 5, '4': 1, '5': 9, '8': {}, '10': 'associatedTransactionId'},
   ],
 };
 
 /// Descriptor for `CategorizeTransactionAndContinueRequest`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List categorizeTransactionAndContinueRequestDescriptor = $convert.base64Decode(
     'CidDYXRlZ29yaXplVHJhbnNhY3Rpb25BbmRDb250aW51ZVJlcXVlc3QSIAoGdXNlcklkGAEgAS'
-    'gJQgi6SAVyA7ABAVIGdXNlcklkEiYKDnRyYW5zYWN0aW9uSWRzGAIgAygJUg50cmFuc2FjdGlv'
-    'bklkcxIoCgpjYXRlZ29yeUlkGAMgASgJQgi6SAVyA7ABAVIKY2F0ZWdvcnlJZA==');
+    'gJQgi6SAVyA7ABAVIGdXNlcklkEjwKFHByaW1hcnlUcmFuc2FjdGlvbklkGAIgASgJQgi6SAVy'
+    'A7ABAVIUcHJpbWFyeVRyYW5zYWN0aW9uSWQSJgoOdHJhbnNhY3Rpb25JZHMYAyADKAlSDnRyYW'
+    '5zYWN0aW9uSWRzEigKCmNhdGVnb3J5SWQYBCABKAlCCLpIBXIDsAEBUgpjYXRlZ29yeUlkEkIK'
+    'F2Fzc29jaWF0ZWRUcmFuc2FjdGlvbklkGAUgASgJQgi6SAVyA7ABAVIXYXNzb2NpYXRlZFRyYW'
+    '5zYWN0aW9uSWQ=');
 
 @$core.Deprecated('Use transactionResponseDescriptor instead')
 const TransactionResponse$json = {

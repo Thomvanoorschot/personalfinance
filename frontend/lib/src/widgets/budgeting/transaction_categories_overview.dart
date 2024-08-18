@@ -17,7 +17,7 @@ class TransactionCategoriesOverview extends ConsumerWidget {
     double width = MediaQuery.sizeOf(context).width;
     return Material(
       borderRadius: BorderRadius.circular(16),
-      color: Theme.of(context).colorScheme.primaryContainer,
+      color: Theme.of(context).colorScheme.surfaceContainer,
       child: transactionCategories.when(
         // TODO Show shimmer
         loading: () => const SizedBox(

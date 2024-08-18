@@ -38,8 +38,10 @@ message MatchingUncategorizedTransactionResponse {
 
 message CategorizeTransactionAndContinueRequest {
   string userId = 1 [(buf.validate.field).string.uuid = true];
-  repeated string transactionIds = 2;
-  string categoryId = 3 [(buf.validate.field).string.uuid = true];
+  string primaryTransactionId = 2  [(buf.validate.field).string.uuid = true];
+  repeated string transactionIds = 3;
+  string categoryId = 4 [(buf.validate.field).string.uuid = true];
+  string associatedTransactionId = 5 [(buf.validate.field).string.uuid = true];
 }
 
 message TransactionResponse {

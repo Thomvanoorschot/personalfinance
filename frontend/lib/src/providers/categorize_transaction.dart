@@ -6,6 +6,7 @@ import 'package:frontend/src/clients/budgeting_client.dart';
 import 'package:frontend/src/clients/grpc_client.dart';
 import 'package:frontend/src/models/transaction/categorize_transaction_model.dart';
 import 'package:frontend/src/models/user/user_model.dart';
+import 'package:frontend/src/providers/repayment.dart';
 import 'package:frontend/src/providers/transactions.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:device_info_plus/device_info_plus.dart';
@@ -61,15 +62,15 @@ class CategorizeTransaction extends _$CategorizeTransaction {
 
   Future linkTransactionCategoryToTransactions() async {
     await update((data) async {
-      if (data.selectedTransactionCategory == null) {
-        return data;
-      }
+      final isRepayment = ref.read(repaymentProvider).isRepayment;
 
       final newToBeCategorizedTransaction =
           await ref.read(budgetingServiceProvider).categorizeTransactionAndContinue(CategorizeTransactionAndContinueRequest(
                 userId: "",
-                categoryId: data.selectedTransactionCategory!.id,
-                transactionIds: data.toBeCategorizedTransactionIds,
+                categoryId: isRepayment ? null : data.selectedTransactionCategory!.id,
+                transactionIds: isRepayment ? List.from({data.uncategorizedTransaction.id}) : data.toBeCategorizedTransactionIds,
+                primaryTransactionId: data.uncategorizedTransaction.id,
+                associatedTransactionId: ref.read(repaymentProvider).selectedTransactionId,
               ));
 
       final toBeCategorizedList = newToBeCategorizedTransaction.matchingTransactions.map((x) => x.id).toList(growable: true);
@@ -78,7 +79,7 @@ class CategorizeTransaction extends _$CategorizeTransaction {
 
       ref.read(transactionsProvider.notifier).updateTransactionCategory(data.toBeCategorizedTransactionIds,
           data.selectedTransactionCategoryGroup?.slug, data.selectedTransactionCategory?.slug);
-
+      ref.invalidate(repaymentProvider);
       return data.copyWith(
         uncategorizedTransaction: newToBeCategorizedTransaction,
         toBeCategorizedTransactionIds: toBeCategorizedList,

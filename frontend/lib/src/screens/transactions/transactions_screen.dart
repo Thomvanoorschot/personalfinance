@@ -11,6 +11,7 @@ import 'package:frontend/src/widgets/budgeting/transaction_category_group_chart.
 import 'package:frontend/src/widgets/banking/time_range_selector.dart';
 import 'package:frontend/src/widgets/budgeting/transaction_card.dart';
 import 'package:frontend/src/widgets/budgeting/transaction_card_shimmer.dart';
+import 'package:frontend/src/widgets/budgeting/transaction_list.dart';
 import 'package:go_router/go_router.dart';
 
 final GlobalKey<TransactionsScreenState> transactionScreenKey = GlobalKey<TransactionsScreenState>();
@@ -47,105 +48,93 @@ class TransactionsScreenState extends ConsumerState<TransactionsScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.surface,
+        centerTitle: true,
         title: const Text("Transactions"),
+        actions: [
+          IconButton(
+            onPressed: () {
+              context.go("/transactions/getBanks");
+            },
+            icon: const Icon(
+              Icons.add_card,
+            ),
+          ),
+          Hero(
+            tag: "categorize",
+            child: IconButton(
+              onPressed: () {
+                context.go("/transactions/categorize");
+              },
+              icon: const Icon(
+                Icons.dashboard_customize,
+              ),
+            ),
+          ),
+        ],
       ),
       body: RefreshIndicator(
         onRefresh: () async {
           ref.read(transactionsProvider.notifier).getTransactions(reset: true);
           ref.invalidate(getBankAccountsProvider);
         },
-        child: CustomScrollView(
-          controller: _scrollController,
-          slivers: [
-            SliverList(
-              delegate: SliverChildListDelegate(
-                [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text("Bank accounts"),
-                      TextButton(
-                        style: TextButton.styleFrom(
-                          overlayColor: Colors.grey,
-                          textStyle: const TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        onPressed: () async {
-                          context.go("/transactions/getBanks");
-                        },
-                        child: const Text(
-                          "ADD NEW +",
-                          style: TextStyle(
-                            color: Colors.grey,
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            SliverToBoxAdapter(
-              child: SizedBox(
-                height: SizeConfig.safeBlockVertical * 20,
-                child: const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: BankAccounts(),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: CustomScrollView(
+            controller: _scrollController,
+            slivers: [
+              // SliverList(
+              //   delegate: SliverChildListDelegate(
+              //     [
+              //       Row(
+              //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //         children: [
+              //           TextButton(
+              //             onPressed: () async {
+              //               context.go("/transactions/getBanks");
+              //             },
+              //             child: const Text(
+              //               "Link Bank Account",
+              //             ),
+              //           )
+              //         ],
+              //       ),
+              //     ],
+              //   ),
+              // ),
+              // SliverToBoxAdapter(
+              //   child: OverflowBar(
+              //     alignment: MainAxisAlignment.spaceEvenly,
+              //     children: <Widget>[
+              //       Hero(
+              //         // key: _key,
+              //         tag: "categorize",
+              //         child: TextButton(
+              //           child: const Text('Categorize'),
+              //           onPressed: () {
+              //             context.go("/transactions/categorize");
+              //           },
+              //         ),
+              //       ),
+              //     ],
+              //   ),
+              // ),
+              transactionsResponse.when(
+                error: (err, stack) => Text(err.toString()),
+                loading: () => SliverList.builder(
+                  itemCount: 10,
+                  itemBuilder: (context, index) {
+                    return const TransactionCardShimmer();
+                  },
                 ),
-              ),
-            ),
-            SliverToBoxAdapter(
-              child: OverflowBar(
-                alignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  Hero(
-                    // key: _key,
-                    tag: "categorize",
-                    child: TextButton(
-                        child: const Text('Categorize'),
-                        onPressed: () {
-                          context.go("/transactions/categorize");
-                        }),
-                  ),
-                  TextButton(child: const Text('Button 2'), onPressed: () {}),
-                  TextButton(child: const Text('Button 3'), onPressed: () {}),
-                ],
-              ),
-            ),
-            transactionsResponse.when(
-              error: (err, stack) => Text(err.toString()),
-              loading: () => SliverList.builder(
-                itemCount: 10,
-                itemBuilder: (context, index) {
-                  return const TransactionCardShimmer();
+                data: (resp) {
+                  if (resp.transactions.isEmpty) {
+                    return const SliverToBoxAdapter(child: Text("TEMP NO TX FOUND"));
+                  }
+                  return TransactionList(txResp: resp);
                 },
               ),
-              data: (resp) {
-                if (resp.transactions.isEmpty) {
-                  return const SliverToBoxAdapter(child: Text("TEMP NO TX FOUND"));
-                }
-                // TODO Fix
-                return SliverList.builder(
-                  itemCount: transactionsResponse.value?.totalCount.toInt(),
-                  itemBuilder: (context, index) {
-                    if (index < resp.transactions.length) {
-                      final transaction = resp.transactions[index];
-
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TransactionCard(
-                          transaction: transaction,
-                        ),
-                      );
-                    } else {
-                      ref.read(transactionsProvider.notifier).getTransactions();
-                      return const TransactionCardShimmer();
-                    }
-                  },
-                );
-              },
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

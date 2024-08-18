@@ -11,8 +11,7 @@ class BanksOverviewScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    AsyncValue<GetBanksResponse> banksResponse =
-        ref.watch(getBanksProvider(req: GetBanksRequest(countryCode: "NL")));
+    AsyncValue<GetBanksResponse> banksResponse = ref.watch(getBanksProvider(req: GetBanksRequest(countryCode: "NL")));
 
     return banksResponse.when(
       loading: () => const SizedBox(child: Center(child: CircularProgressIndicator())),
@@ -23,8 +22,8 @@ class BanksOverviewScreen extends ConsumerWidget {
           initialChildSize: 1,
           minChildSize: 0.9,
           builder: (context, scrollController) {
-           return  ListView.builder(
-             controller: scrollController,
+            return ListView.builder(
+              controller: scrollController,
               padding: const EdgeInsets.all(8),
               itemCount: resp.banks.length,
               itemBuilder: (BuildContext context, int index) {
@@ -32,23 +31,28 @@ class BanksOverviewScreen extends ConsumerWidget {
                   onTap: () async {
                     context.go("/transactions/getBanks/createRequisition/${resp.banks[index].id}");
                   },
-                  colorOverride:
-                      Theme.of(context).colorScheme.secondaryContainer,
-                  body: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      CircleAvatar(
-                        backgroundImage: NetworkImage(
-                          resp.banks[index].iconURL,
-                          scale: 0.1,
+                  colorOverride: Theme.of(context).colorScheme.primary,
+                  body: Padding(
+                    padding: const EdgeInsets.all(6.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        CircleAvatar(
+                          backgroundImage: NetworkImage(
+                            resp.banks[index].iconURL,
+                            scale: 0.1,
+                          ),
+                          backgroundColor: Colors.transparent,
                         ),
-                        backgroundColor: Colors.transparent,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 10),
-                        child: Text(resp.banks[index].name),
-                      ),
-                    ],
+                        Padding(
+                          padding: const EdgeInsets.only(left: 10),
+                          child: Text(
+                            resp.banks[index].name,
+                            style: const TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 );
               },

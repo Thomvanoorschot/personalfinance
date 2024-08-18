@@ -46,10 +46,29 @@ class MyAppState extends ConsumerState<MyApp> {
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.green,
-          dynamicSchemeVariant: DynamicSchemeVariant.expressive,
+        textButtonTheme:  TextButtonThemeData(
+          style: TextButton.styleFrom(
+            backgroundColor: const Color(0xFFBC6C25),
+            foregroundColor: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8.0),
+            ),
+          ),
         ),
+        scaffoldBackgroundColor: const Color(0xFFFEFAE0),
+        colorScheme: const ColorScheme.light(
+          primary: Color(0xFF606C38), // #606C38 (96,108,56)
+          primaryContainer: Color(0xFF283618), // #283618 (40,54,24)
+          secondary: Color(0xFFDDA15E), // #DDA15E (221,161,94)
+          secondaryContainer: Color(0xFFBC6C25), // #BC6C25 (188,108,37)
+          surface: Color(0xFFFEFAE0), // #FEFAE0 (254,250,224)
+          error: Colors.red,
+          onPrimary: Colors.white,
+          onSecondary: Colors.white,
+          onSurface: Color(0xFF283618), // Text/icons on surfaces
+          onError: Colors.white,
+          brightness: Brightness.light,
+        )
       ),
     );
   }
