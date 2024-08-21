@@ -16,7 +16,9 @@ class LabeledSwitch extends StatelessWidget {
         Expanded(
           child: Text(
             label,
-            style: const TextStyle(color: Colors.white),
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.primaryContainer,
+            ),
             softWrap: false,
           ),
         ),
@@ -24,7 +26,7 @@ class LabeledSwitch extends StatelessWidget {
           child: CupertinoSwitch(
             value: value,
             onChanged: onChanged,
-            activeColor: Theme.of(context).colorScheme.secondary,
+            activeColor: Theme.of(context).colorScheme.primary,
           ),
         ),
       ],

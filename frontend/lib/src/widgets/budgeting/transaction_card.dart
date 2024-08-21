@@ -43,14 +43,14 @@ class TransactionCard extends StatelessWidget {
                 children: [
                   Text(
                     transaction.partyName,
-                    style: const TextStyle(color: Colors.white),
+                    style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
                   ),
                 ],
               ),
             ),
             Text(
               "€${transaction.transactionAmount.toStringAsFixed(2)}",
-              style: const TextStyle(color: Colors.white),
+              style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
             ),
           ],
         ),

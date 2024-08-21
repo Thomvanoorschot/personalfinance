@@ -23,11 +23,11 @@ class SimilarTransactions extends ConsumerWidget {
             itemCount: model.uncategorizedTransaction.matchingTransactions.length + 1,
             itemBuilder: (context, index) {
               if (index == 0) {
-                return const Text(
+                return Text(
                   "Similar transactions",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    color: Colors.white,
+                    color: Theme.of(context).colorScheme.primary,
                   ),
                   textAlign: TextAlign.center,
                 );
@@ -35,9 +35,9 @@ class SimilarTransactions extends ConsumerWidget {
               return CheckboxListTile(
                 visualDensity: VisualDensity.compact,
                 contentPadding: EdgeInsets.zero,
-                activeColor: Colors.white,
-                checkColor: Theme.of(context).colorScheme.primary,
-                tileColor: Theme.of(context).colorScheme.secondary.withOpacity(0.2),
+                activeColor: Theme.of(context).colorScheme.primary,
+                checkColor: Theme.of(context).colorScheme.onPrimary,
+                // tileColor: Theme.of(context).colorScheme.primary.withOpacity(0.2),
                 value: model.toBeCategorizedTransactionIds.any(
                   (x) => x == model.uncategorizedTransaction.matchingTransactions[index - 1].id,
                 ),
@@ -50,8 +50,8 @@ class SimilarTransactions extends ConsumerWidget {
                   padding: const EdgeInsets.only(left: 8),
                   child: Text(
                     model.uncategorizedTransaction.matchingTransactions[index - 1].transactionAmount.toStringAsFixed(2),
-                    style: const TextStyle(
-                      color: Colors.white,
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.primary,
                     ),
                   ),
                 ),
@@ -59,8 +59,8 @@ class SimilarTransactions extends ConsumerWidget {
                   padding: const EdgeInsets.only(left: 8),
                   child: Text(
                     epochToDateString(model.uncategorizedTransaction.matchingTransactions[index - 1].date),
-                    style: const TextStyle(
-                      color: Colors.white,
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.primary,
                     ),
                   ),
                 ),

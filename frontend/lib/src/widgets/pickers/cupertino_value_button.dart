@@ -4,8 +4,7 @@ import 'package:flutter/material.dart';
 const double _kItemExtent = 32.0;
 
 class CupertinoValueButton extends StatelessWidget {
-  const CupertinoValueButton(
-      {required this.selectedIndex, required this.values, required this.onSelectedItemChanged, super.key});
+  const CupertinoValueButton({required this.selectedIndex, required this.values, required this.onSelectedItemChanged, super.key});
 
   final int selectedIndex;
   final List<String> values;
@@ -20,7 +19,7 @@ class CupertinoValueButton extends StatelessWidget {
         margin: EdgeInsets.only(
           bottom: MediaQuery.of(context).viewInsets.bottom,
         ),
-        color: CupertinoColors.systemBackground.resolveFrom(context),
+        color: Theme.of(context).colorScheme.primary,
         child: SafeArea(
           top: false,
           child: child,
@@ -32,7 +31,7 @@ class CupertinoValueButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CupertinoButton(
-      color: CupertinoColors.systemGrey5,
+      color: Theme.of(context).colorScheme.primary,
       padding: const EdgeInsets.all(10),
       onPressed: () => _showDialog(
         context,
@@ -46,14 +45,19 @@ class CupertinoValueButton extends StatelessWidget {
           ),
           onSelectedItemChanged: onSelectedItemChanged,
           children: List<Widget>.generate(values.length, (int index) {
-            return Center(child: Text(values[index]));
+            return Center(
+              child: Text(
+                values[index],
+                style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+              ),
+            );
           }),
         ),
       ),
       child: Text(
         values[selectedIndex],
         style: TextStyle(
-          color: Theme.of(context).colorScheme.secondary,
+          color: Theme.of(context).colorScheme.onPrimary,
           fontSize: 22.0,
         ),
       ),

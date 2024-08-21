@@ -10,6 +10,7 @@ class CategorizeTransactionInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textColor = Theme.of(context).colorScheme.primaryContainer;
     return Column(
       children: [
         Row(
@@ -18,9 +19,9 @@ class CategorizeTransactionInfo extends StatelessWidget {
             Flexible(
               child: Text(
                 partyName,
-                style: const TextStyle(
+                style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  color: Colors.white,
+                  color: textColor,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -32,9 +33,9 @@ class CategorizeTransactionInfo extends StatelessWidget {
                   triggerMode: TooltipTriggerMode.tap,
                   showDuration: const Duration(milliseconds: 5000),
                   message: description,
-                  child: const Icon(
+                  child: Icon(
                     Icons.info,
-                    color: Colors.white,
+                    color: textColor,
                   ),
                 ),
               ),
@@ -42,8 +43,11 @@ class CategorizeTransactionInfo extends StatelessWidget {
           ],
         ),
         Text(
-          transactionAmount.toStringAsFixed(2),
-          style: const TextStyle(fontStyle: FontStyle.italic, color: Colors.white),
+          "€${transactionAmount.toStringAsFixed(2)}",
+          style: TextStyle(
+            fontStyle: FontStyle.italic,
+            color: textColor,
+          ),
           textAlign: TextAlign.center,
         ),
       ],

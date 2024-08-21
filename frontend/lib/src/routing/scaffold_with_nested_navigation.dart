@@ -60,28 +60,18 @@ class ScaffoldWithNavigationBar extends StatelessWidget {
       bottomNavigationBar: NavigationBar(
         selectedIndex: currentIndex,
         height: SizeConfig.safeBlockVertical * 8,
-        destinations: [
+        destinations: const [
           NavigationDestination(
-            icon: SvgPicture.asset(
-              height: 24,
-              width: 24,
-              'assets/home_icon.svg',
-              colorFilter: ColorFilter.mode(Theme.of(context).colorScheme.secondary, BlendMode.srcIn),
-            ),
-            selectedIcon: SvgPicture.asset(
-              height: 24,
-              width: 24,
-              'assets/home_icon.svg',
-              colorFilter: ColorFilter.mode(Theme.of(context).colorScheme.secondary, BlendMode.srcIn),
-            ),
-            label: 'Home',
+            icon: Icon(Icons.monetization_on),
+            selectedIcon: Icon(Icons.monetization_on),
+            label: 'Budget',
           ),
-          const NavigationDestination(
-            icon: Icon(Icons.location_city_outlined),
-            selectedIcon: Icon(Icons.location_city),
+          NavigationDestination(
+            icon: Icon(Icons.swap_horiz),
+            selectedIcon: Icon(Icons.swap_horiz),
             label: 'Transactions',
           ),
-          const NavigationDestination(
+          NavigationDestination(
             icon: Icon(Icons.bar_chart_outlined),
             selectedIcon: Icon(Icons.bar_chart),
             label: 'Insights',

@@ -28,7 +28,7 @@ class TransactionCategoryChart extends ConsumerWidget {
           final widgetSize = SizeConfig.safeBlockHorizontal * 15;
 
           return PieChartSectionData(
-            color: Color(categorizedTransactionsNotifier.categoryGroupColorMap[x.slug]!),
+            color: categorizedTransactionsNotifier.categoryGroupColorMap[x.slug]!,
             value: x.percentage,
             title: isTouched ? '${x.percentage.round()}%' : '',
             radius: radius,
@@ -54,7 +54,7 @@ class TransactionCategoryChart extends ConsumerWidget {
           final widgetSize = SizeConfig.safeBlockHorizontal * 10;
 
           return PieChartSectionData(
-            color: Color(categorizedTransactionsNotifier.categoryColorMap[x.slug] ?? 0xFFB0E0E6),
+            color: categorizedTransactionsNotifier.categoryColorMap[x.slug],
             value: x.percentage,
             title: '${x.percentage.round()}%',
             radius: radius,

@@ -82,42 +82,6 @@ class TransactionsScreenState extends ConsumerState<TransactionsScreen> {
           child: CustomScrollView(
             controller: _scrollController,
             slivers: [
-              // SliverList(
-              //   delegate: SliverChildListDelegate(
-              //     [
-              //       Row(
-              //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //         children: [
-              //           TextButton(
-              //             onPressed: () async {
-              //               context.go("/transactions/getBanks");
-              //             },
-              //             child: const Text(
-              //               "Link Bank Account",
-              //             ),
-              //           )
-              //         ],
-              //       ),
-              //     ],
-              //   ),
-              // ),
-              // SliverToBoxAdapter(
-              //   child: OverflowBar(
-              //     alignment: MainAxisAlignment.spaceEvenly,
-              //     children: <Widget>[
-              //       Hero(
-              //         // key: _key,
-              //         tag: "categorize",
-              //         child: TextButton(
-              //           child: const Text('Categorize'),
-              //           onPressed: () {
-              //             context.go("/transactions/categorize");
-              //           },
-              //         ),
-              //       ),
-              //     ],
-              //   ),
-              // ),
               transactionsResponse.when(
                 error: (err, stack) => Text(err.toString()),
                 loading: () => SliverList.builder(

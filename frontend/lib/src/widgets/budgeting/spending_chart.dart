@@ -29,12 +29,12 @@ class SpendingChart extends ConsumerWidget {
             barRods: [
               BarChartRodData(
                 toY: x.ingoingAmount,
-                color: const Color(0xFF77DD77),
+                color: Theme.of(context).colorScheme.primary,
                 width: 7,
               ),
               BarChartRodData(
                 toY: -x.outgoingAmount,
-                color: const Color(0xFFFF6961),
+                color: const Color(0xFFB24C47),
                 width: 7,
               ),
             ],

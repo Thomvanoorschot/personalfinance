@@ -39,6 +39,12 @@ class MyAppState extends ConsumerState<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    const surface = Color(0xFFFEFAE0);
+    const primary = Color(0xFF4E5D4E);
+    const primaryContainer = Color(0xFF283618);
+    const secondary = Color(0xFFDDA15E);
+    const secondaryContainer = Color(0xFFBC6C25);
+
     SizeConfig().init(context);
     final goRouter = ref.watch(goRouterProvider);
     return MaterialApp.router(
@@ -46,30 +52,53 @@ class MyAppState extends ConsumerState<MyApp> {
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        textButtonTheme:  TextButtonThemeData(
-          style: TextButton.styleFrom(
-            backgroundColor: const Color(0xFFBC6C25),
-            foregroundColor: Colors.white,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8.0),
+          textButtonTheme: TextButtonThemeData(
+            style: TextButton.styleFrom(
+              backgroundColor: primary,
+              foregroundColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8.0),
+              ),
             ),
           ),
-        ),
-        scaffoldBackgroundColor: const Color(0xFFFEFAE0),
-        colorScheme: const ColorScheme.light(
-          primary: Color(0xFF606C38), // #606C38 (96,108,56)
-          primaryContainer: Color(0xFF283618), // #283618 (40,54,24)
-          secondary: Color(0xFFDDA15E), // #DDA15E (221,161,94)
-          secondaryContainer: Color(0xFFBC6C25), // #BC6C25 (188,108,37)
-          surface: Color(0xFFFEFAE0), // #FEFAE0 (254,250,224)
-          error: Colors.red,
-          onPrimary: Colors.white,
-          onSecondary: Colors.white,
-          onSurface: Color(0xFF283618), // Text/icons on surfaces
-          onError: Colors.white,
-          brightness: Brightness.light,
-        )
-      ),
+          navigationBarTheme: NavigationBarThemeData(
+            backgroundColor: surface,
+            indicatorColor: primary,
+            labelTextStyle: WidgetStateProperty.all(
+              const TextStyle(
+                color: primaryContainer,
+              ),
+            ),
+            iconTheme: WidgetStateProperty.resolveWith<IconThemeData>((states) {
+              if (states.contains(WidgetState.selected)) {
+                return const IconThemeData(color: Colors.white);
+              }
+              return const IconThemeData(color: primaryContainer);
+            }),
+          ),
+          elevatedButtonTheme: ElevatedButtonThemeData(
+            style: TextButton.styleFrom(
+                backgroundColor: primary,
+                foregroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                disabledBackgroundColor: primary.withOpacity(0.7)),
+          ),
+          scaffoldBackgroundColor: surface,
+          colorScheme: const ColorScheme.light(
+            primary: primary,
+            primaryContainer: primaryContainer,
+            onPrimary: Colors.white,
+            secondary: secondary,
+            secondaryContainer: secondaryContainer,
+            onSecondary: Colors.white,
+            surface: surface,
+            onSurface: primaryContainer,
+            error: Colors.red,
+            onError: Colors.white,
+            brightness: Brightness.light,
+          )),
     );
   }
 }

@@ -48,7 +48,7 @@ class BanksOverviewScreen extends ConsumerWidget {
                           padding: const EdgeInsets.only(left: 10),
                           child: Text(
                             resp.banks[index].name,
-                            style: const TextStyle(color: Colors.white),
+                            style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
                           ),
                         ),
                       ],

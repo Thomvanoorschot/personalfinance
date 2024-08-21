@@ -21,7 +21,7 @@ class CategorizeTransactionScreen extends ConsumerWidget {
       padding: const EdgeInsets.fromLTRB(16, 32, 16, 16),
       child: Material(
         borderRadius: BorderRadius.circular(16),
-        color: Theme.of(context).colorScheme.primary,
+        color: Theme.of(context).colorScheme.surface,
         child: getUncategorizedTransactionResponse.when(
           loading: () => const SizedBox(
             child: Center(
@@ -87,7 +87,7 @@ class CategorizeTransactionScreen extends ConsumerWidget {
                                     Haptics.vibrate(HapticsType.success);
                                   }
                                 : null,
-                            child: const Icon(Icons.done),
+                            child: const Icon(Icons.done,),
                           ),
                         ),
                       ),

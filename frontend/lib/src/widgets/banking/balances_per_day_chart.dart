@@ -25,17 +25,31 @@ class BalancesPerDayChart extends ConsumerWidget {
         return LineChart(
           LineChartData(
             minY: 0,
-            lineTouchData: LineTouchData(touchCallback: (event, response) {
-              if (event is FlPanUpdateEvent) {
-                if (response != null && response.lineBarSpots != null) {
-                  Haptics.vibrate(HapticsType.selection);
-                }
-              }
-            }),
+            lineTouchData: LineTouchData(
+                touchTooltipData: LineTouchTooltipData(
+                  getTooltipColor: (touchedSpot) => Theme.of(context).colorScheme.primary,
+                  getTooltipItems: (touchedSpots) {
+                    final textColor = Theme.of(context).colorScheme.onPrimary;
+                    return touchedSpots.map((LineBarSpot touchedSpot) {
+                      final textStyle = TextStyle(
+                        color: textColor,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
+                      );
+                      return LineTooltipItem(touchedSpot.y.toString(), textStyle);
+                    }).toList();
+                  },
+                ),
+                touchCallback: (event, response) {
+                  if (event is FlPanUpdateEvent) {
+                    if (response != null && response.lineBarSpots != null) {
+                      Haptics.vibrate(HapticsType.selection);
+                    }
+                  }
+                }),
             borderData: FlBorderData(
               show: false,
             ),
-            // backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
             titlesData: FlTitlesData(
               leftTitles: AxisTitles(
                 sideTitles: SideTitles(
@@ -59,7 +73,7 @@ class BalancesPerDayChart extends ConsumerWidget {
             gridData: const FlGridData(show: true, drawVerticalLine: false, horizontalInterval: 1000),
             lineBarsData: [
               LineChartBarData(
-                color: Theme.of(context).colorScheme.secondary,
+                color: Theme.of(context).colorScheme.secondaryContainer,
                 spots: flSpots,
                 barWidth: 3,
                 belowBarData: BarAreaData(

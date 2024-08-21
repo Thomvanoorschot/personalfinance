@@ -76,13 +76,13 @@ class SelectedTransactionCategoryGroup extends ConsumerWidget {
                   child: Container(
                     decoration: selectedCategory?.id == selectedCategoryGroup.categories[categoryIndex].id
                         ? BoxDecoration(
-                            color: Theme.of(context).colorScheme.secondaryContainer, // Background color of the container
-                            borderRadius: BorderRadius.circular(12), // Rounded edges
+                            color: Theme.of(context).colorScheme.primary,
+                            borderRadius: BorderRadius.circular(12),
                             boxShadow: const [
                               BoxShadow(
                                 color: Colors.black12,
                                 blurRadius: 4,
-                                offset: Offset(2, 2), // Shadow effect
+                                offset: Offset(2, 2),
                               ),
                             ],
                           )

@@ -24,6 +24,7 @@ func (r *Repository) GetAllTransactionCategoryGroups(ctx context.Context) (resp 
 		FROM(TransactionCategoryGroup.
 			INNER_JOIN(TransactionCategory, TransactionCategory.TransactionCategoryGroupID.EQ(TransactionCategoryGroup.ID)),
 		).
+		WHERE(TransactionCategoryGroup.Slug.NOT_EQ(String("repayments"))).
 		Sql()
 
 	rows, err := r.conn().Query(ctx, sql, args...)
