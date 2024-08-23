@@ -37,7 +37,6 @@ class SimilarTransactions extends ConsumerWidget {
                 contentPadding: EdgeInsets.zero,
                 activeColor: Theme.of(context).colorScheme.primary,
                 checkColor: Theme.of(context).colorScheme.onPrimary,
-                // tileColor: Theme.of(context).colorScheme.primary.withOpacity(0.2),
                 value: model.toBeCategorizedTransactionIds.any(
                   (x) => x == model.uncategorizedTransaction.matchingTransactions[index - 1].id,
                 ),

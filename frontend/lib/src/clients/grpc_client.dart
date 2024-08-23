@@ -8,7 +8,7 @@ part 'grpc_client.g.dart';
 
 @riverpod
 GrpcOrGrpcWebClientChannel grpcClient(GrpcClientRef ref) {
-  return GrpcOrGrpcWebClientChannel.grpc('192.168.1.244', port: 8080, options: const ChannelOptions(
+  return GrpcOrGrpcWebClientChannel.grpc('192.168.25.17', port: 8080, options: const ChannelOptions(
       credentials: ChannelCredentials.insecure()));
 }
 
