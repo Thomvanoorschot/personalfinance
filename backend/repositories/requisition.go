@@ -55,6 +55,8 @@ func (r *Repository) GetRequisitionWithMaxTransactionHistoryDays(ctx context.Con
 	if err != nil {
 		return resp, err
 	}
+	defer rows.Close()
+
 	for rows.Next() {
 		err = rows.Scan(
 			&resp.RequisitionID,
@@ -79,12 +81,18 @@ func (r *Repository) GetRequisitionByInstitutionIDForUser(ctx context.Context, i
 		WHERE(Requisition.InstitutionID.EQ(String(institutionID)).
 			AND(Requisition.UserID.EQ(UUID(userID))),
 		).
+		ORDER_BY(Requisition.CreatedAt.DESC()).
 		Sql()
 
 	rows, err := r.conn().Query(ctx, sql, args...)
 	if errors.Is(err, pgx.ErrNoRows) {
 		return resp, nil
 	}
+	if err != nil {
+		return resp, err
+	}
+	defer rows.Close()
+
 	for rows.Next() {
 		err = rows.Scan(
 			&resp.ID,
@@ -110,6 +118,8 @@ func (r *Repository) GetRequisitions(ctx context.Context, userID uuid.UUID) (res
 	if err != nil {
 		return resp, err
 	}
+	defer rows.Close()
+
 	for rows.Next() {
 		var requisitionID uuid.UUID
 		err = rows.Scan(&requisitionID)
@@ -130,6 +140,8 @@ func (r *Repository) GetAllRequisitions(ctx context.Context) (resp []uuid.UUID, 
 	if err != nil {
 		return resp, err
 	}
+	defer rows.Close()
+
 	for rows.Next() {
 		var requisitionID uuid.UUID
 		err = rows.Scan(&requisitionID)

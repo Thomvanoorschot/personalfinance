@@ -71,6 +71,8 @@ func (r *Repository) GetAllTransactionCategories(ctx context.Context) (resp budg
 	if err != nil {
 		return resp, err
 	}
+	defer rows.Close()
+
 	for rows.Next() {
 		transactionCategory := budgeting.TransactionCategory{}
 		err = rows.Scan(
@@ -97,6 +99,8 @@ func (r *Repository) GetRepaymentsCategory(ctx context.Context) (resp uuid.UUID,
 	if err != nil {
 		return resp, err
 	}
+	defer rows.Close()
+
 	for rows.Next() {
 		err = rows.Scan(
 			&resp,

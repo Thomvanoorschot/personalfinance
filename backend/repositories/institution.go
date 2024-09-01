@@ -39,6 +39,8 @@ func (r *Repository) GetInstitutionByID(ctx context.Context, institutionID strin
 	if err != nil {
 		return resp, err
 	}
+	defer rows.Close()
+
 	for rows.Next() {
 		err = rows.Scan(
 			&resp.ID,
@@ -66,6 +68,8 @@ func (r *Repository) GetInstitutionsByCountryCode(ctx context.Context, countryCo
 	if err != nil {
 		return resp, err
 	}
+	defer rows.Close()
+
 	for rows.Next() {
 		institutionRow := model.Institution{}
 		err = rows.Scan(

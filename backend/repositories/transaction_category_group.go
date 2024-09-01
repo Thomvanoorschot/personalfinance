@@ -31,6 +31,8 @@ func (r *Repository) GetAllTransactionCategoryGroups(ctx context.Context) (resp 
 	if err != nil {
 		return resp, err
 	}
+	defer rows.Close()
+
 	for rows.Next() {
 		var transactionCategoryGroupID uuid.UUID
 		var transactionCategoryGroupSlug string

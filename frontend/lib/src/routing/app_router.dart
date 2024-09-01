@@ -8,6 +8,7 @@ import "package:frontend/src/providers/transactions.dart";
 import "package:frontend/src/routing/scaffold_with_nested_navigation.dart";
 import "package:frontend/src/screens/home/home_screen.dart";
 import "package:frontend/src/screens/insights/insights_screen.dart";
+import "package:frontend/src/screens/transactions/transaction_detail_screen.dart";
 import "package:frontend/src/screens/transactions/transactions_screen.dart";
 import "package:frontend/src/screens/banking/banks_overview_screen.dart";
 import "package:frontend/src/screens/banking/create_requisition_screen.dart";
@@ -20,6 +21,8 @@ final _rootNavigatorKey = GlobalKey<NavigatorState>();
 final _homeNavigatorKey = GlobalKey<NavigatorState>(debugLabel: "home");
 final _transactionNavigatorKey = GlobalKey<NavigatorState>(debugLabel: "transaction");
 final _insightsNavigatorKey = GlobalKey<NavigatorState>(debugLabel: "insights");
+String? previousLocation;
+bool? refreshedSamePage;
 
 // class MyNavigatorObserver extends NavigatorObserver {
 //   @override
@@ -47,6 +50,12 @@ final goRouterProvider = Provider<GoRouter>(
       initialLocation: "/home",
       navigatorKey: _rootNavigatorKey,
       debugLogDiagnostics: true,
+      redirect: (context, state) {
+        if(state.fullPath == previousLocation){
+          refreshedSamePage = true;
+        }
+        previousLocation = state.fullPath;
+      },
       routes: [
         // Stateful navigation based on:
         // https://github.com/flutter/packages/blob/main/packages/go_router/example/lib/stateful_shell_route.dart
@@ -76,9 +85,11 @@ final goRouterProvider = Provider<GoRouter>(
                 GoRoute(
                   path: "/transactions",
                   redirect: (context, state) {
-                    final state = transactionScreenKey.currentState;
-                    if (state != null) {
-                      state.scrollToTop();
+                    if (state.fullPath == "/transactions" && refreshedSamePage == true) {
+                      final state = transactionScreenKey.currentState;
+                      if (state != null) {
+                        state.scrollToTop();
+                      }
                     }
                   },
                   pageBuilder: (context, state) {
@@ -96,15 +107,18 @@ final goRouterProvider = Provider<GoRouter>(
                     GoRoute(
                       path: "getBanks",
                       pageBuilder: (context, state) => const ModalBottomSheetPage(
+                        title: "Banks",
                         child: BanksOverviewScreen(),
                       ),
                       routes: [
                         GoRoute(
-                          path: "createRequisition/:bankId",
+                          path: "createRequisition/:bankId/:bankName",
                           pageBuilder: (context, state) {
                             final bankId = state.pathParameters["bankId"] as String;
+                            final bankName = state.pathParameters["bankName"] as String;
 
                             return ModalBottomSheetPage(
+                              title: bankName,
                               child: CreateRequisitionScreen(
                                 bankId: bankId,
                               ),
@@ -117,9 +131,16 @@ final goRouterProvider = Provider<GoRouter>(
                       parentNavigatorKey: _transactionNavigatorKey,
                       path: "categorize",
                       pageBuilder: (context, state) {
-                        return const PopupCardPage(
+                        String? transactionId;
+                        if (state.uri.queryParameters.isNotEmpty && state.uri.queryParameters.containsKey("transactionId")) {
+                          transactionId = state.uri.queryParameters["transactionId"];
+                        }
+
+                        return PopupCardPage(
                           tag: "categorize",
-                          child: CategorizeTransactionScreen(),
+                          child: CategorizeTransactionScreen(
+                            transactionId: transactionId,
+                          ),
                         );
                       },
                       routes: [],
@@ -129,9 +150,24 @@ final goRouterProvider = Provider<GoRouter>(
                       pageBuilder: (context, state) {
                         final transactionId = state.pathParameters["transactionId"] as String;
 
-                        return PopupCardPage(
-                          tag: transactionId,
-                          child: Text(transactionId),
+                        return ModalBottomSheetPage(
+                          isScrollControlled: false,
+                          titleWidget: Row(
+                            children: [
+                              const Text("(Re)categorize"),
+                              IconButton(
+                                onPressed: () {
+                                  context.go("/transactions/categorize?transactionId=$transactionId");
+                                },
+                                icon: const Icon(
+                                  Icons.dashboard_customize,
+                                ),
+                              ),
+                            ],
+                          ),
+                          child: TransactionDetailScreen(
+                            transactionId: transactionId,
+                          ),
                         );
                       },
                       routes: [],

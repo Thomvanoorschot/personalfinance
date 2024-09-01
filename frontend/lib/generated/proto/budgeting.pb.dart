@@ -159,10 +159,14 @@ class GetTransactionsResponse extends $pb.GeneratedMessage {
 class GetUncategorizedTransactionRequest extends $pb.GeneratedMessage {
   factory GetUncategorizedTransactionRequest({
     $core.String? userId,
+    $core.String? transactionId,
   }) {
     final $result = create();
     if (userId != null) {
       $result.userId = userId;
+    }
+    if (transactionId != null) {
+      $result.transactionId = transactionId;
     }
     return $result;
   }
@@ -172,6 +176,7 @@ class GetUncategorizedTransactionRequest extends $pb.GeneratedMessage {
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetUncategorizedTransactionRequest', createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'userId', protoName: 'userId')
+    ..aOS(2, _omitFieldNames ? '' : 'transactionId', protoName: 'transactionId')
     ..hasRequiredFields = false
   ;
 
@@ -204,6 +209,15 @@ class GetUncategorizedTransactionRequest extends $pb.GeneratedMessage {
   $core.bool hasUserId() => $_has(0);
   @$pb.TagNumber(1)
   void clearUserId() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.String get transactionId => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set transactionId($core.String v) { $_setString(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasTransactionId() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearTransactionId() => clearField(2);
 }
 
 class GetUncategorizedTransactionResponse extends $pb.GeneratedMessage {

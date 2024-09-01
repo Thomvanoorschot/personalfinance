@@ -29,7 +29,7 @@ class BanksOverviewScreen extends ConsumerWidget {
               itemBuilder: (BuildContext context, int index) {
                 return CustomCard(
                   onTap: () async {
-                    context.go("/transactions/getBanks/createRequisition/${resp.banks[index].id}");
+                    context.go("/transactions/getBanks/createRequisition/${resp.banks[index].id}/${resp.banks[index].name}");
                   },
                   colorOverride: Theme.of(context).colorScheme.primary,
                   body: Padding(

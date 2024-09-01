@@ -9,12 +9,14 @@ import 'package:frontend/src/widgets/budgeting/transaction_categories_overview.d
 import 'package:haptic_feedback/haptic_feedback.dart';
 
 class CategorizeTransactionScreen extends ConsumerWidget {
-  const CategorizeTransactionScreen({super.key});
+  const CategorizeTransactionScreen({this.transactionId, super.key});
+
+  final String? transactionId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final getUncategorizedTransactionResponse = ref.watch(categorizeTransactionProvider);
-    final categorizeTransaction = ref.watch(categorizeTransactionProvider);
+    final categorizeTransaction = ref.watch(categorizeTransactionProvider(transactionId: transactionId));
+    final categorizeTransactionNotifier = ref.watch(categorizeTransactionProvider(transactionId: transactionId).notifier);
     final repayment = ref.watch(rpp.repaymentProvider);
 
     return Padding(
@@ -22,7 +24,7 @@ class CategorizeTransactionScreen extends ConsumerWidget {
       child: Material(
         borderRadius: BorderRadius.circular(16),
         color: Theme.of(context).colorScheme.surface,
-        child: getUncategorizedTransactionResponse.when(
+        child: categorizeTransaction.when(
           loading: () => const SizedBox(
             child: Center(
               child: CircularProgressIndicator(),
@@ -47,14 +49,20 @@ class CategorizeTransactionScreen extends ConsumerWidget {
                                   description: resp.uncategorizedTransaction.description,
                                   transactionAmount: resp.uncategorizedTransaction.transactionAmount,
                                 ),
-                                const Repayment(),
-                                if (!repayment.isRepayment) const TransactionCategoriesOverview(),
+                                Repayment(
+                                  transactionId: transactionId,
+                                ),
+                                if (!repayment.isRepayment)
+                                  TransactionCategoriesOverview(
+                                    transactionId: transactionId,
+                                  ),
                               ],
                             ),
                           ),
                           if (!repayment.isRepayment)
                             SimilarTransactions(
                               model: resp,
+                              transactionId: transactionId,
                             )
                         ],
                       ),
@@ -81,13 +89,13 @@ class CategorizeTransactionScreen extends ConsumerWidget {
                             onPressed: categorizeTransaction.value?.selectedTransactionCategory != null ||
                                     repayment.selectedTransactionId != null
                                 ? () async {
-                                    await ref
-                                        .read(categorizeTransactionProvider.notifier)
-                                        .linkTransactionCategoryToTransactions();
+                                    categorizeTransactionNotifier.linkTransactionCategoryToTransactions();
                                     Haptics.vibrate(HapticsType.success);
                                   }
                                 : null,
-                            child: const Icon(Icons.done,),
+                            child: const Icon(
+                              Icons.done,
+                            ),
                           ),
                         ),
                       ),

@@ -18,6 +18,7 @@ message GetTransactionsResponse {
 
 message GetUncategorizedTransactionRequest {
   string userId = 1 [(buf.validate.field).string.uuid = true];
+  string transactionId = 2;
 }
 
 message GetUncategorizedTransactionResponse {

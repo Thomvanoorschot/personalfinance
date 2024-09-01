@@ -19,7 +19,7 @@ type Repository interface {
 	BudgetingTx(ctx context.Context, fn func(Repository) error) (err error)
 
 	GetTransactions(ctx context.Context, userID uuid.UUID, limit, offset int64) (resp Transactions, totalCount int64, err error)
-	GetUncategorizedTransaction(ctx context.Context, userID uuid.UUID) (resp UncategorizedTransaction, err error)
+	GetUncategorizedTransaction(ctx context.Context, userID uuid.UUID, transactionID uuid.UUID) (resp UncategorizedTransaction, err error)
 	GetAllTransactionCategoryGroups(ctx context.Context) (resp TransactionCategoryGroups, err error)
 	SetTransactionCategories(ctx context.Context, transactionIDs []uuid.UUID, categoryID uuid.UUID) error
 	GetClassifiedTransactions(ctx context.Context, userID uuid.UUID, start, end time.Time) (resp CategorizedTransactionResults, err error)
@@ -60,7 +60,8 @@ func (s *Service) GetTransactions(ctx context.Context, req *proto.GetTransaction
 }
 
 func (s *Service) GetUncategorizedTransaction(ctx context.Context, req *proto.GetUncategorizedTransactionRequest) (*proto.GetUncategorizedTransactionResponse, error) {
-	tx, err := s.repo.GetUncategorizedTransaction(ctx, uuid.MustParse(userID))
+	transactionID, _ := uuid.Parse(req.TransactionId)
+	tx, err := s.repo.GetUncategorizedTransaction(ctx, uuid.MustParse(userID), transactionID)
 	if err != nil {
 		return nil, err
 	}

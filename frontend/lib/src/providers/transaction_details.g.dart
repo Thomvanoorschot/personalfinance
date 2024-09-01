@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'categorize_transaction.dart';
+part of 'transaction_details.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$categorizeTransactionHash() =>
-    r'621a4844709baaacc4b1cc58d3d4458c9821803b';
+String _$transactionDetailsHash() =>
+    r'a21968dcbfe757595ba46bde383c04e609598079';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -30,37 +30,36 @@ class _SystemHash {
   }
 }
 
-abstract class _$CategorizeTransaction
-    extends BuildlessAutoDisposeAsyncNotifier<CategorizeTransactionModel> {
-  late final String? transactionId;
+abstract class _$TransactionDetails
+    extends BuildlessAutoDisposeAsyncNotifier<TransactionResponse> {
+  late final String transactionId;
 
-  FutureOr<CategorizeTransactionModel> build({
-    String? transactionId,
+  FutureOr<TransactionResponse> build({
+    required String transactionId,
   });
 }
 
-/// See also [CategorizeTransaction].
-@ProviderFor(CategorizeTransaction)
-const categorizeTransactionProvider = CategorizeTransactionFamily();
+/// See also [TransactionDetails].
+@ProviderFor(TransactionDetails)
+const transactionDetailsProvider = TransactionDetailsFamily();
 
-/// See also [CategorizeTransaction].
-class CategorizeTransactionFamily
-    extends Family<AsyncValue<CategorizeTransactionModel>> {
-  /// See also [CategorizeTransaction].
-  const CategorizeTransactionFamily();
+/// See also [TransactionDetails].
+class TransactionDetailsFamily extends Family<AsyncValue<TransactionResponse>> {
+  /// See also [TransactionDetails].
+  const TransactionDetailsFamily();
 
-  /// See also [CategorizeTransaction].
-  CategorizeTransactionProvider call({
-    String? transactionId,
+  /// See also [TransactionDetails].
+  TransactionDetailsProvider call({
+    required String transactionId,
   }) {
-    return CategorizeTransactionProvider(
+    return TransactionDetailsProvider(
       transactionId: transactionId,
     );
   }
 
   @override
-  CategorizeTransactionProvider getProviderOverride(
-    covariant CategorizeTransactionProvider provider,
+  TransactionDetailsProvider getProviderOverride(
+    covariant TransactionDetailsProvider provider,
   ) {
     return call(
       transactionId: provider.transactionId,
@@ -79,31 +78,30 @@ class CategorizeTransactionFamily
       _allTransitiveDependencies;
 
   @override
-  String? get name => r'categorizeTransactionProvider';
+  String? get name => r'transactionDetailsProvider';
 }
 
-/// See also [CategorizeTransaction].
-class CategorizeTransactionProvider
-    extends AutoDisposeAsyncNotifierProviderImpl<CategorizeTransaction,
-        CategorizeTransactionModel> {
-  /// See also [CategorizeTransaction].
-  CategorizeTransactionProvider({
-    String? transactionId,
+/// See also [TransactionDetails].
+class TransactionDetailsProvider extends AutoDisposeAsyncNotifierProviderImpl<
+    TransactionDetails, TransactionResponse> {
+  /// See also [TransactionDetails].
+  TransactionDetailsProvider({
+    required String transactionId,
   }) : this._internal(
-          () => CategorizeTransaction()..transactionId = transactionId,
-          from: categorizeTransactionProvider,
-          name: r'categorizeTransactionProvider',
+          () => TransactionDetails()..transactionId = transactionId,
+          from: transactionDetailsProvider,
+          name: r'transactionDetailsProvider',
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
-                  : _$categorizeTransactionHash,
-          dependencies: CategorizeTransactionFamily._dependencies,
+                  : _$transactionDetailsHash,
+          dependencies: TransactionDetailsFamily._dependencies,
           allTransitiveDependencies:
-              CategorizeTransactionFamily._allTransitiveDependencies,
+              TransactionDetailsFamily._allTransitiveDependencies,
           transactionId: transactionId,
         );
 
-  CategorizeTransactionProvider._internal(
+  TransactionDetailsProvider._internal(
     super._createNotifier, {
     required super.name,
     required super.dependencies,
@@ -113,11 +111,11 @@ class CategorizeTransactionProvider
     required this.transactionId,
   }) : super.internal();
 
-  final String? transactionId;
+  final String transactionId;
 
   @override
-  FutureOr<CategorizeTransactionModel> runNotifierBuild(
-    covariant CategorizeTransaction notifier,
+  FutureOr<TransactionResponse> runNotifierBuild(
+    covariant TransactionDetails notifier,
   ) {
     return notifier.build(
       transactionId: transactionId,
@@ -125,10 +123,10 @@ class CategorizeTransactionProvider
   }
 
   @override
-  Override overrideWith(CategorizeTransaction Function() create) {
+  Override overrideWith(TransactionDetails Function() create) {
     return ProviderOverride(
       origin: this,
-      override: CategorizeTransactionProvider._internal(
+      override: TransactionDetailsProvider._internal(
         () => create()..transactionId = transactionId,
         from: from,
         name: null,
@@ -141,14 +139,14 @@ class CategorizeTransactionProvider
   }
 
   @override
-  AutoDisposeAsyncNotifierProviderElement<CategorizeTransaction,
-      CategorizeTransactionModel> createElement() {
-    return _CategorizeTransactionProviderElement(this);
+  AutoDisposeAsyncNotifierProviderElement<TransactionDetails,
+      TransactionResponse> createElement() {
+    return _TransactionDetailsProviderElement(this);
   }
 
   @override
   bool operator ==(Object other) {
-    return other is CategorizeTransactionProvider &&
+    return other is TransactionDetailsProvider &&
         other.transactionId == transactionId;
   }
 
@@ -161,20 +159,20 @@ class CategorizeTransactionProvider
   }
 }
 
-mixin CategorizeTransactionRef
-    on AutoDisposeAsyncNotifierProviderRef<CategorizeTransactionModel> {
+mixin TransactionDetailsRef
+    on AutoDisposeAsyncNotifierProviderRef<TransactionResponse> {
   /// The parameter `transactionId` of this provider.
-  String? get transactionId;
+  String get transactionId;
 }
 
-class _CategorizeTransactionProviderElement
-    extends AutoDisposeAsyncNotifierProviderElement<CategorizeTransaction,
-        CategorizeTransactionModel> with CategorizeTransactionRef {
-  _CategorizeTransactionProviderElement(super.provider);
+class _TransactionDetailsProviderElement
+    extends AutoDisposeAsyncNotifierProviderElement<TransactionDetails,
+        TransactionResponse> with TransactionDetailsRef {
+  _TransactionDetailsProviderElement(super.provider);
 
   @override
-  String? get transactionId =>
-      (origin as CategorizeTransactionProvider).transactionId;
+  String get transactionId =>
+      (origin as TransactionDetailsProvider).transactionId;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

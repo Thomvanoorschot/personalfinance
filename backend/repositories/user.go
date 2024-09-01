@@ -21,6 +21,8 @@ func (r *Repository) CreateUnverifiedUser(ctx context.Context, m model.User) (uu
 	if err != nil {
 		return uuid.Nil, err
 	}
+	defer rows.Close()
+
 	var ID uuid.UUID
 	for rows.Next() {
 		err := rows.Scan(&ID)

@@ -6,7 +6,7 @@ part of 'repayment.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$repaymentHash() => r'25af57995c1411d6b62bf32a60642335cacc2a1c';
+String _$repaymentHash() => r'19cc365deda0ffb01e6d74b4fa5c10b3ce84d78c';
 
 /// See also [Repayment].
 @ProviderFor(Repayment)

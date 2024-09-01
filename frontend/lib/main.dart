@@ -1,14 +1,23 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend/src/providers/user.dart';
 import 'package:frontend/src/routing/app_router.dart';
 import 'package:frontend/src/utils/size_config.dart';
 
+bool shouldUseFirebaseEmulator = false;
+
 Future<void> main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+
+  // await Firebase.initializeApp();
+  // if (shouldUseFirebaseEmulator) {
+  //   await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
+  // }
+
   runApp(const ProviderScope(child: MyApp()));
 }
 

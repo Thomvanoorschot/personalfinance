@@ -27,7 +27,7 @@ func main() {
 	repo := repositories.NewRepository(cfg)
 	gcls := gocardless.NewClient(cfg.GocardlessSeretID, cfg.GocardlessSeretKey)
 
-	listener, err := net.Listen("tcp", "192.168.25.17:8080")
+	listener, err := net.Listen("tcp", "192.168.1.244:8080")
 	if err != nil {
 		log.Fatalln("Failed to listen:", err)
 	}
@@ -53,7 +53,7 @@ func main() {
 		log.Fatalln(s.Serve(listener))
 	}()
 	conn, err := grpc.NewClient(
-		"192.168.25.17:8080",
+		"192.168.1.244:8080",
 		grpc.WithTransportCredentials(insecure.NewCredentials()),
 	)
 	if err != nil {

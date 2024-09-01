@@ -148,5 +148,6 @@ class CategorizedTransactions extends _$CategorizedTransactions {
     'tuition-fees': const Color(0xFFBAA89E),             // Light Umber
     'other-childcare-education': const Color(0xFFF1D6BF), // Apricot Blush
     'pet-insurance': const Color(0xFF928274),            // Cool Gray
+    'repayments': const Color(0xFFC9ADA1),               // Desert Sand
   });
 }

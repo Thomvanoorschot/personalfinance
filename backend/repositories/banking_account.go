@@ -35,6 +35,7 @@ func (r *Repository) GetAccounts(ctx context.Context, userID uuid.UUID) (resp ba
 	if err != nil {
 		return resp, err
 	}
+	defer rows.Close()
 	for rows.Next() {
 		var bankAccount banking.BankAccount
 		err = rows.Scan(
@@ -59,6 +60,8 @@ func (r *Repository) GetAllAccounts(ctx context.Context) (resp banking.BankAccou
 	if err != nil {
 		return resp, err
 	}
+	defer rows.Close()
+
 	for rows.Next() {
 		var bankAccount banking.BankAccount
 		err = rows.Scan(

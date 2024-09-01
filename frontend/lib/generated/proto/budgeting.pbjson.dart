@@ -48,13 +48,14 @@ const GetUncategorizedTransactionRequest$json = {
   '1': 'GetUncategorizedTransactionRequest',
   '2': [
     {'1': 'userId', '3': 1, '4': 1, '5': 9, '8': {}, '10': 'userId'},
+    {'1': 'transactionId', '3': 2, '4': 1, '5': 9, '10': 'transactionId'},
   ],
 };
 
 /// Descriptor for `GetUncategorizedTransactionRequest`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List getUncategorizedTransactionRequestDescriptor = $convert.base64Decode(
     'CiJHZXRVbmNhdGVnb3JpemVkVHJhbnNhY3Rpb25SZXF1ZXN0EiAKBnVzZXJJZBgBIAEoCUIIuk'
-    'gFcgOwAQFSBnVzZXJJZA==');
+    'gFcgOwAQFSBnVzZXJJZBIkCg10cmFuc2FjdGlvbklkGAIgASgJUg10cmFuc2FjdGlvbklk');
 
 @$core.Deprecated('Use getUncategorizedTransactionResponseDescriptor instead')
 const GetUncategorizedTransactionResponse$json = {

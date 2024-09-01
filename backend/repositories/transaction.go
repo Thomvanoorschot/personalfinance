@@ -46,6 +46,8 @@ func (r *Repository) GetTransactions(ctx context.Context, userID uuid.UUID, limi
 	if err != nil {
 		return resp, 0, err
 	}
+	defer rows.Close()
+
 	for rows.Next() {
 		var tx budgeting.Transaction
 		err = rows.Scan(
@@ -99,6 +101,8 @@ func (r *Repository) GetTransactionByID(ctx context.Context, userID uuid.UUID, t
 	if err != nil {
 		return resp, err
 	}
+	defer rows.Close()
+
 	for rows.Next() {
 		var tx budgeting.Transaction
 		err = rows.Scan(
@@ -124,8 +128,10 @@ func (r *Repository) GetTransactionByID(ctx context.Context, userID uuid.UUID, t
 	return resp, err
 }
 
-func (r *Repository) GetUncategorizedTransaction(ctx context.Context, userID uuid.UUID) (resp budgeting.UncategorizedTransaction, err error) {
+func (r *Repository) GetUncategorizedTransaction(ctx context.Context, userID uuid.UUID, transactionID uuid.UUID) (resp budgeting.UncategorizedTransaction, err error) {
+
 	subQuery := SELECT(
+		Transaction.ID,
 		Transaction.CreditorName,
 		Transaction.DebtorName,
 		Transaction.TransactionAmount,
@@ -133,15 +139,17 @@ func (r *Repository) GetUncategorizedTransaction(ctx context.Context, userID uui
 		Transaction,
 	).WHERE(
 		Transaction.UserID.EQ(UUID(userID)).
-			AND(Transaction.TransactionCategoryID.IS_NULL()),
+			AND(Transaction.TransactionCategoryID.IS_NULL().OR(Transaction.ID.EQ(UUID(transactionID)))),
 	).ORDER_BY(
+		Transaction.ID.EQ(UUID(transactionID)).DESC(),
 		Transaction.ValueDateTime.DESC(),
 	).LIMIT(1).AsTable("t2")
 
 	t2CreditorName := Transaction.CreditorName.From(subQuery)
 	t2DebtorName := Transaction.DebtorName.From(subQuery)
+	t2ID := Transaction.ID.From(subQuery)
 
-	sql, args := SELECT(
+	queryWithoutWhere := SELECT(
 		Transaction.ID,
 		Transaction.ValueDateTime,
 		Transaction.TransactionAmount,
@@ -156,15 +164,19 @@ func (r *Repository) GetUncategorizedTransaction(ctx context.Context, userID uui
 		AND(
 			(Transaction.CreditorName.EQ(t2CreditorName)).
 				OR(Transaction.DebtorName.EQ(t2DebtorName)),
-		).AND(Transaction.TransactionCategoryID.IS_NULL()),
-	)).WHERE(Transaction.TransactionCategoryID.IS_NULL()).
-		ORDER_BY(Transaction.ValueDateTime.DESC()).
-		Sql()
+		),
+	)).
+		ORDER_BY(Transaction.ID.EQ(t2ID).DESC(), Transaction.ValueDateTime.DESC())
 
+	if transactionID != uuid.Nil {
+		queryWithoutWhere = queryWithoutWhere.WHERE(Transaction.TransactionCategoryID.IS_NULL())
+	}
+	sql, args := queryWithoutWhere.Sql()
 	rows, err := r.conn().Query(ctx, sql, args...)
 	if err != nil {
 		return resp, err
 	}
+	defer rows.Close()
 
 	for rows.Next() {
 		var tx budgeting.UncategorizedTransaction

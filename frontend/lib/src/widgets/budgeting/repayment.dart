@@ -9,7 +9,9 @@ import 'package:frontend/src/widgets/pickers/cupertino_value_button.dart';
 import 'package:frontend/src/widgets/switch/labeled_switch.dart';
 
 class Repayment extends ConsumerWidget {
-  const Repayment({super.key});
+  const Repayment({this.transactionId, super.key});
+
+  final String? transactionId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -22,7 +24,7 @@ class Repayment extends ConsumerWidget {
           label: "Was this a repayment?",
           value: repayment.isRepayment,
           onChanged: (value) {
-            repaymentNotifier.toggleIsRepayment();
+            repaymentNotifier.toggleIsRepayment(transactionId: transactionId);
           },
         ),
         if (repayment.minusTransactionsAroundDate != null)

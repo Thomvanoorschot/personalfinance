@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend/generated/proto/banking.pb.dart';
 import 'package:frontend/src/clients/banking_client.dart';
-import 'package:frontend/src/clients/grpc_client.dart';
-import 'package:frontend/src/widgets/card/custom_card.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class CreateRequisitionScreen extends ConsumerWidget {

@@ -73,11 +73,13 @@ class Transactions extends _$Transactions {
         for (var txId in transactionIds) {
           if (x.id == txId) {
             x.freeze();
-            final tcgl = x.transactionCategoryGroupSlug.rebuild((u) => u..value = transactionCategoryGroupSlug);
-            final tcs = x.transactionCategorySlug.rebuild((u) => u..value = transactionCategorySlug);
-            TransactionResponse updatedValue = x.rebuild((u) => u
-              ..transactionCategoryGroupSlug = tcgl
-              ..transactionCategorySlug = tcs);
+            final tcgl = x.transactionCategoryGroupSlug.rebuild((u) => u..value = transactionCategoryGroupSlug ?? 'repayments');
+            final tcs = x.transactionCategorySlug.rebuild((u) => u..value = transactionCategorySlug ?? 'repayments');
+            TransactionResponse updatedValue = x.rebuild(
+              (u) => u
+                ..transactionCategoryGroupSlug = tcgl
+                ..transactionCategorySlug = tcs,
+            );
             toBeAddedTx = updatedValue;
             continue;
           }

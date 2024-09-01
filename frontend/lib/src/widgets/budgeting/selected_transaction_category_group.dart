@@ -5,13 +5,15 @@ import 'package:frontend/src/providers/categorize_transaction.dart';
 import 'package:haptic_feedback/haptic_feedback.dart';
 
 class SelectedTransactionCategoryGroup extends ConsumerWidget {
-  const SelectedTransactionCategoryGroup({super.key});
+  const SelectedTransactionCategoryGroup({this.transactionId,super.key});
+
+  final String? transactionId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedCategorySize = MediaQuery.sizeOf(context).width * 0.30;
     final categoryImageSize = MediaQuery.sizeOf(context).width * 0.17;
-    final categorizeTransaction = ref.watch(categorizeTransactionProvider);
+    final categorizeTransaction = ref.watch(categorizeTransactionProvider(transactionId: transactionId));
 
     final selectedCategoryGroup = categorizeTransaction.value!.selectedTransactionCategoryGroup!;
     final selectedCategory = categorizeTransaction.value!.selectedTransactionCategory;
@@ -21,7 +23,7 @@ class SelectedTransactionCategoryGroup extends ConsumerWidget {
         Expanded(
           child: GestureDetector(
             onTap: () {
-              ref.read(categorizeTransactionProvider.notifier).selectTransactionCategoryGroup(null);
+              ref.read(categorizeTransactionProvider(transactionId: transactionId).notifier).selectTransactionCategoryGroup(null);
               Haptics.vibrate(HapticsType.selection);
             },
             child: Row(
@@ -69,7 +71,7 @@ class SelectedTransactionCategoryGroup extends ConsumerWidget {
                 return GestureDetector(
                   onTap: () {
                     ref
-                        .read(categorizeTransactionProvider.notifier)
+                        .read(categorizeTransactionProvider(transactionId: transactionId).notifier)
                         .selectTransactionCategory(selectedCategoryGroup.categories[categoryIndex]);
                     Haptics.vibrate(HapticsType.selection);
                   },

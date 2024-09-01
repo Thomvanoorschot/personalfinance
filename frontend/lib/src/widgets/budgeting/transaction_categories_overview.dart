@@ -7,12 +7,14 @@ import 'package:frontend/src/widgets/budgeting/selected_transaction_category_gro
 import 'package:haptic_feedback/haptic_feedback.dart';
 
 class TransactionCategoriesOverview extends ConsumerWidget {
-  const TransactionCategoriesOverview({super.key});
+  const TransactionCategoriesOverview({this.transactionId, super.key});
+
+  final String? transactionId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final transactionCategories = ref.watch(transactionCategoryGroupsProvider);
-    final categorizeTransaction = ref.watch(categorizeTransactionProvider);
+    final categorizeTransaction = ref.watch(categorizeTransactionProvider(transactionId: transactionId));
 
     double width = MediaQuery.sizeOf(context).width;
     return Material(
@@ -41,10 +43,10 @@ class TransactionCategoriesOverview extends ConsumerWidget {
                   width: iconSize,
                   height: iconSize,
                   child: categoryGroupIsSelected
-                      ? const SelectedTransactionCategoryGroup()
+                      ? SelectedTransactionCategoryGroup(transactionId: transactionId,)
                       : GestureDetector(
                           onTap: () {
-                            ref.read(categorizeTransactionProvider.notifier).selectTransactionCategoryGroup(
+                            ref.read(categorizeTransactionProvider(transactionId: transactionId).notifier).selectTransactionCategoryGroup(
                                   resp.groups[groupIndex],
                                 );
                             ref.read(transactionCategoryGroupsProvider.notifier).moveToFirst(groupIndex);
