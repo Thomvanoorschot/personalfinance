@@ -1,4 +1,3 @@
-
 import 'package:frontend/generated/proto/budgeting.pb.dart';
 import 'package:frontend/src/clients/grpc_client.dart';
 import 'package:frontend/src/models/transaction/categorize_transaction_model.dart';
@@ -11,16 +10,17 @@ part 'categorize_transaction.g.dart';
 @riverpod
 class CategorizeTransaction extends _$CategorizeTransaction {
   @override
-  FutureOr<CategorizeTransactionModel> build({String? transactionId}) async {
-    return getUncategorizedTransaction(transactionId: transactionId);
+  FutureOr<CategorizeTransactionModel> build() async {
+    ref.keepAlive();
+    return getUncategorizedTransaction();
   }
 
   Future<CategorizeTransactionModel> getUncategorizedTransaction({String? transactionId}) async {
     final getUncategorizedTransactionResponse =
         await ref.read(budgetingServiceProvider).getUncategorizedTransaction(GetUncategorizedTransactionRequest(
-          userId: "",
-          transactionId: transactionId,
-        ));
+              userId: "",
+              transactionId: transactionId,
+            ));
     final toBeCategorizedList = getUncategorizedTransactionResponse.matchingTransactions.map((x) => x.id).toList(growable: true);
     toBeCategorizedList.add(getUncategorizedTransactionResponse.id);
     ref.keepAlive();
@@ -28,6 +28,13 @@ class CategorizeTransaction extends _$CategorizeTransaction {
       uncategorizedTransaction: getUncategorizedTransactionResponse,
       toBeCategorizedTransactionIds: toBeCategorizedList,
     );
+  }
+
+  Future<void> getSpecificTransaction(String transactionId) async {
+    final transactionModel = await getUncategorizedTransaction(transactionId: transactionId);
+    update((data) {
+      return transactionModel;
+    });
   }
 
   void toggle(String transactionId) {

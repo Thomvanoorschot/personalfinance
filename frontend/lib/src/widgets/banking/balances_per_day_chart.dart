@@ -2,6 +2,8 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend/src/providers/balances_per_day.dart';
+import 'package:frontend/src/utils/size_config.dart';
+import 'package:frontend/src/widgets/shimmers/line_chart_shimmer.dart';
 import 'package:haptic_feedback/haptic_feedback.dart';
 
 class BalancesPerDayChart extends ConsumerWidget {
@@ -12,8 +14,12 @@ class BalancesPerDayChart extends ConsumerWidget {
     final balancesPerDay = ref.watch(balancesPerDayProvider);
     return balancesPerDay.when(
       error: (err, stack) => Text(err.toString()),
-      // todo Shimmer
-      loading: () => const CircularProgressIndicator(),
+      loading: () => Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: LineChartShimmer(
+          height: SizeConfig.safeBlockVertical * 25,
+        ),
+      ),
       data: (resp) {
         final flSpots = resp.balancesPerDay.balances.map((x) {
           return FlSpot(x.date.seconds.toDouble(), x.balance.roundToDouble());

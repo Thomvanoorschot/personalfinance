@@ -1,9 +1,8 @@
-import "dart:async";
 
 import "package:flutter/material.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:frontend/src/clients/banking_client.dart";
-import "package:frontend/src/clients/budgeting_client.dart";
+import "package:frontend/src/providers/categorize_transaction.dart";
 import "package:frontend/src/providers/transactions.dart";
 import "package:frontend/src/routing/scaffold_with_nested_navigation.dart";
 import "package:frontend/src/screens/home/home_screen.dart";
@@ -51,7 +50,7 @@ final goRouterProvider = Provider<GoRouter>(
       navigatorKey: _rootNavigatorKey,
       debugLogDiagnostics: true,
       redirect: (context, state) {
-        if(state.fullPath == previousLocation){
+        if (state.fullPath == previousLocation) {
           refreshedSamePage = true;
         }
         previousLocation = state.fullPath;
@@ -131,16 +130,9 @@ final goRouterProvider = Provider<GoRouter>(
                       parentNavigatorKey: _transactionNavigatorKey,
                       path: "categorize",
                       pageBuilder: (context, state) {
-                        String? transactionId;
-                        if (state.uri.queryParameters.isNotEmpty && state.uri.queryParameters.containsKey("transactionId")) {
-                          transactionId = state.uri.queryParameters["transactionId"];
-                        }
-
-                        return PopupCardPage(
+                        return const PopupCardPage(
                           tag: "categorize",
-                          child: CategorizeTransactionScreen(
-                            transactionId: transactionId,
-                          ),
+                          child: CategorizeTransactionScreen(),
                         );
                       },
                       routes: [],
@@ -150,14 +142,19 @@ final goRouterProvider = Provider<GoRouter>(
                       pageBuilder: (context, state) {
                         final transactionId = state.pathParameters["transactionId"] as String;
 
+                        final categorizeTransactionNotifier = ref.read(categorizeTransactionProvider.notifier);
+
                         return ModalBottomSheetPage(
                           isScrollControlled: false,
                           titleWidget: Row(
                             children: [
                               const Text("(Re)categorize"),
                               IconButton(
-                                onPressed: () {
-                                  context.go("/transactions/categorize?transactionId=$transactionId");
+                                onPressed: () async {
+                                  await categorizeTransactionNotifier.getSpecificTransaction(transactionId);
+                                  if (context.mounted) {
+                                    context.go("/transactions/categorize");
+                                  }
                                 },
                                 icon: const Icon(
                                   Icons.dashboard_customize,

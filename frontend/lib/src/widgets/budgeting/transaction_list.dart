@@ -4,7 +4,7 @@ import 'package:frontend/generated/proto/budgeting.pb.dart';
 import 'package:frontend/src/providers/transactions.dart';
 import 'package:frontend/src/utils/date_utils.dart';
 import 'package:frontend/src/widgets/budgeting/transaction_card.dart';
-import 'package:frontend/src/widgets/budgeting/transaction_card_shimmer.dart';
+import 'package:frontend/src/widgets/shimmers/transaction_card_shimmer.dart';
 
 class TransactionList extends ConsumerWidget {
   const TransactionList({required this.txResp, super.key});

@@ -95,6 +95,11 @@ class MyAppState extends ConsumerState<MyApp> {
                 disabledBackgroundColor: primary.withOpacity(0.7)),
           ),
           scaffoldBackgroundColor: surface,
+          textTheme: const TextTheme(
+            labelSmall: TextStyle(
+              fontSize: 8
+            ),
+          ),
           colorScheme: const ColorScheme.light(
             primary: primary,
             primaryContainer: primaryContainer,

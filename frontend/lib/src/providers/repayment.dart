@@ -19,13 +19,13 @@ class Repayment extends _$Repayment {
    return RepaymentModel(isRepayment: false);
   }
 
-  Future toggleIsRepayment({String? transactionId}) async {
+  Future toggleIsRepayment() async {
     if(!state.isRepayment) {
       // This means it's going from NOT a repayment to a repayment
       final minusTransactionsAroundDate =
       await ref.read(budgetingServiceProvider).getMinusTransactionsAroundDate(GetMinusTransactionsAroundDateRequest(
         userId: "",
-        date: ref.read(categorizeTransactionProvider(transactionId: transactionId)).valueOrNull?.uncategorizedTransaction.date,
+        date: ref.read(categorizeTransactionProvider).valueOrNull?.uncategorizedTransaction.date,
         nearestFutureLimit: $fixnum.Int64(10),
         nearestPastLimit: $fixnum.Int64(10),
       ));

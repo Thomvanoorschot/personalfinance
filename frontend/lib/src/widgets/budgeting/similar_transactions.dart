@@ -10,16 +10,18 @@ import 'package:frontend/src/utils/size_config.dart';
 import 'package:frontend/src/widgets/switch/labeled_switch.dart';
 
 class SimilarTransactions extends ConsumerWidget {
-  const SimilarTransactions({required this.model, this.transactionId, super.key});
+  const SimilarTransactions({required this.model, super.key});
 
   final CategorizeTransactionModel model;
-  final String? transactionId;
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final categorizeTransactionNotifier = ref.read(categorizeTransactionProvider(transactionId: transactionId).notifier);
+    final categorizeTransactionNotifier = ref.read(categorizeTransactionProvider.notifier);
 
     return model.uncategorizedTransaction.matchingTransactions.isNotEmpty
-        ? SliverList.builder(
+        ? ListView.builder(
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
             itemCount: model.uncategorizedTransaction.matchingTransactions.length + 1,
             itemBuilder: (context, index) {
               if (index == 0) {
@@ -66,8 +68,6 @@ class SimilarTransactions extends ConsumerWidget {
               );
             },
           )
-        : SliverToBoxAdapter(
-            child: Container(),
-          );
+        : Container();
   }
 }

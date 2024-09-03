@@ -23,15 +23,15 @@ class TransactionCategoryGroups extends _$TransactionCategoryGroups {
   }
 
   void moveToFirst(int index) {
-    update((data) {
-      var rebuild = data.rebuild(
-        (p0) {
-         p0 = GetTransactionCategoryGroupsResponse(groups: moveToFirstUtil(p0.groups, index));
-        },
-      );
-      rebuild.freeze();
-      return rebuild;
-    });
+    // update((data) {
+    //   var rebuild = data.rebuild(
+    //     (p0) {
+    //      p0 = GetTransactionCategoryGroupsResponse(groups: moveToFirstUtil(p0.groups, index));
+    //     },
+    //   );
+    //   rebuild.freeze();
+    //   return rebuild;
+    // });
   }
 }
 
@@ -41,12 +41,10 @@ List<TransactionCategoryGroupResponse> moveToFirstUtil(
     throw RangeError('Index out of range');
   }
 
-  // Remove the element at the specified index
   TransactionCategoryGroupResponse element = list.removeAt(index);
   list.sort((a, b) {
     return a.slug.compareTo(b.slug);
   });
-  // Insert the element at the first position
   list.insert(0, element);
 
   return list;

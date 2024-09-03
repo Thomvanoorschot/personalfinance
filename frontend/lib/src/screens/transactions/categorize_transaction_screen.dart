@@ -9,14 +9,12 @@ import 'package:frontend/src/widgets/budgeting/transaction_categories_overview.d
 import 'package:haptic_feedback/haptic_feedback.dart';
 
 class CategorizeTransactionScreen extends ConsumerWidget {
-  const CategorizeTransactionScreen({this.transactionId, super.key});
-
-  final String? transactionId;
+  const CategorizeTransactionScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final categorizeTransaction = ref.watch(categorizeTransactionProvider(transactionId: transactionId));
-    final categorizeTransactionNotifier = ref.watch(categorizeTransactionProvider(transactionId: transactionId).notifier);
+    final categorizeTransactionNotifier = ref.read(categorizeTransactionProvider.notifier);
+    final categorizeTransaction = ref.watch(categorizeTransactionProvider);
     final repayment = ref.watch(rpp.repaymentProvider);
 
     return Padding(
@@ -32,38 +30,26 @@ class CategorizeTransactionScreen extends ConsumerWidget {
           ),
           error: (err, stack) => Text('error: $err'),
           data: (resp) {
-            return Center(
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: [
                   Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: CustomScrollView(
-                        slivers: [
-                          SliverToBoxAdapter(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: [
-                                CategorizeTransactionInfo(
-                                  partyName: resp.uncategorizedTransaction.partyName,
-                                  description: resp.uncategorizedTransaction.description,
-                                  transactionAmount: resp.uncategorizedTransaction.transactionAmount,
-                                ),
-                                Repayment(
-                                  transactionId: transactionId,
-                                ),
-                                if (!repayment.isRepayment)
-                                  TransactionCategoriesOverview(
-                                    transactionId: transactionId,
-                                  ),
-                              ],
-                            ),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          CategorizeTransactionInfo(
+                            partyName: resp.uncategorizedTransaction.partyName,
+                            description: resp.uncategorizedTransaction.description,
+                            transactionAmount: resp.uncategorizedTransaction.transactionAmount,
                           ),
-                          if (!repayment.isRepayment)
+                          const Repayment(),
+                          if (!repayment.isRepayment) ...[
+                            const TransactionCategoriesOverview(),
                             SimilarTransactions(
                               model: resp,
-                              transactionId: transactionId,
-                            )
+                            ),
+                          ],
                         ],
                       ),
                     ),
@@ -72,30 +58,24 @@ class CategorizeTransactionScreen extends ConsumerWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: ElevatedButton(
-                            child: const Icon(Icons.navigate_next_rounded),
-                            onPressed: () {
-                              // webViewController?.goForward();
-                            },
-                          ),
+                        child: ElevatedButton(
+                          child: const Icon(Icons.navigate_next_rounded),
+                          onPressed: () {
+                          },
                         ),
                       ),
+                      const SizedBox(width: 8.0),
                       Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: ElevatedButton(
-                            onPressed: categorizeTransaction.value?.selectedTransactionCategory != null ||
-                                    repayment.selectedTransactionId != null
-                                ? () async {
-                                    categorizeTransactionNotifier.linkTransactionCategoryToTransactions();
-                                    Haptics.vibrate(HapticsType.success);
-                                  }
-                                : null,
-                            child: const Icon(
-                              Icons.done,
-                            ),
+                        child: ElevatedButton(
+                          onPressed: categorizeTransaction.value?.selectedTransactionCategory != null ||
+                              repayment.selectedTransactionId != null
+                              ? () async {
+                            categorizeTransactionNotifier.linkTransactionCategoryToTransactions();
+                            Haptics.vibrate(HapticsType.success);
+                          }
+                              : null,
+                          child: const Icon(
+                            Icons.done,
                           ),
                         ),
                       ),

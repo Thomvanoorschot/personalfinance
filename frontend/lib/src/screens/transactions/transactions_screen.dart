@@ -2,15 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend/generated/proto/banking.pb.dart';
 import 'package:frontend/src/clients/banking_client.dart';
+import 'package:frontend/src/providers/categorize_transaction.dart';
 import 'package:frontend/src/providers/transactions.dart';
 import 'package:frontend/src/utils/date_utils.dart';
 import 'package:frontend/src/utils/size_config.dart';
 import 'package:frontend/src/widgets/banking/balances_per_day_chart.dart';
 import 'package:frontend/src/widgets/banking/bank_accounts.dart';
+import 'package:frontend/src/widgets/budgeting/no_transactions.dart';
 import 'package:frontend/src/widgets/budgeting/transaction_category_group_chart.dart';
 import 'package:frontend/src/widgets/banking/time_range_selector.dart';
 import 'package:frontend/src/widgets/budgeting/transaction_card.dart';
-import 'package:frontend/src/widgets/budgeting/transaction_card_shimmer.dart';
+import 'package:frontend/src/widgets/shimmers/transaction_card_shimmer.dart';
 import 'package:frontend/src/widgets/budgeting/transaction_list.dart';
 import 'package:go_router/go_router.dart';
 
@@ -45,6 +47,7 @@ class TransactionsScreenState extends ConsumerState<TransactionsScreen> {
   @override
   Widget build(BuildContext context) {
     final transactionsResponse = ref.watch(transactionsProvider);
+    final _ = ref.watch(categorizeTransactionProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -79,25 +82,23 @@ class TransactionsScreenState extends ConsumerState<TransactionsScreen> {
         },
         child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: CustomScrollView(
-            controller: _scrollController,
-            slivers: [
-              transactionsResponse.when(
-                error: (err, stack) => Text(err.toString()),
-                loading: () => SliverList.builder(
-                  itemCount: 10,
-                  itemBuilder: (context, index) {
-                    return const TransactionCardShimmer();
-                  },
-                ),
-                data: (resp) {
-                  if (resp.transactions.isEmpty) {
-                    return const SliverToBoxAdapter(child: Text("TEMP NO TX FOUND"));
-                  }
-                  return TransactionList(txResp: resp);
-                },
-              ),
-            ],
+          child: transactionsResponse.when(
+            error: (err, stack) => Text(err.toString()),
+            loading: () => ListView.builder(
+              itemCount: 10,
+              itemBuilder: (context, index) {
+                return const TransactionCardShimmer();
+              },
+            ),
+            data: (resp) {
+              if (resp.transactions.isEmpty) {
+                return const NoBankAccounts();
+              }
+              return CustomScrollView(
+                controller: _scrollController,
+                slivers: [TransactionList(txResp: resp)],
+              );
+            },
           ),
         ),
       ),

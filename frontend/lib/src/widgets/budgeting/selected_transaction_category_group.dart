@@ -2,18 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:frontend/src/providers/categorize_transaction.dart';
+import 'package:frontend/src/utils/size_config.dart';
 import 'package:haptic_feedback/haptic_feedback.dart';
 
 class SelectedTransactionCategoryGroup extends ConsumerWidget {
-  const SelectedTransactionCategoryGroup({this.transactionId,super.key});
-
-  final String? transactionId;
+  const SelectedTransactionCategoryGroup({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedCategorySize = MediaQuery.sizeOf(context).width * 0.30;
     final categoryImageSize = MediaQuery.sizeOf(context).width * 0.17;
-    final categorizeTransaction = ref.watch(categorizeTransactionProvider(transactionId: transactionId));
+    final categorizeTransaction = ref.watch(categorizeTransactionProvider);
 
     final selectedCategoryGroup = categorizeTransaction.value!.selectedTransactionCategoryGroup!;
     final selectedCategory = categorizeTransaction.value!.selectedTransactionCategory;
@@ -23,7 +22,7 @@ class SelectedTransactionCategoryGroup extends ConsumerWidget {
         Expanded(
           child: GestureDetector(
             onTap: () {
-              ref.read(categorizeTransactionProvider(transactionId: transactionId).notifier).selectTransactionCategoryGroup(null);
+              ref.read(categorizeTransactionProvider.notifier).selectTransactionCategoryGroup(null);
               Haptics.vibrate(HapticsType.selection);
             },
             child: Row(
@@ -43,7 +42,7 @@ class SelectedTransactionCategoryGroup extends ConsumerWidget {
                         child: Text(
                           style: const TextStyle(fontWeight: FontWeight.bold),
                           textAlign: TextAlign.center,
-                          selectedCategoryGroup.label,
+                          selectedCategoryGroup.label.replaceAll(r'\n', '\n'),
                         ),
                       ),
                       if (selectedCategory != null)
@@ -51,7 +50,7 @@ class SelectedTransactionCategoryGroup extends ConsumerWidget {
                           child: Text(
                             style: const TextStyle(fontStyle: FontStyle.italic),
                             textAlign: TextAlign.center,
-                            selectedCategory.label,
+                            selectedCategory.label.replaceAll(r'\n', '\n'),
                           ),
                         ),
                     ],
@@ -64,18 +63,20 @@ class SelectedTransactionCategoryGroup extends ConsumerWidget {
         Expanded(
           child: Wrap(
             direction: Axis.horizontal,
-            runAlignment: WrapAlignment.spaceBetween,
+            runAlignment: WrapAlignment.spaceAround,
             children: List.generate(
               selectedCategoryGroup.categories.length,
               (categoryIndex) {
                 return GestureDetector(
                   onTap: () {
                     ref
-                        .read(categorizeTransactionProvider(transactionId: transactionId).notifier)
+                        .read(categorizeTransactionProvider.notifier)
                         .selectTransactionCategory(selectedCategoryGroup.categories[categoryIndex]);
                     Haptics.vibrate(HapticsType.selection);
                   },
                   child: Container(
+                    height: SizeConfig.blockSizeVertical * 8,
+                    width: SizeConfig.blockSizeVertical * 8,
                     decoration: selectedCategory?.id == selectedCategoryGroup.categories[categoryIndex].id
                         ? BoxDecoration(
                             color: Theme.of(context).colorScheme.primary,
@@ -89,10 +90,30 @@ class SelectedTransactionCategoryGroup extends ConsumerWidget {
                             ],
                           )
                         : null,
-                    child: SvgPicture.asset(
-                      width: categoryImageSize,
-                      height: categoryImageSize,
-                      "assets/${selectedCategoryGroup.slug}/${selectedCategoryGroup.categories[categoryIndex].slug}.svg",
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Flexible(
+                          flex: 2,
+                          child: SvgPicture.asset(
+                            width: categoryImageSize,
+                            height: categoryImageSize,
+                            "assets/${selectedCategoryGroup.slug}/${selectedCategoryGroup.categories[categoryIndex].slug}.svg",
+                          ),
+                        ),
+                        Flexible(
+                            flex: 1,
+                            child: Text(
+                              selectedCategoryGroup.categories[categoryIndex].label.replaceAll(r'\n', '\n'),
+                              style: selectedCategory?.id == selectedCategoryGroup.categories[categoryIndex].id
+                                  ? Theme.of(context)
+                                      .textTheme
+                                      .labelSmall
+                                      ?.copyWith(color: Theme.of(context).colorScheme.onPrimary)
+                                  : Theme.of(context).textTheme.labelSmall,
+                              textAlign: TextAlign.center,
+                            )),
+                      ],
                     ),
                   ),
                 );

@@ -4,6 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:frontend/src/providers/categorized_transactions.dart';
 import 'package:frontend/src/utils/size_config.dart';
+import 'package:frontend/src/widgets/shimmers/dont_chart_painter.dart';
+import 'package:frontend/src/widgets/shimmers/donut_chart_shimmer.dart';
 
 import 'package:haptic_feedback/haptic_feedback.dart';
 
@@ -18,8 +20,7 @@ class TransactionCategoryGroupChart extends ConsumerWidget {
     final categorizedTransactionsNotifier = ref.watch(categorizedTransactionsProvider.notifier);
     return categorizedTransactions.when(
       error: (err, stack) => Text(err.toString()),
-      // todo Shimmer
-      loading: () => const CircularProgressIndicator(),
+      loading: () => DonutChartShimmer(size:  SizeConfig.safeBlockHorizontal * 70),
       data: (resp) {
         final pieChartData = resp.categorizedTransactions.results.map((x) {
           final isTouched = resp.selectedTransactionCategoryGroupSlug == x.slug;
