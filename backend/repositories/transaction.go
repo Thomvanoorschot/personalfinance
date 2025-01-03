@@ -168,7 +168,8 @@ func (r *Repository) GetUncategorizedTransaction(ctx context.Context, userID uui
 	)).
 		ORDER_BY(Transaction.ID.EQ(t2ID).DESC(), Transaction.ValueDateTime.DESC())
 
-	if transactionID != uuid.Nil {
+	fmt.Println(queryWithoutWhere.DebugSql())
+	if transactionID == uuid.Nil {
 		queryWithoutWhere = queryWithoutWhere.WHERE(Transaction.TransactionCategoryID.IS_NULL())
 	}
 	sql, args := queryWithoutWhere.Sql()
